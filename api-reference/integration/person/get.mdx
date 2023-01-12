@@ -1,0 +1,79 @@
+---
+title: "Get Person"
+api: "GET https://api.travtus.com/ingestion/persons?externalref={externalref}&identifier={identifier}"
+description: "This endpoint retrieves infromation about one person with the provided identifier."
+---
+
+This endpoint retrieves information about one person given the provided identifier. You will need to provide either the external reference (`externalref`) or the internal id (`identifier`) in order to successfully retrieve the person record.
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="externalref" type="string" default="none" required>
+  The external reference for the person to be retrieved.
+</ParamField>
+
+<ParamField query="identifier" type="string" default="none" required>
+  The internal identifier for the person to be retrieved
+</ParamField>
+
+### Response
+
+<ResponseField name="email_address" type="string">
+  The e-mail address of the retrieved person.
+</ResponseField>
+
+<ResponseField name="first_name" type="string">
+  The first name of the retrieved person.
+</ResponseField>
+
+<ResponseField name="last_name" type="string">
+  The last name of the retrieved person.
+</ResponseField>
+
+<ResponseField name="external_ref" type="string">
+  The external reference of the retrieved person. This is unique per portfolio.
+</ResponseField>
+
+<ResponseField name="identifier" type="string">
+  The internal id of the retrieved person. This is entirely unique across all companies and portfolios.
+</ResponseField>
+
+<ResponseField name="phone_number" type="string">
+  The phone number of the retrieved person.
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  The unit id the retrieved person is currently assigned to.
+</ResponseField>
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request GET 'https://api.travtus.com/integration/persons/external-id-1/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "email_address": "test@test.com",
+  "first_name": "Tester",
+  "last_name": "Person",
+  "external_ref": "external-id-1",
+  "identifier": "internal-id-1",
+  "phone_number": "01234567890",
+  "unit": "unit-id-1"
+}
+```
+
+</ResponseExample>
