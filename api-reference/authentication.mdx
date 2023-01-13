@@ -1,22 +1,57 @@
 ---
 title: "Authentication"
-description: "Example overview page before API endpoints"
+api: "POST https://api.travtus.com/authorization/tokens/post_credentials/"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et eros iaculis tortor dapibus cursus. Curabitur quis sapien nec tortor dictum gravida.
-
+Adam API uses token authentication. All API calls must include the following header:
 ```bash
-'Authorization': 'Token <team_token>'
+'Authorization': 'Bearer <team_token>'
 ```
 
 ## API Tokens
 
-Nullam convallis mauris at nunc consectetur, ac imperdiet leo rutrum. Maecenas cursus purus a pellentesque blandit. Pellentesque vitae lacinia libero, non mollis metus.
+The API token can be obtained by calling the above endpoint. The endpoint requires the following parameters:
 
-Nam id ullamcorper urna, at rutrum enim. [Maecenas vulputate](/introduction) vehicula libero, vitae sodales augue pretium nec. Quisque a magna tempor, semper risus vel, fermentum nunc. Pellentesque fermentum interdum ex, eu convallis massa blandit sed. Aliquam bibendum ipsum vel laoreet auctor.
+### Body
 
-### Permissions
+<ParamField body="username" type="string">
+  The username for your user. Typically this is your e-mail address.
+</ParamField>
 
-Etiam lobortis ut odio ut fermentum. Nunc odio velit, sollicitudin at consectetur id, tristique eget turpis. Aliquam at risus vitae dolor sodales venenatis. In hac habitasse platea dictumst.
+<ParamField body="password" type="string">
+  The password you have chosen for your user.
+</ParamField>
 
-Aenean consequat diam eget mollis fermentum. [Quisque eu malesuada](/introduction) felis, non dignissim libero.
+### Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the call was successful. True if successful, false if not.
+</ResponseField>
+
+<ResponseField name="token" type="string">
+  The token you will need to use in order to access any other API endpoints.
+</ResponseField>
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/authorization/tokens/post_credentials/' \
+--header 'Content-Type: multipart/form-data' \
+--data-raw '{
+    "username": "",
+    "password": ""
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "token": "Bearer example-api-token"
+}
+```
+
+</ResponseExample>
