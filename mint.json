@@ -20,23 +20,61 @@
   "navigation": [
     {
       "group": "Home",
-      "pages": ["introduction", "development"]
-    },
-    {
-      "group": "Learn More",
-      "pages": ["features", "resources"]
+      "pages": ["introduction"]
     },
     {
       "group": "API Documentation",
       "pages": ["api-reference/authentication"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Authorization",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        {
+          "group": "Portfolios",
+          "pages":[
+            "api-reference/authorization/portfolios/list",
+            "api-reference/authorization/portfolios/get",
+            "api-reference/authorization/portfolios/post"
+          ]
+        },
+        {
+          "group": "Users",
+          "pages":[
+            "api-reference/authorization/users/list",
+            "api-reference/authorization/users/get",
+            "api-reference/authorization/users/me"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Integration",
+      "pages": [
+        {
+          "group": "Person",
+          "pages":[
+            "api-reference/integration/person/find",
+            "api-reference/integration/person/get",
+            "api-reference/integration/person/post",
+            "api-reference/integration/person/post-multiple"
+          ]
+        },
+        {
+          "group": "Unit",
+          "pages":[
+            "api-reference/integration/unit/list",
+            "api-reference/integration/unit/get",
+            "api-reference/integration/unit/post"
+          ]
+        },
+        {
+          "group": "Lease",
+          "pages":[
+            "api-reference/integration/lease/list",
+            "api-reference/integration/lease/get",
+            "api-reference/integration/lease/post"
+          ]
+        }
       ]
     }
   ],
