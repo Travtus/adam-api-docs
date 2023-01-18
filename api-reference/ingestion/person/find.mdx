@@ -4,13 +4,9 @@ api: "POST https://api.travtus.com/persons/find?after-id={after-id}/"
 description: "This endpoint allows users to find a list of persons based on multiple person attributes."
 ---
 
-This API endpoint allows you to search for persons by providing multiple person attributes.
+You need to provide exact matches in the body of the request for the attributes of the person you are looking for.
 
-Pass in the exact matches for the person records you want to retrieve in the body of the request.
-
-Optionally, you can also pass in a list of portfolio IDs in the header to filter the list down.
-
-The response will include a list of persons that match the attributes specified, with a limit of 10 persons per page.
+Optionally, you can also pass in a list of portfolio IDs to filter the list down.
 
 ### Header
 
@@ -94,10 +90,47 @@ The response will include a list of persons that match the attributes specified,
   If there are no more results to load, this value will be -1.
 </ResponseField>
 
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+
+```
+
+Status Code - 404
+
+Returned if no person record can be found matching the provided information.
+```json No identifier or external reference query param provided
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no person records matching the information provided."
+  }
+}
+
+```
+
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/persons/find/' \
+curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 --data-raw '{

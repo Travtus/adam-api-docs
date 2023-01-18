@@ -11,7 +11,7 @@ Matching of the person records is done in the following order:
   1. By external reference. A person record will be updated if the provided `external_ref` in the request body is an exact match.
   2. By email address (`email_address`) or phone number (`phone_number`).
 
-For a new person record to be successfully created, you must provide either an external reference (`external_ref`) or any combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or (`last_name`). The response will include a list of the persons that have been created or updated, along with their internal identifiers.
+For a new person record to be successfully created, you must provide either an external reference (`external_ref`) or any combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or (`last_name`).
 
 For example:
   ```bash Example Request
@@ -104,8 +104,40 @@ For example:
     <ResponseField name="phone_number" type="string">
       The email adddress of the persons you want to retrieve.
     </ResponseField>
+
+    <ResponseField name="success" type="boolean">
+      Whether the person record update or creation was successful.
+    </ResponseField>
+
+    <ResponseField name="failure_reason" type="string">
+      The reason for an unsuccesful person record creation or update. Empty if creation was successful.
+    </ResponseField>
   </Expandable>
 </ResponseField>
+
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+
+```
 
 <RequestExample>
 
@@ -116,20 +148,24 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
 --data-raw '{
     "persons": [
       {
-        "email_address": "test.use.1@travtus.com",
+        "email_address": "test.person.1@travtus.com",
         "first_name": "Test",
-        "last_name": "User",
+        "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
         "portfolios": "['portfolio-1', 'portfolio-2']"
       },
       {
-        "email_address": "test.user.2@travtus.com",
+        "email_address": "test.person.2@travtus.com",
         "first_name": "Test",
-        "last_name": "User2",
+        "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
         "portfolios": "['portfolio-1']"
+      },
+      {
+         "first_name": "Test insuficient info",
+         "portfolios": "['portfolio-1']"
       }
     ]
 }'
@@ -141,25 +177,34 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
 
 ```json Response
 {
-  "success": true,
   "persons": [
       {
         "identifier": "internal-id-1",
-        "email_address": "test.use.1@travtus.com",
+        "email_address": "test.person.1@travtus.com",
         "first_name": "Test",
-        "last_name": "User",
+        "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
-        "portfolios": "['portfolio-1', 'portfolio-2']"
+        "portfolios": "['portfolio-1', 'portfolio-2']",
+        "success": true,
+        "failure_reason": ""
       },
       {
         "identifier": "internal-id-2",
-        "email_address": "test.user.2@travtus.com",
+        "email_address": "test.person.2@travtus.com",
         "first_name": "Test",
-        "last_name": "User2",
+        "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
-        "portfolios": "['portfolio-1']"
+        "portfolios": "['portfolio-1']",
+        "success": true,
+        "failure_reason": ""
+      },
+      {
+         "first_name": "Test insuficient info",
+         "portfolios": "['portfolio-1']",
+         "success": false,
+         "failure_reason": "Insufficient information to create a new person record. Please provide either an external reference or a combination of phone number OR email address AND first name OR last name."
       }
     ]
 }

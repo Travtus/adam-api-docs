@@ -38,6 +38,34 @@ The API token can be obtained by calling the above endpoint with your username a
   The token you will need to use in order to access any other API endpoints.
 </ResponseField>
 
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+
+Returned if either `username` or `password` are missing from the request's body.
+```json Missing username or password
+{
+   "error": {
+    "type": "missing_credentials",
+    "message": "You have not provided a username or password."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the `username` and `password` credentials you have provided are incorrect.
+```json Incorrect credentials
+{
+   "error": {
+    "type": "incorrect_credentials",
+    "message": "Failed to authenticate with the credentials you have provided."
+  }
+}
+
+```
+
 <RequestExample>
 
 ```bash Example Request
