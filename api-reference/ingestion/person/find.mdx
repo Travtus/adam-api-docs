@@ -4,9 +4,9 @@ api: "POST https://api.travtus.com/persons/find?after-id={after-id}/"
 description: "This endpoint allows users to find a list of persons based on multiple person attributes."
 ---
 
-You need to provide exact matches in the body of the request for the attributes of the person you are looking for.
+You need to provide exact matches in the body of the request for the attributes of the persons you are looking for.
 
-Optionally, you can also pass in a list of portfolio IDs to filter the list down.
+Optionally, you can also pass in a list of portfolio IDs to filter the returned persons down.
 
 ### Header
 
@@ -117,7 +117,7 @@ Status Code - 401
 Status Code - 404
 
 Returned if no person record can be found matching the provided information.
-```json No identifier or external reference query param provided
+```json No person records found for the provided parameters
 {
    "error": {
     "type": "not_found",

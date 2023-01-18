@@ -4,6 +4,10 @@ api: "POST https://api.travtus.com/units/find?after-id={after-id}/"
 description: "This endpoint finds units with the list of body attributes passed to it."
 ---
 
+You need to provide exact matches in the body of the request for the attributes of the units you are looking for.
+
+Optionally, you can also pass in a list of portfolio IDs to filter the returned units down.
+
 ### Header
 
 <ParamField header="Auhtorization" type="string" default="none" required>
@@ -24,77 +28,64 @@ description: "This endpoint finds units with the list of body attributes passed 
 </ParamField>
 
 <ParamField body="external_ref" type="string" default="none">
-  An external reference for the unit you want to create. This is typically an identifier you may use for unit records in your own system.
+  An external reference for the unit you want to find.
   
-  Please not that this needs to be unique within the portfolios you are adding this unit to.
+  This is typically an identifier you may use for unit records in your own system.
+</ParamField>
 
-  If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+<ParamField body="identifier" type="string" default="none">
+  The internal reference for the units you want to find.
 </ParamField>
 
 <ParamField body="has_flex_wall" type="boolean" default="none">
-  True if the unit is a flex apartment, false if it is not.
+  Whether the units you want to retrieve are flex apartments or not.
 </ParamField>
 
 <ParamField body="number_of_bathrooms" type="integer" default="none">
-  The unit's number of bathrooms.
+  The number of bathrooms the units you want to find have.
 </ParamField>
 
 <ParamField body="number_of_bedrooms" type="integer" default="none">
-  The unit's number of bedrooms.
+  The number of bedrooms the units you want to find have.
 </ParamField>
 
 <ParamField body="sqft" type="integer" default="none">
-  The square feet surface for the unit.
+  The square feet surface for the units you want to find.
 </ParamField>
 
 <ParamField body="unit_number" type="string" default="none">
-  The unit's number.
+  The number of the units you want to find.
 </ParamField>
 
-<ParamField body="bathrooms" type="[object]" default="none">
-  A list of bathroom characteristics for each bathroom in the unit.
-  <Expandable title="bathroom">
-    <ParamField body="has_shower_or_bath" type="boolean" deafult="none">
-      Does the bathroom have either a shower or a bath?
-    </ParamField>
-    <ParamField body="has_sink" type="boolean" deafult="none">
-      Does the bathroom have a sink?
-    </ParamField>
-    <ParamField body="has_toilet" type="boolean" deafult="none">
-      Does the bathroom have a toilet?
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-<ParamField body="building" type="object" default="none">
-  Address information about the unit's building.
+<ParamField body="address" type="object" default="none">
+  Address information for the units you want to find.
   <Expandable tilte="address">
     <ParamField body="building_name" type="string">
-      The name of the building.
+      The name of the building for the unit you want to find.
     </ParamField>
     <ParamField body="address_line_1" type="string">
-      The first line of the building's address.
+      The first line of the address for the unit you want to find.
     </ParamField>
     <ParamField body="address_line_2" type="string">
-      The second line of the building's address.
+      The second line of the address for the unit you want to find.
     </ParamField>
     <ParamField body="city" type="string">
-      The city of the building's address.
+      The address' city for the unit you want to find.
     </ParamField>
     <ParamField body="country" type="string">
-      The country of the building's address.
+      The address' country for the unit you want to find.
     </ParamField>
     <ParamField body="state" type="string">
-      The state in which the building's address is located.
+      The address' state for the unit you want to find.
     </ParamField>
     <ParamField body="postal_code" type="string">
-      The postal code of the building's address.
+      The address' postal code for the unit you want to find.
     </ParamField>
     <ParamField body="latitude" type="float">
-      The latitude of the building's address.
+      The address' latitude for the unit you want to find.
     </ParamField>
     <ParamField body="longitude" type="float">
-      The longitude of the building's address.
+      The address' longitude for the unit you want to find.
     </ParamField>
   </Expandable>
 </ParamField>
@@ -113,6 +104,10 @@ description: "This endpoint finds units with the list of body attributes passed 
   <Expandable title="unit">
     <ResponseField name="identifier" type="string">
       The internal identifier for the retrieved unit. Unique across all portfolios.
+    </ResponseField>
+
+    <ResponseField name="external_ref" type="string" >
+      The external reference for the retrieved unit.
     </ResponseField>
 
     <ResponseField name="unit_number" type="string">
@@ -139,44 +134,36 @@ description: "This endpoint finds units with the list of body attributes passed 
       The square feet surface for the retrieved unit.
     </ResponseField>
 
-    <ResponseField name="building" type="object">
-      The building record associated with the unit.
+    <ResponseField name="address" type="object">
+      The unit's address.
 
-      <Expandable title="building">
-        <ResponseField name="building_identifier" type="string">
-          The internal identifier for the unit's building. Unique across all portfolios.
+      <Expandable title="address">
+        <ResponseField name="building_name" type="string">
+          The name of the building.
         </ResponseField>
-        <ResponseField name="address" type="object">
-          The address of the retrieved unit's building.
-          <Expandable tilte="address">
-            <ResponseField name="building_name" type="string">
-              The name of the building.
-            </ResponseField>
-            <ResponseField name="address_line_1" type="string" required>
-              The first line of the building's address.
-            </ResponseField>
-            <ResponseField name="address_line_2" type="string">
-              The second line of the building's address.
-            </ResponseField>
-            <ResponseField name="city" type="string">
-              The city of the building's address.
-            </ResponseField>
-            <ResponseField name="country" type="string">
-              The country of the building's address.
-            </ResponseField>
-            <ResponseField name="state" type="string" required>
-              The state in which the building's address is located.
-            </ResponseField>
-            <ResponseField name="postal_code" type="string" required>
-              The postal code of the building's address.
-            </ResponseField>
-            <ResponseField name="latitude" type="string">
-              The latitude of the building's address.
-            </ResponseField>
-            <ResponseField name="longitude" type="string">
-              The longitude of the building's address.
-            </ResponseField>
-          </Expandable>
+        <ResponseField name="address_line_1" type="string" required>
+          The first line of the unit's address.
+        </ResponseField>
+        <ResponseField name="address_line_2" type="string">
+          The second line of the unit's address.
+        </ResponseField>
+        <ResponseField name="city" type="string">
+          The city of the unit's address.
+        </ResponseField>
+        <ResponseField name="country" type="string">
+          The country in which the unit's address is located.
+        </ResponseField>
+        <ResponseField name="state" type="string" required>
+          The state in which the unit's address is located.
+        </ResponseField>
+        <ResponseField name="postal_code" type="string" required>
+          The postal code for the unit's address.
+        </ResponseField>
+        <ResponseField name="latitude" type="string">
+          The latitude of the unit's address.
+        </ResponseField>
+        <ResponseField name="longitude" type="string">
+          The longitude of the unit's address.
         </ResponseField>
       </Expandable>
 
@@ -208,12 +195,31 @@ Status Code - 401
 
 ```
 
+Status Code - 404
+
+Returned if no unit records can be found matching the provided information.
+```json No unit records found for the provided parametersNo identifier or external reference query param provided
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no unit records matching the information provided."
+  }
+}
+
+```
+
 <RequestExample>
 
 ```bash Example Request
 curl --location --request POST 'https://api.travtus.com/units/find?after-id=1' \
 --header 'Content-Type: application/json' \
---header 'Authorization: bearer <token>'
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "address": {
+    "country": "United States"
+  },
+  "portfolios": ["portfolio-1"]
+}
 ```
 
 </RequestExample>
@@ -222,27 +228,48 @@ curl --location --request POST 'https://api.travtus.com/units/find?after-id=1' \
 
 ```json Response
 {
-  "identifier": "internal-unit-id-1",
-  "unit_number": "1",
-  "is_flex": false,
-  "full_bathrooms": 1,
-  "half_bathrooms": 1,
-  "number_of_bedrooms": 2,
-  "sqft": 40,
-  "building": {
-    "building_identifier": "building-id-1",
-    "address": {
-      "building_name": "Building 1",
-      "address_line_1": "Blvd Street",
-      "address_line_2": "Appartment 12",
-      "city": "New York",
-      "country": "United States",
-      "state": "New York",
-      "postal_code": "10001",
-      "latitude": 40.730610,
-      "longitude": -73.935242
-    }
-  }
+  "last_id": 5,
+  "units": [
+    {
+      "identifier": "internal-unit-id-1",
+      "unit_number": "1",
+      "is_flex": false,
+      "full_bathrooms": 1,
+      "half_bathrooms": 1,
+      "number_of_bedrooms": 2,
+      "sqft": 40,
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 12",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+    },
+    {
+      "identifier": "internal-unit-id-2",
+      "unit_number": "2",
+      "is_flex": false,
+      "full_bathrooms": 1,
+      "half_bathrooms": 0,
+      "number_of_bedrooms": 1,
+      "sqft": 30,
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 10",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+      }
+    },
+  ]
 }
 ```
 
