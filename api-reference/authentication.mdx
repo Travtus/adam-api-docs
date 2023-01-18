@@ -10,7 +10,13 @@ Adam API uses token authentication. All API calls must include the following hea
 
 ## API Tokens
 
-The API token can be obtained by calling the above endpoint. The endpoint requires the following parameters:
+Please contact _placeholder_ in order for us to create an account for you, specifying an e-mail address you would like to use as an username.
+
+Once we have created your Travtus API account, you will receive an e-mail which will allow you to reset your password.
+
+We aim to add support for self-registration as well as support for users with certain permissions to add and modify API users.
+
+The API token can be obtained by calling the above endpoint with your username and password.
 
 ### Body
 
@@ -38,8 +44,8 @@ The API token can be obtained by calling the above endpoint. The endpoint requir
 curl --location --request POST 'https://api.travtus.com/authorization/tokens/post_credentials/' \
 --header 'Content-Type: multipart/form-data' \
 --data-raw '{
-    "username": "",
-    "password": ""
+    "username": "test@travtus.com",
+    "password": "password123"
 }'
 ```
 

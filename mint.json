@@ -27,27 +27,6 @@
       "pages": ["api-reference/authentication"]
     },
     {
-      "group": "Authorization",
-      "pages": [
-        {
-          "group": "Portfolios",
-          "pages":[
-            "api-reference/authorization/portfolios/list",
-            "api-reference/authorization/portfolios/get",
-            "api-reference/authorization/portfolios/post"
-          ]
-        },
-        {
-          "group": "Users",
-          "pages":[
-            "api-reference/authorization/users/list",
-            "api-reference/authorization/users/get",
-            "api-reference/authorization/users/me"
-          ]
-        }
-      ]
-    },
-    {
       "group": "Ingestion",
       "pages": [
         {
