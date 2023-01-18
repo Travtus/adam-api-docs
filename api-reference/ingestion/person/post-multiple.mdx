@@ -1,6 +1,6 @@
 ---
 title: "Create/Update Persons"
-api: "POST https://api.travtus.com/ingestion/persons/multiple/"
+api: "POST https://api.travtus.com/persons/multiple/"
 description: "This endpoint creates or updates multiple person records passed as a list in the request's body."
 ---
 
@@ -41,12 +41,6 @@ For example:
   The authentication token for your request.
 </ParamField>
 
-<ParamField header="Portfolio-Ids" type="[string]" default="none">
-  Pass a list of portfolio IDs in order to limit the scope of the request.
-  
-  The portfolio IDs provided will be used both in attempting to find existing person records and to scope newly created records.
-</ParamField>
-
 ### Body
 
 <ParamField body="persons" type="[object]" default="none" required>
@@ -70,6 +64,10 @@ For example:
 
     <ParamField body="phone_number" type="string" default="none">
       The email adddress of the persons you want to retrieve.
+    </ParamField>
+
+    <ParamField header="portfolios" type="[string]" default="none">
+      Pass a list of portfolio IDs to be used when finding or creating this person record.
     </ParamField>
   </Expandable>
 </ParamField>
@@ -112,9 +110,9 @@ For example:
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/integration/persons/' \
+curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
 --header 'Content-Type: application/json' \
---header 'Authorization: bearer <token>'
+--header 'Authorization: bearer <token>' \
 --data-raw '{
     "persons": [
       {
@@ -134,7 +132,7 @@ curl --location --request POST 'https://api.travtus.com/integration/persons/' \
         "portfolios": "['portfolio-1']"
       }
     ]
-}
+}'
 ```
 
 </RequestExample>

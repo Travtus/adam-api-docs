@@ -1,0 +1,94 @@
+---
+title: "Create/Update units and add to portfolio."
+api: "POST https://api.travtus.com/units/multiple/"
+description: "This endpoint creates or updates multiple units and assigns them to portfolios."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="units" type="[object]" default="none" required>
+  A list of units to be updated or created
+  <Expandable title="unit">
+    <ParamField body="external_ref" type="string" default="none">
+      An external reference for the unit you want to create. This is typically an identifier you may use for unit records in your own system.
+      
+      Please not that this needs to be unique within the portfolios you are adding this unit to.
+
+      If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+    </ParamField>
+
+    <ParamField body="has_flex_wall" type="boolean" default="none">
+      True if the unit is a flex apartment, false if it is not.
+    </ParamField>
+
+    <ParamField body="number_of_bathrooms" type="integer" default="none">
+      The unit's number of bathrooms.
+    </ParamField>
+
+    <ParamField body="number_of_bedrooms" type="integer" default="none">
+      The unit's number of bedrooms.
+    </ParamField>
+
+    <ParamField body="sqft" type="integer" default="none">
+      The square feet surface for the unit.
+    </ParamField>
+
+    <ParamField body="unit_number" type="string" default="none">
+      The unit's number.
+    </ParamField>
+
+    <ParamField body="bathrooms" type="[object]" default="none">
+      A list of bathroom characteristics for each bathroom in the unit.
+      <Expandable title="bathroom">
+        <ParamField body="has_shower_or_bath" type="boolean" deafult="none">
+          Does the bathroom have either a shower or a bath?
+        </ParamField>
+        <ParamField body="has_sink" type="boolean" deafult="none">
+          Does the bathroom have a sink?
+        </ParamField>
+        <ParamField body="has_toilet" type="boolean" deafult="none">
+          Does the bathroom have a toilet?
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="building" type="object" default="none">
+      Address information about the unit's building.
+      <Expandable tilte="building">
+        <ParamField body="building_name" type="string">
+          The name of the building.
+        </ParamField>
+        <ParamField body="address_line_1" type="string" required>
+          The first line of the building's address.
+        </ParamField>
+        <ParamField body="address_line_2" type="string">
+          The second line of the building's address.
+        </ParamField>
+        <ParamField body="city" type="string">
+          The city of the building's address.
+        </ParamField>
+        <ParamField body="country" type="string">
+          The country of the building's address.
+        </ParamField>
+        <ParamField body="state" type="string" required>
+          The state in which the building's address is located.
+        </ParamField>
+        <ParamField body="postal_code" type="string" required>
+          The postal code of the building's address.
+        </ParamField>
+        <ParamField body="latitude" type="float">
+          The latitude of the building's address.
+        </ParamField>
+        <ParamField body="longitude" type="float">
+          The longitude of the building's address.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>

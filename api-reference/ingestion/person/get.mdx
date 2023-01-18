@@ -1,6 +1,6 @@
 ---
 title: "Get Person"
-api: "GET https://api.travtus.com/ingestion/persons?externalref={externalref}&identifier={identifier}/"
+api: "GET https://api.travtus.com/persons?externalref={externalref}&identifier={identifier}/"
 description: "This endpoint retrieves infromation about one person with the provided identifier."
 ---
 
@@ -55,7 +55,7 @@ This endpoint retrieves information about one person given the provided identifi
 <RequestExample>
 
 ```bash Example Request
-curl --location --request GET 'https://api.travtus.com/integration/persons/external-id-1/' \
+curl --location --request GET 'https://api.travtus.com/persons?externalref=external-id-1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 ```

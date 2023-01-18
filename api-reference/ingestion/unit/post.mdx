@@ -1,0 +1,159 @@
+---
+title: "Create/Update Unit"
+api: "POST https://api.travtus.com/units/"
+description: "This endpoint creates or updates a unit with the provided information."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="external_ref" type="string" default="none">
+  An external reference for the unit you want to create. This is typically an identifier you may use for unit records in your own system.
+  
+  Please not that this needs to be unique within the portfolios you are adding this unit to.
+
+  If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+</ParamField>
+
+<ParamField body="has_flex_wall" type="boolean" default="none">
+  True if the unit is a flex apartment, false if it is not.
+</ParamField>
+
+<ParamField body="number_of_bathrooms" type="integer" default="none">
+  The unit's number of bathrooms.
+</ParamField>
+
+<ParamField body="number_of_bedrooms" type="integer" default="none">
+  The unit's number of bedrooms.
+</ParamField>
+
+<ParamField body="sqft" type="integer" default="none">
+  The square feet surface for the unit.
+</ParamField>
+
+<ParamField body="unit_number" type="string" default="none">
+  The unit's number.
+</ParamField>
+
+<ParamField body="bathrooms" type="[object]" default="none">
+  A list of bathroom characteristics for each bathroom in the unit.
+  <Expandable title="bathroom">
+    <ParamField body="has_shower_or_bath" type="boolean" deafult="none">
+      Does the bathroom have either a shower or a bath?
+    </ParamField>
+    <ParamField body="has_sink" type="boolean" deafult="none">
+      Does the bathroom have a sink?
+    </ParamField>
+    <ParamField body="has_toilet" type="boolean" deafult="none">
+      Does the bathroom have a toilet?
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="building" type="object" default="none">
+  Address information about the unit's building.
+  <Expandable tilte="address">
+    <ParamField body="building_name" type="string">
+      The name of the building.
+    </ParamField>
+    <ParamField body="address_line_1" type="string" required>
+      The first line of the building's address.
+    </ParamField>
+    <ParamField body="address_line_2" type="string">
+      The second line of the building's address.
+    </ParamField>
+    <ParamField body="city" type="string">
+      The city of the building's address.
+    </ParamField>
+    <ParamField body="country" type="string">
+      The country of the building's address.
+    </ParamField>
+    <ParamField body="state" type="string" required>
+      The state in which the building's address is located.
+    </ParamField>
+    <ParamField body="postal_code" type="string" required>
+      The postal code of the building's address.
+    </ParamField>
+    <ParamField body="latitude" type="float">
+      The latitude of the building's address.
+    </ParamField>
+    <ParamField body="longitude" type="float">
+      The longitude of the building's address.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField header="portfolios" type="[string]" default="none">
+  A list of portfolio IDs.
+
+  Used for:
+  - searching for an existing unit record to update
+  - updating unit assignment if an existing unit record is found
+  - updating unit assignment for a newly created unit record
+</ParamField>
+
+### Response
+<ResponseField name="success" type="boolean">
+  True if the unit has been successfully created, false otherwise.
+</ResponseField>
+<ResponseField name="indentifier" type="string">
+  The internal identifier for the newly created or updated unit.
+</ResponseField>
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request "POST 'https://api.travtus.com/units/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "external_ref": "unit-ext-ref-1",
+    "has_flex_wall": false,
+    "number_of_bathrooms": 2,
+    "number_of_bedrooms": 1,
+    "sqft": 40,
+    "unit_number": "2",
+    "bathrooms": [
+      {
+        "has_shower_or_bath": false,
+        "has_sink": true,
+        "has_toilet": true
+      },
+      {
+        "has_shower_or_bath": true,
+        "has_sink": true,
+        "has_toilet": true
+      }
+    ],
+    "address": {
+      "building_name": "Building 1",
+      "address_line_1": "Blvd Street",
+      "address_line_2": "Appartment 12",
+      "city": "New York",
+      "country": "United States",
+      "state": "New York",
+      "postal_code": "10001",
+      "latitude": 40.730610,
+      "longitude": -73.935242
+    },
+    "portfolios": ["portfolio-1", "portfolio-2"]
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "identifier": "unit-id-1"
+}
+```
+
+</ResponseExample>

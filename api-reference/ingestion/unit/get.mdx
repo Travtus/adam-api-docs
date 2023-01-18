@@ -1,6 +1,6 @@
 ---
 title: "Get Unit"
-api: "GET https://api.travtus.com/ingestion/unit/{externalref}/"
+api: "GET https://api.travtus.com/units/{externalref}/"
 description: "This endpoint retrieves infromation about one unit with the provided external reference."
 ---
 
@@ -77,10 +77,10 @@ description: "This endpoint retrieves infromation about one unit with the provid
         <ResponseField name="postal_code" type="string">
           The postal code of the building's address.
         </ResponseField>
-        <ResponseField name="latitude" type="string">
+        <ResponseField name="latitude" type="float">
           The latitude of the building's address.
         </ResponseField>
-        <ResponseField name="longitude" type="string">
+        <ResponseField name="longitude" type="float">
           The longitude of the building's address.
         </ResponseField>
       </Expandable>
@@ -94,7 +94,7 @@ description: "This endpoint retrieves infromation about one unit with the provid
 <RequestExample>
 
 ```bash Example Request
-curl --location --request GET 'https://api.travtus.com/ingestion/unit/external-unit-ref-1/' \
+curl --location --request GET 'https://api.travtus.com/units/external-unit-ref-1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 ```
@@ -122,8 +122,8 @@ curl --location --request GET 'https://api.travtus.com/ingestion/unit/external-u
       "country": "United States",
       "state": "New York",
       "postal_code": "10001",
-      "latitude": "40.730610",
-      "longitude": "-73.935242"
+      "latitude": 40.730610,
+      "longitude": -73.935242
     }
   }
 }

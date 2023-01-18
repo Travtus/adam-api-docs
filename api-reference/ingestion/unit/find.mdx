@@ -1,0 +1,229 @@
+---
+title: "List Units"
+api: "POST https://api.travtus.com/units/find?after-id={after-id}/"
+description: "This endpoint finds units with the list of body attributes passed to it."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Body
+<ParamField body="portfolios" type="[string]" default="none">
+  The list of portfolio IDs you want to filter the returned units down to.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+  An external reference for the unit you want to create. This is typically an identifier you may use for unit records in your own system.
+  
+  Please not that this needs to be unique within the portfolios you are adding this unit to.
+
+  If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+</ParamField>
+
+<ParamField body="has_flex_wall" type="boolean" default="none">
+  True if the unit is a flex apartment, false if it is not.
+</ParamField>
+
+<ParamField body="number_of_bathrooms" type="integer" default="none">
+  The unit's number of bathrooms.
+</ParamField>
+
+<ParamField body="number_of_bedrooms" type="integer" default="none">
+  The unit's number of bedrooms.
+</ParamField>
+
+<ParamField body="sqft" type="integer" default="none">
+  The square feet surface for the unit.
+</ParamField>
+
+<ParamField body="unit_number" type="string" default="none">
+  The unit's number.
+</ParamField>
+
+<ParamField body="bathrooms" type="[object]" default="none">
+  A list of bathroom characteristics for each bathroom in the unit.
+  <Expandable title="bathroom">
+    <ParamField body="has_shower_or_bath" type="boolean" deafult="none">
+      Does the bathroom have either a shower or a bath?
+    </ParamField>
+    <ParamField body="has_sink" type="boolean" deafult="none">
+      Does the bathroom have a sink?
+    </ParamField>
+    <ParamField body="has_toilet" type="boolean" deafult="none">
+      Does the bathroom have a toilet?
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="building" type="object" default="none">
+  Address information about the unit's building.
+  <Expandable tilte="address">
+    <ParamField body="building_name" type="string">
+      The name of the building.
+    </ParamField>
+    <ParamField body="address_line_1" type="string">
+      The first line of the building's address.
+    </ParamField>
+    <ParamField body="address_line_2" type="string">
+      The second line of the building's address.
+    </ParamField>
+    <ParamField body="city" type="string">
+      The city of the building's address.
+    </ParamField>
+    <ParamField body="country" type="string">
+      The country of the building's address.
+    </ParamField>
+    <ParamField body="state" type="string">
+      The state in which the building's address is located.
+    </ParamField>
+    <ParamField body="postal_code" type="string">
+      The postal code of the building's address.
+    </ParamField>
+    <ParamField body="latitude" type="float">
+      The latitude of the building's address.
+    </ParamField>
+    <ParamField body="longitude" type="float">
+      The longitude of the building's address.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
+</ResponseField>
+<ResponseField name="units" type="[object]">
+  The list of units retrieved by the endpoint
+  <Expandable title="unit">
+    <ResponseField name="identifier" type="string">
+      The internal identifier for the retrieved unit. Unique across all portfolios.
+    </ResponseField>
+
+    <ResponseField name="unit_number" type="string">
+      The number of the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="is_flex" type="boolean">
+      True if the retrieved unit is a flex apartment, false if it is not.
+    </ResponseField>
+
+    <ResponseField name="full_bathrooms" type="integer">
+      The number of full bathrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="half_bathrooms" type="integer">
+      The number of half bathrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="number_of_bedrooms" type="integer">
+      The number of bedrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="sqft" type="integer">
+      The square feet surface for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="building" type="object">
+      The building record associated with the unit.
+
+      <Expandable title="building">
+        <ResponseField name="building_identifier" type="string">
+          The internal identifier for the unit's building. Unique across all portfolios.
+        </ResponseField>
+        <ResponseField name="address" type="object">
+          The address of the retrieved unit's building.
+          <Expandable tilte="address">
+            <ResponseField name="building_name" type="string">
+              The name of the building.
+            </ResponseField>
+            <ResponseField name="address_line_1" type="string" required>
+              The first line of the building's address.
+            </ResponseField>
+            <ResponseField name="address_line_2" type="string">
+              The second line of the building's address.
+            </ResponseField>
+            <ResponseField name="city" type="string">
+              The city of the building's address.
+            </ResponseField>
+            <ResponseField name="country" type="string">
+              The country of the building's address.
+            </ResponseField>
+            <ResponseField name="state" type="string" required>
+              The state in which the building's address is located.
+            </ResponseField>
+            <ResponseField name="postal_code" type="string" required>
+              The postal code of the building's address.
+            </ResponseField>
+            <ResponseField name="latitude" type="string">
+              The latitude of the building's address.
+            </ResponseField>
+            <ResponseField name="longitude" type="string">
+              The longitude of the building's address.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/units/find?after-id=1' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "identifier": "internal-unit-id-1",
+  "unit_number": "1",
+  "is_flex": false,
+  "full_bathrooms": 1,
+  "half_bathrooms": 1,
+  "number_of_bedrooms": 2,
+  "sqft": 40,
+  "building": {
+    "building_identifier": "building-id-1",
+    "address": {
+      "building_name": "Building 1",
+      "address_line_1": "Blvd Street",
+      "address_line_2": "Appartment 12",
+      "city": "New York",
+      "country": "United States",
+      "state": "New York",
+      "postal_code": "10001",
+      "latitude": 40.730610,
+      "longitude": -73.935242
+    }
+  }
+}
+```
+
+</ResponseExample>
+
+

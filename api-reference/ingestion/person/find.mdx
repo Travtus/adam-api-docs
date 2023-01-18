@@ -1,6 +1,6 @@
 ---
 title: "Find Persons"
-api: "POST https://api.travtus.com/ingestion/persons/find?page={page-number}/"
+api: "POST https://api.travtus.com/persons/find?after-id={after-id}/"
 description: "This endpoint allows users to find a list of persons based on multiple person attributes."
 ---
 
@@ -10,7 +10,7 @@ Pass in the exact matches for the person records you want to retrieve in the bod
 
 Optionally, you can also pass in a list of portfolio IDs in the header to filter the list down.
 
-The response will include a list of persons that match the attributes specified, with a limit of 10 persons per page. The response will also indicate how many pages of results have matched your query.
+The response will include a list of persons that match the attributes specified, with a limit of 10 persons per page.
 
 ### Header
 
@@ -18,14 +18,12 @@ The response will include a list of persons that match the attributes specified,
   The authentication token for your request
 </ParamField>
 
-<ParamField header="Portfolios" type="list" default="none" required>
-  The list of portfolio IDs you want to filter the list down to.
-</ParamField>
-
 ### Query
 
-<ParamField query="page" type="string" default="1">
-  The page of the retrieved results. This defaults to 1. You will need to modify this query parameter if more than 10 results are retrieved, which will be specified in the response.
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
 </ParamField>
 
 ### Body
@@ -52,6 +50,10 @@ The response will include a list of persons that match the attributes specified,
 
 <ParamField body="identifier" type="string" default="none">
   Internal identifier of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="portfolios" type="[string]" default="none" required>
+  The list of portfolio IDs you want to filter the list down to.
 </ParamField>
 
 ### Response
@@ -84,18 +86,23 @@ The response will include a list of persons that match the attributes specified,
     </ResponseField>
   </Expandable>
 </ResponseField>
-<ResponseField name="pages" type="integer">
-  The number of pages the result contains. You can browse the different result pages via the `page` query parameter.
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
 </ResponseField>
 
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/ingestion/persons/find/' \
+curl --location --request POST 'https://api.travtus.com/persons/find/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 --data-raw '{
-  "phone_number": "01234567890"
+  "phone_number": "01234567890",
+  "portfolios": ["portfolio-1"]
 }
 ```
 
@@ -105,7 +112,7 @@ curl --location --request POST 'https://api.travtus.com/ingestion/persons/find/'
 
 ```json Response
 {
-  "pages": 1,
+  "last_id": 5,
   "persons": [
       {
         "identifier": "internal-id-1",

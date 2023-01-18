@@ -1,16 +1,16 @@
 ---
 title: "Create/Update Person"
-api: "POST https://api.travtus.com/ingestion/persons/"
+api: "POST https://api.travtus.com/persons/"
 description: "This endpoint creates or updates a person with the provided information."
 ---
 
 This API endpoint can be used to create or update a person record with the provided information. 
 
-It attempts to match the person information provided with existing records, within the scope of the portfolio IDs provided in the `Portfolio-IDs` header. If no match is found, a new person record will be created and automatically scoped to the portfolios with the provided IDs. If a match is found, the existing person record will be updated with the information provided.
+It attempts to match the person information provided with existing records, within the scope of the portfolio IDs provided in the `portfolios` body parameter. If no match is found, a new person record will be created and automatically scoped to the portfolios with the provided IDs. If a match is found, the existing person record will be updated with the information provided.
 
 Matching of the person record is done in the following order: by external reference (if the provided `external_ref` in the request body is an exact match) or by email address (`email_address`) or phone number (`phone_number`).
 
-If you do not provide portfolio IDs, the newly created or updated record will not be scoped to any portfolio and will instead be visible company-wide.
+If you do not provide portfolio IDs, either the newly created or updated record will not be scoped to any portfolio and will instead be visible company-wide.
 
 In order for a new person record to be created, you must provide either a unique external reference via `external_ref` or a combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or last name (`last_name`).
 
@@ -42,12 +42,6 @@ For example:
   The authentication token for your request.
 </ParamField>
 
-<ParamField header="Portfolio-Ids" type="[string]" default="none">
-  Pass a list of portfolio IDs in order to limit the scope of the request.
-  
-  The portfolio IDs provided will be used both in attempting to find existing person records and to scope newly created records.
-</ParamField>
-
 ### Body
 
 <ParamField body="email_address" type="string" default="none">
@@ -63,11 +57,24 @@ For example:
 </ParamField>
 
 <ParamField body="external_ref" type="string" default="none">
-  An external reference for the person you want to create. This is typically an identifier you may use for person records in your own system. Please not that this needs to be unique across all of your portfolios. If you provide an external_ref that is already present in your company, the person record with the provided external_ref will be updated instead, regardless of the portfolio scoping options you have provided.
+  An external reference for the person you want to create. This is typically an identifier you may use for person records in your own system.
+  
+  Please not that this needs to be unique within a portfolio.
+  
+  If you provide an external_ref that is already present in a portfolio, the existing person record will be updated instead.
 </ParamField>
 
 <ParamField body="phone_number" type="string" default="none">
   The email adddress of the persons you want to retrieve.
+</ParamField>
+
+<ParamField header="portfolios" type="[string]" default="none">
+  A list of portfolio IDs.
+
+  Used for:
+  - searching for an existing person record to update
+  - updating portfolio assignment if a person record is matched
+  - updating portfolio assignment to a newly created person record
 </ParamField>
 
 ### Response
@@ -83,10 +90,9 @@ For example:
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/integration/persons/' \
+curl --location --request POST 'https://api.travtus.com/persons/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
---header 'Portfolio-Ids: ["portfolio-id-1", "portfolio-id-2"]' \  
 --data-raw '{
     "email_address": "test.user@travtus.com",
     "first_name": "Test",
