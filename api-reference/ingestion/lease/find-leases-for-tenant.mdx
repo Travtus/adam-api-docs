@@ -1,5 +1,5 @@
 ---
-title: "Get Lease"
+title: "Find Leases For Tenant"
 api: "POST https://api.travtus.com/leases/find-for-tenant?after-id={after-id}/"
 description: "This endpoint leases for a specific tenant based on provided parameters."
 ---
@@ -10,7 +10,7 @@ If no tenant match is retrieved, an empty set of leases will be returned.
 
 Active leases are understood to have an end date in the future and a start date in the past relative to the current date.
 
-Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date string] (https://en.wikipedia.org/wiki/ISO_8601).
+Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 

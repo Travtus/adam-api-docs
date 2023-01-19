@@ -1,6 +1,7 @@
 ---
-title: "Create Lease"
-description: "This endpoint creates a lease with the provided information."
+title: "Create/Update Leases and tenants"
+api: "POST https://api.travtus.com/leases/create/"
+description: "This endpoint creates or updates a lease and tenant records for it."
 ---
 
 ### Header
@@ -8,3 +9,185 @@ description: "This endpoint creates a lease with the provided information."
 <ParamField header="Auhtorization" type="string" default="none" required>
   The authentication token for your request
 </ParamField>
+
+### Body
+
+<ParamField body="lease" type="object" default="none" required>
+  The parameters for the lease to update or create.
+  <Expandable title="lease">
+    <ParamField body="identifier" type="string" default="none">
+      The identifier for the lease.
+    </ParamField>
+
+    <ParamField body="start_date" type="string" default="none">
+      The start date of the lease.
+    </ParamField>
+
+    <ParamField body="end_date" type="string" default="none">
+      The end date of the lease.
+    </ParamField>
+
+    <ParamField body="move_in_date" type="string" default="none">
+      The move in date of the lease.
+    </ParamField>
+
+    <ParamField body="landlord_id" type="string" default="none">
+      The id of the landlord of the lease.
+    </ParamField>
+
+    <ParamField body="property_id" type="string" default="none">
+      The id of the property associated with the lease.
+    </ParamField>
+
+    <ParamField body="is_furnished" type="boolean" default="none">
+      Whether the lease is for a furnished or unfurnished property.
+    </ParamField>
+
+    <ParamField body="minimum_days_notice" type="integer" default="none">
+      Minimum days of notice that must be given to break the lease agreement.
+    </ParamField>
+
+    <ParamField body="deposit" type="float" default="none">
+      The deposit amount for the lease.
+    </ParamField>
+
+    <ParamField body="rent" type="float" default="none">
+      The rent amount for the lease.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="tenants" type="[object]" default="none">
+  A list of tenants to be associated with the created or updated lease.
+  <Expandable title="tenant">
+      <ParamField body="email_address" type="string" default="none">
+        The email adddress of the tenant.
+      </ParamField>
+
+      <ParamField body="first_name" type="string" default="none">
+        The first name of the tenant.
+      </ParamField>
+
+      <ParamField body="last_name" type="string" default="none">
+        The last name of the tenant.
+      </ParamField>
+
+      <ParamField body="external_ref" type="string" default="none">
+        The external reference of the tenant.
+        
+        This is typically an identifier you may use for person records in your own system.
+      </ParamField>
+
+      <ParamField body="phone_number" type="string" default="none">
+        The phone number of the tenant.
+      </ParamField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ParamField name="success" type="boolean">
+  Whether the API operation was successful or not.
+</ParamField>
+
+<ParamField name="lease" type="string">
+  The identifier for the modified or created lease.
+</ParamField>
+
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if more than one landlord is retrieved for the lease
+```json Could not retrieve a single landlord
+{
+   "error": {
+    "type": "multiple_landlord",
+    "message": "Could not retrieve a single landlord for the provided landlord_id."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if a single tenant can not be retrieved for any of your tenant records
+```json Could not retrieve a single tenant
+{
+   "error": {
+    "type": "multiple_landlord",
+    "message": "Could not identify a single tenant record for one of the tenant objects you have provided."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/leases/create/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "lease": {
+    "identifier": "lease-1",
+    "start_date": "2023-01-17",
+    "end_date": "2023-12-17",
+    "move_in_date": "2023-01-17",
+    "landlord_id": "landlord-id-1",
+    "property_id": "property-id-1",
+    "is_furnished": false,
+    "minimum_days_notice": 30,
+    "deposit": 1400.0,
+    "rent": 700.0
+  },
+  "tenants": [
+    {
+      "email_address": "test.tenant.1@travtus.com",
+      "first_name": "Test",
+      "last_name": "Tenant 1",
+      "external_ref": "id-1",
+      "phone_number": "01234567890"
+    },
+    {
+      "email_address": "test.tenant.2@travtus.com",
+      "first_name": "Test",
+      "last_name": "Tenant 2",
+      "external_ref": "id-2",
+      "phone_number": "01234567890"
+    }
+  ]
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "lease": "lease-1"
+}
+```
+
+</ResponseExample>

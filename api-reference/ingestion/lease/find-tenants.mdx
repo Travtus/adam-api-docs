@@ -1,10 +1,10 @@
 ---
-title: "Get Lease"
+title: "Find Tenants"
 api: "POST https://api.travtus.com/leases/tenants?after-id={after-id}"
-description: "This endpoint returns a list of tenants filter on the specified parameters."
+description: "This endpoint returns a list of tenants filtered with the specified parameters."
 ---
 
-Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date string] (https://en.wikipedia.org/wiki/ISO_8601).
+Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 
@@ -136,17 +136,17 @@ curl --location --request POST 'https://api.travtus.com/leases/tenants/' \
   "tenants": [
     {
       "identifier": "internal-id-1",
-      "email_address": "test.use.1@travtus.com",
+      "email_address": "test.tenant.1@travtus.com",
       "first_name": "Test",
-      "last_name": "User",
+      "last_name": "Tenant",
       "external_ref": "id-1",
       "phone_number": "01234567890"
     },
     {
       "identifier": "internal-id-2",
-      "email_address": "test.person.2@travtus.com",
+      "email_address": "test.tenant.2@travtus.com",
       "first_name": "Test",
-      "last_name": "Person 2",
+      "last_name": "Tenant 2",
       "external_ref": "id-2",
       "phone_number": "01234567890"
     }

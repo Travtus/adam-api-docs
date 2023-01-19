@@ -52,6 +52,7 @@
           "pages":[
             "api-reference/ingestion/lease/find",
             "api-reference/ingestion/lease/get",
+            "api-reference/ingestion/lease/post",
             "api-reference/ingestion/lease/find-tenants",
             "api-reference/ingestion/lease/find-leases-for-tenant"
           ]
