@@ -53,23 +53,25 @@ would not be accepted, as it fails to provide a value for an attribute from the 
 </ParamField>
 
 <ParamField body="first_name" type="string" default="none">
-  The first name of the person you want to create.
+  The first name of the person you want to create or update.
 </ParamField>
 
 <ParamField body="last_name" type="string" default="none">
-  The last name of the person you want to retrieve.
+  The last name of the person you want to create or update.
 </ParamField>
 
 <ParamField body="external_ref" type="string" default="none">
-  An external reference for the person you want to create. This is typically an identifier you may use for person records in your own system.
+  An external reference for the person you want to create or update.
   
+  This is typically an identifier you may use for person records in your own system.
+
   Please not that this needs to be unique within a portfolio.
-  
+
   If you provide an external_ref that is already present in a portfolio, the existing person record will be updated instead.
 </ParamField>
 
 <ParamField body="phone_number" type="string" default="none">
-  The email adddress of the persons you want to retrieve.
+  The email adddress of the persons you want to create or update.
 </ParamField>
 
 <ParamField body="portfolios" type="[string]" default="none">
@@ -77,8 +79,7 @@ would not be accepted, as it fails to provide a value for an attribute from the 
 
   Used for:
   - searching for an existing person record to update
-  - updating portfolio assignment if a person record is matched
-  - updating portfolio assignment to a newly created person record
+  - setting portfolio assignment for a newly created person record
 </ParamField>
 
 ### Response
@@ -115,15 +116,14 @@ Status Code - 401
 ```
 
 Status Code - 400
-```json Insufficient PII for a newly created person.
+```json Insufficient information for creating a new person record.
 {
    "error": {
-    "type": "invalid_authorization",
+    "type": "insufficient_information",
     "message": "Insufficient information to create a new person record. Please provide either an external reference or a combination of phone number OR email address AND first name OR last name."
   }
 }
 ```
-
 
 <RequestExample>
 
@@ -132,9 +132,9 @@ curl --location --request POST 'https://api.travtus.com/persons/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
-    "email_address": "test.user@travtus.com",
+    "email_address": "test.person.1@travtus.com",
     "first_name": "Test",
-    "last_name": "User",
+    "last_name": "Person 1",
     "external_ref": "id-1",
     "phone_number": "01234567890",
     "portfolios": "['portfolio-1', 'portfolio-2']",

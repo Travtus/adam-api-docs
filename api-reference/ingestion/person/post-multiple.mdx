@@ -4,8 +4,15 @@ api: "POST https://api.travtus.com/persons/multiple/"
 description: "This endpoint creates or updates multiple person records passed as a list in the request's body."
 ---
 
+This API endpoint allows you to create or update multiple person records.
 
-This API endpoint allows you to create or update multiple person records. The request's body must include a list of person records. The API will attempt to match these records with existing person records within the scope of the portfolio IDs provided in the `Portfolio-IDs` header. If a match is found, the existing person record will be updated with the information you have provided. If no match is found, a new person record will be created and scoped to the portfolios with the IDs you have provided. If no portfolio IDs are provided, the person matching and any newly created person records will be visible company-wide.
+The API will attempt to match these records with existing person records within the scope of the provided portfolios.
+
+If a match is found, the existing person record will be updated with the information provided.
+
+If no match is found, a new person record will be created and scoped to the provided portfolios.
+
+If no portfolios are provided, any updated or created person records will be scoped to all portfolios.
 
 Matching of the person records is done in the following order:
   1. By external reference. A person record will be updated if the provided `external_ref` in the request body is an exact match.
@@ -23,7 +30,7 @@ For example:
         "first_name": "Test"
     }'
   ```
-  would be accepted as it provides an email address AND a first name, but
+would be accepted as it provides an email address AND a first name, but
   ```bash Example Request
     curl --location --request POST 'https://api.travtus.com/integration/persons/' \
     --header 'Content-Type: application/json' \
@@ -33,7 +40,7 @@ For example:
         "phone_number": "01234567890"
     }'
   ```
-  would not be accepted, as it fails to provide a value for an attribute from the second group (no first or last name provided).
+would not be accepted, as it fails to provide a value for an attribute from the second group (no first or last name provided).
 
 ### Header
 
@@ -51,23 +58,29 @@ For example:
     </ParamField>
 
     <ParamField body="first_name" type="string" default="none">
-      The first name of the person you want to create.
+      The first name of the person you want to create or update.
     </ParamField>
 
     <ParamField body="last_name" type="string" default="none">
-      The last name of the person you want to retrieve.
+      The last name of the person you want to create or update.
     </ParamField>
 
     <ParamField body="external_ref" type="string" default="none">
-      An external reference for the person you want to create. This is typically an identifier you may use for person records in your own system.
+      An external reference for the person you want to create or update.
+      
+      This is typically an identifier you may use for person records in your own system.
+
+      This will be the first attribute that will be used when attempting to match an exisitng person records, if it is set in the request's body.
     </ParamField>
 
     <ParamField body="phone_number" type="string" default="none">
-      The email adddress of the persons you want to retrieve.
+      The phone number of the persons you want to create or update.
     </ParamField>
 
     <ParamField header="portfolios" type="[string]" default="none">
-      Pass a list of portfolio IDs to be used when finding or creating this person record.
+      A list of portfolio IDs to be used when creating or updating the person record.
+
+      The portfolios will be used for matching existing person records and for scoping newly created ones.
     </ParamField>
   </Expandable>
 </ParamField>
@@ -82,27 +95,27 @@ For example:
   A list of the persons that have been created or updated, along with their internal identifiers
   <Expandable title="properties">
     <ResponseField name="identifier" type="string" default="none">
-      The email adddress of the person you want to create or update.
+      The internal identifier of the created or updated person.
     </ResponseField>
 
     <ResponseField name="email_address" type="string">
-      The email adddress of the person you want to create or update.
+      The email address of the created or updated person.
     </ResponseField>
 
     <ResponseField name="first_name" type="string">
-      The first name of the person you want to create.
+      The first name of the created or updated person.
     </ResponseField>
 
     <ResponseField name="last_name" type="string">
-      The last name of the person you want to retrieve.
+      The last name of the created or updated person.
     </ResponseField>
 
     <ResponseField name="external_ref" type="string">
-      An external reference for the person you want to create. This is typically an identifier you may use for person records in your own system.
+      The external reference of the created or updated person.
     </ResponseField>
 
     <ResponseField name="phone_number" type="string">
-      The email adddress of the persons you want to retrieve.
+      The phone number of the created or updated person.
     </ResponseField>
 
     <ResponseField name="success" type="boolean">
@@ -110,7 +123,9 @@ For example:
     </ResponseField>
 
     <ResponseField name="failure_reason" type="string">
-      The reason for an unsuccesful person record creation or update. Empty if creation was successful.
+      The reason for an unsuccesful person record creation or update.
+
+      Empty if update or creation of record was successful.
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -136,7 +151,6 @@ Status Code - 401
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
   }
 }
-
 ```
 
 <RequestExample>
