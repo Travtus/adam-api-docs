@@ -100,7 +100,7 @@ Returned if a person record with the provided `externalref` or `identifier` coul
 
 <RequestExample>
 
-```bash Example successful request
+```bash Request
 curl --location --request GET 'https://api.travtus.com/persons?externalref=external-id-1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
@@ -110,7 +110,7 @@ curl --location --request GET 'https://api.travtus.com/persons?externalref=exter
 
 <ResponseExample>
 
-```json Example successful response
+```json Response
 {
   "email_address": "test@test.com",
   "first_name": "Tester",
@@ -118,29 +118,6 @@ curl --location --request GET 'https://api.travtus.com/persons?externalref=exter
   "external_ref": "external-id-1",
   "identifier": "internal-id-1",
   "phone_number": "01234567890"
-}
-```
-
-</ResponseExample>
-
-<RequestExample>
-
-```bash Request with no identifier or external reference
-curl --location --request GET 'https://api.travtus.com/persons/' \
---header 'Content-Type: application/json' \
---header 'Authorization: bearer <token>'
-```
-
-</RequestExample>
-
-<ResponseExample>
-
-```json 400 status code response
-{
-  "error": {
-    "type": "no_identifier",
-    "message": "You have not supplied an external reference or internal identifier."
-  }
 }
 ```
 
