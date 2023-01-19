@@ -1,10 +1,147 @@
 ---
 title: "Get Lease"
-description: "This endpoint retrieves information about the lease with the provided id."
+api: "POST https://api.travtus.com/leases/"
+description: "This endpoint returns infromation about one lease based on the provided parameters."
 ---
+
+You need to provide exact matches in the body of the request for the attributes of the lease you are looking for.
+
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 
 <ParamField header="Auhtorization" type="string" default="none" required>
   The authentication token for your request
 </ParamField>
+
+### Body
+
+<ParamField body="identifier" type="string" default="none">
+  The identifier for the lease to be retrieved.
+</ParamField>
+
+<ParamField body="start_date" type="string" default="none">
+  The start date of the lease to be retrieved.
+</ParamField>
+
+<ParamField body="end_date" type="string" default="none">
+  The end date of the lease to be retrieved.
+</ParamField>
+
+<ParamField body="move_in_date" type="string" default="none">
+  The move in date of the lease to be retrieved.
+</ParamField>
+
+### Response
+
+<ResponseField name="identifier" type="string" default="none">
+  The identifier of the retrieved lease.
+</ResponseField>
+
+<ResponseField name="start_date" type="string" default="none">
+  The start date of the retrieved lease.
+</ResponseField>
+
+<ResponseField name="end_date" type="string" default="none">
+  The end date of the retrieved lease.
+</ResponseField>
+
+<ResponseField name="move_in_date" type="string" default="none">
+  The move in date of the retrieved lease.
+</ResponseField>
+
+<ResponseField name="landlord_id" type="string" default="none">
+  The id of the landlord of the retrieved lease.
+</ResponseField>
+
+<ResponseField name="tenant_id" type="[string]" default="none">
+  A list of tenant ids for the tenants associated with the retrieved lease.
+</ResponseField>
+
+<ResponseField name="property_id" type="string" default="none">
+  The id of the property associated with the retrieved lease.
+</ResponseField>
+
+<ResponseField name="is_furnished" type="boolean" default="none">
+  Whether the retrieved lease is for a furnished or unfurnished property.
+</ResponseField>
+
+<ResponseField name="minimum_days_notice" type="integer" default="none">
+  Minimum days of notice that must be given to break the retrieved lease agreement.
+</ResponseField>
+
+<ResponseField name="deposit" type="float" default="none">
+  The deposit amount for the retrieved lease.
+</ResponseField>
+
+<ResponseField name="rent" type="float" default="none">
+  The rent amount for the retrieved lease.
+</ResponseField>
+
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if a lease record could not be found.
+```json No lease record found for the provided parameters
+{
+   "error": {
+    "type": "not_found",
+    "message": "There is no lease record matching the provided parameters."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.travtus.com/leases/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "start_date": "2023-01-17"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "identifier": "lease-1",
+  "start_date": "2023-01-17",
+  "end_date": "2023-12-17",
+  "move_in_date": "2023-01-17",
+  "landlord_id": "landlord-id-1",
+  "tenant_id": "tenant-id-1",
+  "property_id": "property-id-1",
+  "is_furnished": false,
+  "minimum_days_notice": 30,
+  "deposit": 1400.0,
+  "rent": 700.0
+}
+```
+
+</ResponseExample>
