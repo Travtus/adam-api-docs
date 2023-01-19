@@ -1,5 +1,5 @@
 ---
-title: "List Units"
+title: "Find Units"
 api: "POST https://api.travtus.com/units/find?after-id={after-id}/"
 description: "This endpoint finds units with the list of body attributes passed to it."
 ---
@@ -23,6 +23,7 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
 </ParamField>
 
 ### Body
+
 <ParamField body="portfolios" type="[string]" default="none">
   The list of portfolio IDs you want to filter the returned units down to.
 </ParamField>
@@ -103,7 +104,7 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
   The list of units retrieved by the endpoint
   <Expandable title="unit">
     <ResponseField name="identifier" type="string">
-      The internal identifier for the retrieved unit. Unique across all portfolios.
+      The internal identifier for the retrieved unit.
     </ResponseField>
 
     <ResponseField name="external_ref" type="string" >
@@ -172,6 +173,7 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400
@@ -198,7 +200,7 @@ Status Code - 401
 Status Code - 404
 
 Returned if no unit records can be found matching the provided information.
-```json No unit records found for the provided parametersNo identifier or external reference query param provided
+```json No unit records found for the provided parameters
 {
    "error": {
     "type": "not_found",
@@ -211,7 +213,7 @@ Returned if no unit records can be found matching the provided information.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/units/find?after-id=1' \
+curl --location --request POST 'https://api.travtus.com/units/find?after-id=1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{

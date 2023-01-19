@@ -95,6 +95,7 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400
@@ -132,7 +133,7 @@ Returned if no person records can be found matching the provided information.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1' \
+curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 --data-raw '{

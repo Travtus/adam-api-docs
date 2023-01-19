@@ -1,10 +1,10 @@
 ---
-title: "Create/Update units"
+title: "Create/Update Units"
 api: "POST https://api.travtus.com/units/multiple/"
 description: "This endpoint creates or updates multiple units."
 ---
 
-The units need to be created or updated against a portfolio.
+A portfolio must be provided for updating or creating the units.
 
 If a portfolio id is not provided for the mulit-create/update endpoint, the operation will fail.
 
@@ -32,11 +32,19 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
       This will be used when determining whether a unit needs to be updated or created.
 
-      If this matches a unit in the portfolios you have specified (or in all of your portfolios if you've specified none) that unit will be updated, otherwise a new one will be created.
+      If this matches a unit in the portfolios you have specified that unit will be updated, otherwise a new one will be created.
+
+      The identifier for a unit can not be updated once it has been set.
+
+      When creating a new unit, a random, unique identifier will be set.
+
+      Any value passed in this request will only be used for finding an existing unit.
     </ParamField>
 
     <ParamField body="external_ref" type="string" default="none">
-      An external reference for the unit you want to create. This is typically an identifier you may use for unit records in your own system.
+      An external reference for the unit you want to create or update.
+
+      This is typically an identifier you may use for unit records in your own system.
     </ParamField>
 
     <ParamField body="has_flex_wall" type="boolean" default="none">
@@ -125,7 +133,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
-      The internal identifier for the retrieved unit. Unique across all portfolios.
+      The internal identifier for the retrieved unit.
     </ResponseField>
 
     <ResponseField name="external_ref" type="string" >
@@ -194,6 +202,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400

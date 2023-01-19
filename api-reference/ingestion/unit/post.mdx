@@ -22,16 +22,24 @@ If a unit is not found via the identifier or the identifier parameter is not set
   This will be used when determining whether a unit needs to be updated or created.
 
   If this matches a unit in the portfolios you have specified (or in all of your portfolios if you've specified none) that unit will be updated, otherwise a new one will be created.
+
+  The identifier for a unit can not be updated once it has been set.
+
+  When creating a new unit, a random, unique identifier will be set.
+
+  Any value passed in this request will only be used for finding an existing unit.
 </ParamField>
 
 <ParamField body="external_ref" type="string" default="none">
   An external reference for the unit you want to create.
-  
+
   This is typically an identifier you may use for unit records in your own system.
-  
+
   Please not that this needs to be unique within the portfolios you are adding this unit to.
 
   If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+
+  The external reference will also be used to match a unit and the operation will fail if there is a mismatch between the unit retrieved via identifier or address and the unit retrieved via external reference.
 </ParamField>
 
 <ParamField body="unit_number" type="string" default="none">
@@ -109,6 +117,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
 </ParamField>
 
 ### Response
+
 <ResponseField name="success" type="boolean">
   True if the unit has been successfully created, false otherwise.
 </ResponseField>
@@ -117,6 +126,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400
@@ -137,7 +147,6 @@ Status Code - 401
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
   }
 }
-
 ```
 
 Status Code - 400
@@ -150,20 +159,18 @@ Returned if an external reference is supplied, without supplying any portfolio I
     "message": "You must provide at least one portfolio ID if you are providing an external reference."
   }
 }
-
 ```
 
 Status Code - 400
 
-Returned if attempting to add an existing external reference to another existing unit
-```json Can not add existing external reference to other unit
+Returned if there is mismatch between the unit matched via identifier or address and the unit matched via the external reference
+```json Mismatch between the retrieved unit and the external reference
 {
    "error": {
     "type": "existing_external_ref",
-    "message": "You have attempted to add an existing external reference to another existing unit that does not have the provided external reference.."
+    "message": "The unit matched via the provided identifier or address does not match the external reference you have provided."
   }
 }
-
 ```
 
 <RequestExample>
