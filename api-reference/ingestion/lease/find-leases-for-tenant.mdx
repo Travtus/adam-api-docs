@@ -1,0 +1,220 @@
+---
+title: "Get Lease"
+api: "POST https://api.travtus.com/leases/find-for-tenant?after-id={after-id}/"
+description: "This endpoint leases for a specific tenant based on provided parameters."
+---
+
+The endpoint will automatically match the tenant information provided with an existing tenant within the system.
+
+If no tenant match is retrieved, an empty set of leases will be returned.
+
+Active leases are understood to have an end date in the future and a start date in the past relative to the current date.
+
+Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date string] (https://en.wikipedia.org/wiki/ISO_8601).
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Body
+
+<ParamField body="identifier" type="string" default="none">
+  The identifier for the tenant to retrieve leases for.
+</ParamField>
+
+<ParamField body="email_address" type="string" default="none">
+  The email address for the tenant to retrieve leases for.
+</ParamField>
+
+<ParamField body="end_date" type="string" default="none">
+  The phone number for the tenant to retrieve leases for.
+</ParamField>
+
+<ParamField body="active" type="boolean" default="false">
+  Determines whether only active leases are retrieved for the provided tenant.
+</ParamField>
+
+### Response
+
+<ResponseField name="leases" type="string">
+  A list of the leases that have been retrieved.
+  <Expandable title="leases">
+    <ResponseField name="identifier" type="string" default="none">
+      The identifier for retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="start_date" type="string" default="none">
+      The start date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="end_date" type="string" default="none">
+      The end date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="move_in_date" type="string" default="none">
+      The move in date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="landlord_id" type="string" default="none">
+      The id of the landlord of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="tenant_id" type="[string]" default="none">
+      A list of tenant ids for the tenants associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="property_id" type="string" default="none">
+      The id of the property associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="is_furnished" type="boolean" default="none">
+      Whether the retrieved lease is for a furnished or unfurnished property.
+    </ResponseField>
+
+    <ResponseField name="minimum_days_notice" type="integer" default="none">
+      Minimum days of notice that must be given to break the retrieved lease agreement.
+    </ResponseField>
+
+    <ResponseField name="deposit" type="float" default="none">
+      The deposit amount for the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="rent" type="float" default="none">
+      The rent amount for the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="unit_number" type="string" default="none">
+      The unit number for the lease's address.
+    </ResponseField>
+
+    <ResponseField name="address" type="object" default="none">
+      The lease's address.
+      <Expandable title="address">
+        <ResponseField name="building_name" type="string">
+          The name of the building.
+        </ResponseField>
+        <ResponseField name="address_line_1" type="string">
+          The first line of the lease's address.
+        </ResponseField>
+        <ResponseField name="address_line_2" type="string">
+          The second line of the lease's address.
+        </ResponseField>
+        <ResponseField name="city" type="string">
+          The city of the lease's address.
+        </ResponseField>
+        <ResponseField name="country" type="string">
+          The country of the lease's address.
+        </ResponseField>
+        <ResponseField name="state" type="string">
+          The state in which the lease's address is located.
+        </ResponseField>
+        <ResponseField name="postal_code" type="string">
+          The postal code of the lease's address.
+        </ResponseField>
+        <ResponseField name="latitude" type="float">
+          The latitude of the lease's address.
+        </ResponseField>
+        <ResponseField name="longitude" type="float">
+          The longitude of the lease's address.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+
+```
+
+Status Code - 400
+
+Returned if neither of the tenant parameters are provided in the request body
+```json No tenant information
+{
+   "error": {
+    "type": "no_tenant_information",
+    "message": "You need to provide at least one of identifier, email_address or phone_number in the request body."
+  }
+}
+
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.travtus.com/leases/find-for-tenant/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "email_address": "test@example.com",
+    "active": true
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "leases": [
+    {
+      "identifier": "lease-1",
+      "start_date": "2023-01-17",
+      "end_date": "2023-12-17",
+      "move_in_date": "2023-01-17",
+      "landlord_id": "landlord-id-1",
+      "tenant_id": "tenant-id-1",
+      "property_id": "property-id-1",
+      "is_furnished": false,
+      "minimum_days_notice": 30,
+      "deposit": 1400.0,
+      "rent": 700.0,
+      "unit_number": "1",
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 12",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+      }
+    },
+  ]
+}
+```
+
+</ResponseExample>
