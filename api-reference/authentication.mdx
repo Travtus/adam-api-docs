@@ -10,7 +10,13 @@ Adam API uses token authentication. All API calls must include the following hea
 
 ## API Tokens
 
-The API token can be obtained by calling the above endpoint. The endpoint requires the following parameters:
+We will initially provision the accounts necessary for API authentication manually.
+
+Once we have created your Travtus API account, you will receive an e-mail which will allow you to reset your password.
+
+We aim to add support for self-registration as well as support for users with certain permissions to add and modify API users.
+
+The API token can be obtained by calling the above endpoint with your username and password.
 
 ### Body
 
@@ -32,14 +38,42 @@ The API token can be obtained by calling the above endpoint. The endpoint requir
   The token you will need to use in order to access any other API endpoints.
 </ResponseField>
 
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+
+Returned if either `username` or `password` are missing from the request's body.
+```json Missing username or password
+{
+   "error": {
+    "type": "missing_credentials",
+    "message": "You have not provided a username or password."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the `username` and `password` credentials you have provided are incorrect.
+```json Incorrect credentials
+{
+   "error": {
+    "type": "incorrect_credentials",
+    "message": "Failed to authenticate with the credentials you have provided."
+  }
+}
+
+```
+
 <RequestExample>
 
 ```bash Example Request
 curl --location --request POST 'https://api.travtus.com/authorization/tokens/post_credentials/' \
 --header 'Content-Type: multipart/form-data' \
 --data-raw '{
-    "username": "",
-    "password": ""
+    "username": "test@travtus.com",
+    "password": "password123"
 }'
 ```
 

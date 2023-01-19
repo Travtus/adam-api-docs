@@ -27,52 +27,32 @@
       "pages": ["api-reference/authentication"]
     },
     {
-      "group": "Authorization",
-      "pages": [
-        {
-          "group": "Portfolios",
-          "pages":[
-            "api-reference/authorization/portfolios/list",
-            "api-reference/authorization/portfolios/get",
-            "api-reference/authorization/portfolios/post"
-          ]
-        },
-        {
-          "group": "Users",
-          "pages":[
-            "api-reference/authorization/users/list",
-            "api-reference/authorization/users/get",
-            "api-reference/authorization/users/me"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Integration",
+      "group": "Ingestion",
       "pages": [
         {
           "group": "Person",
           "pages":[
-            "api-reference/integration/person/find",
-            "api-reference/integration/person/get",
-            "api-reference/integration/person/post",
-            "api-reference/integration/person/post-multiple"
+            "api-reference/ingestion/person/find",
+            "api-reference/ingestion/person/get",
+            "api-reference/ingestion/person/post",
+            "api-reference/ingestion/person/post-multiple"
           ]
         },
         {
           "group": "Unit",
           "pages":[
-            "api-reference/integration/unit/list",
-            "api-reference/integration/unit/get",
-            "api-reference/integration/unit/post"
+            "api-reference/ingestion/unit/find",
+            "api-reference/ingestion/unit/get",
+            "api-reference/ingestion/unit/post",
+            "api-reference/ingestion/unit/post-multiple"
           ]
         },
         {
           "group": "Lease",
           "pages":[
-            "api-reference/integration/lease/list",
-            "api-reference/integration/lease/get",
-            "api-reference/integration/lease/post"
+            "api-reference/ingestion/lease/list",
+            "api-reference/ingestion/lease/get",
+            "api-reference/ingestion/lease/post"
           ]
         }
       ]

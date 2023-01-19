@@ -1,10 +1,10 @@
 ---
 title: "Get Person"
-api: "GET https://api.travtus.com/ingestion/persons?externalref={externalref}&identifier={identifier}"
+api: "GET https://api.travtus.com/persons?externalref={externalref}&identifier={identifier}/"
 description: "This endpoint retrieves infromation about one person with the provided identifier."
 ---
 
-This endpoint retrieves information about one person given the provided identifier. You will need to provide either the external reference (`externalref`) or the internal id (`identifier`) in order to successfully retrieve the person record.
+You need to provide either the external reference (`externalref`) OR the internal id (`identifier`) in order to successfully retrieve the person record.
 
 ### Header
 
@@ -48,14 +48,58 @@ This endpoint retrieves information about one person given the provided identifi
   The phone number of the retrieved person.
 </ResponseField>
 
-<ResponseField name="unit" type="string">
-  The unit id the retrieved person is currently assigned to.
-</ResponseField>
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if neither the `externalref` nor the `identifier` query params are passed in the request.
+```json No identifier or external reference query param provided
+{
+   "error": {
+    "type": "no_identifier",
+    "message": "Please provide either an externalref or an internal identifier."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if a person record with the provided `externalref` or `identifier` could not be found.
+```json No person record found for the provided externalref or identifier
+{
+   "error": {
+    "type": "not_found",
+    "message": "There is no person record with the provided external reference or internal id."
+  }
+}
+```
 
 <RequestExample>
 
-```bash Example Request
-curl --location --request GET 'https://api.travtus.com/integration/persons/external-id-1/' \
+```bash Request
+curl --location --request GET 'https://api.travtus.com/persons?externalref=external-id-1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 ```
@@ -71,8 +115,7 @@ curl --location --request GET 'https://api.travtus.com/integration/persons/exter
   "last_name": "Person",
   "external_ref": "external-id-1",
   "identifier": "internal-id-1",
-  "phone_number": "01234567890",
-  "unit": "unit-id-1"
+  "phone_number": "01234567890"
 }
 ```
 

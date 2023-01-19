@@ -1,0 +1,173 @@
+---
+title: "Find Persons"
+api: "POST https://api.travtus.com/persons/find?after-id={after-id}/"
+description: "This endpoint allows users to find a list of persons based on multiple person attributes."
+---
+
+You need to provide exact matches in the body of the request for the attributes of the persons you are looking for.
+
+Optionally, you can also pass in a list of portfolio IDs to filter the returned persons down.
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Body
+
+<ParamField body="first_name" type="string" default="none">
+  The first name of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="last_name" type="string" default="none">
+  The last name of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="email_address" type="string" default="none">
+  The email adddress of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="phone_number" type="string" default="none">
+  The phone number of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+  The external reference of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="identifier" type="string" default="none">
+  Internal identifier of the persons you want to retrieve.
+</ParamField>
+
+<ParamField body="portfolios" type="[string]" default="none" required>
+  The list of portfolio IDs for filterint the retrieved list.
+</ParamField>
+
+### Response
+
+<ResponseField name="persons" type="string">
+  A list of the persons that have been retrieved.
+  <Expandable title="properties">
+    <ResponseField name="identifier" type="string" default="none">
+      The identifier of the retrieved person.
+    </ResponseField>
+
+    <ResponseField name="email_address" type="string">
+      The email adddress of the retrieved person.
+    </ResponseField>
+
+    <ResponseField name="phone_number" type="string">
+      The pone number of the retrieved person.
+    </ResponseField>
+
+    <ResponseField name="first_name" type="string">
+      The first name of the retrieved person.
+    </ResponseField>
+
+    <ResponseField name="last_name" type="string">
+      The last name of the retrieved person.
+    </ResponseField>
+
+    <ResponseField name="external_ref" type="string">
+      The external reference of the retrieved person.
+
+      This is typically an identifier you may use for person records in your own system.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
+
+  Please note that this is unrelated to the external reference or the internal identifier.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if no person records can be found matching the provided information.
+```json No person records found for the provided parameters
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no person records matching the information provided."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+--data-raw '{
+  "phone_number": "01234567890",
+  "portfolios": ["portfolio-1"]
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "last_id": 5,
+  "persons": [
+      {
+        "identifier": "internal-id-1",
+        "email_address": "test.person.1@travtus.com",
+        "first_name": "Test",
+        "last_name": "Person 1",
+        "external_ref": "id-1",
+        "phone_number": "01234567890"
+      },
+      {
+        "identifier": "internal-id-2",
+        "email_address": "test.person.2@travtus.com",
+        "first_name": "Test",
+        "last_name": "Person 2",
+        "external_ref": "id-2",
+        "phone_number": "01234567890"
+      }
+    ]
+}
+```
+
+</ResponseExample>

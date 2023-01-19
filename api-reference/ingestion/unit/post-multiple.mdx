@@ -1,0 +1,402 @@
+---
+title: "Create/Update Units"
+api: "POST https://api.travtus.com/units/multiple/"
+description: "This endpoint creates or updates multiple units."
+---
+
+A portfolio must be provided for updating or creating the units.
+
+If a portfolio id is not provided for the mulit-create/update endpoint, the operation will fail.
+
+This endpoint firstly attempts to match the provided units data with existing units via the unit's identifier body parameter, in order to update an existing entry.
+
+If a unit is not found via the identifier or the identifier parameter is not set, the endpoint attempts to match an existing unit via the address.
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="portfolio" type="string" deafault="none" required>
+  The ID of the portfolio you want to create or update the units against.
+</ParamField>
+
+<ParamField body="units" type="[object]" default="none" required>
+  A list of units to be updated or created
+  <Expandable title="unit">
+    <ParamField body="identifier" type="string" default="none">
+      A unique identifier for the unit.
+
+      This will be used when determining whether a unit needs to be updated or created.
+
+      If this matches a unit in the portfolios you have specified that unit will be updated, otherwise a new one will be created.
+
+      The identifier for a unit can not be updated once it has been set.
+
+      When creating a new unit, a random, unique identifier will be set.
+
+      Any value passed in this request will only be used for finding an existing unit.
+    </ParamField>
+
+    <ParamField body="external_ref" type="string" default="none">
+      An external reference for the unit you want to create or update.
+
+      This is typically an identifier you may use for unit records in your own system.
+    </ParamField>
+
+    <ParamField body="has_flex_wall" type="boolean" default="none">
+      True if the unit is a flex apartment, false if it is not.
+    </ParamField>
+
+    <ParamField body="number_of_bathrooms" type="integer" default="none">
+      The unit's number of bathrooms.
+    </ParamField>
+
+    <ParamField body="number_of_bedrooms" type="integer" default="none">
+      The unit's number of bedrooms.
+    </ParamField>
+
+    <ParamField body="sqft" type="integer" default="none">
+      The square feet surface for the unit.
+    </ParamField>
+
+    <ParamField body="unit_number" type="string" default="none">
+      The unit's number.
+    </ParamField>
+
+    <ParamField body="bathrooms" type="[object]" default="none">
+      A list of bathroom characteristics for each bathroom in the unit.
+      <Expandable title="bathroom">
+        <ParamField body="has_shower_or_bath" type="boolean" deafult="none">
+          Does the bathroom have either a shower or a bath?
+        </ParamField>
+        <ParamField body="has_sink" type="boolean" deafult="none">
+          Does the bathroom have a sink?
+        </ParamField>
+        <ParamField body="has_toilet" type="boolean" deafult="none">
+          Does the bathroom have a toilet?
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="adress" type="object" default="none">
+      Address information for the unit to be created or updated.
+      <Expandable tilte="address">
+        <ParamField body="building_name" type="string">
+          The name of the building.
+        </ParamField>
+        <ParamField body="address_line_1" type="string" required>
+          The first line of the unit's address.
+        </ParamField>
+        <ParamField body="address_line_2" type="string">
+          The second line of the unit's address.
+        </ParamField>
+        <ParamField body="city" type="string">
+          The city of the unit's address.
+        </ParamField>
+        <ParamField body="country" type="string">
+          The country of the unit's address.
+        </ParamField>
+        <ParamField body="state" type="string" required>
+          The state in which the unit's address is located.
+        </ParamField>
+        <ParamField body="postal_code" type="string" required>
+          The postal code of the unit's address.
+        </ParamField>
+        <ParamField body="latitude" type="float">
+          The latitude of the unit's address.
+        </ParamField>
+        <ParamField body="longitude" type="float">
+          The longitude of the unit's address.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="units" type="[object]">
+  The list of units created or updated by the operation along with the most up to date attributes for each unit.
+
+  Also indicates whether each of the units was succesfully updated or created and a reason for failure, if the update or creat for the unit failed.
+  <Expandable title="unit">
+    <ResponseField name="success" type="boolean">
+      Indicates whether the update or create operation was successful.
+    </ResponseField>
+
+    <ResponseField name="failure_reason" type="string">
+      The reason for an unsuccesful unit record creation or update. Empty if creation was successful.
+    </ResponseField>
+
+    <ResponseField name="identifier" type="string">
+      The internal identifier for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="external_ref" type="string" >
+      The external reference for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="unit_number" type="string">
+      The number of the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="is_flex" type="boolean">
+      True if the retrieved unit is a flex apartment, false if it is not.
+    </ResponseField>
+
+    <ResponseField name="full_bathrooms" type="integer">
+      The number of full bathrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="half_bathrooms" type="integer">
+      The number of half bathrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="number_of_bedrooms" type="integer">
+      The number of bedrooms for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="sqft" type="integer">
+      The square feet surface for the retrieved unit.
+    </ResponseField>
+
+    <ResponseField name="address" type="object">
+      The unit's address.
+
+      <Expandable title="address">
+        <ResponseField name="building_name" type="string">
+          The name of the building.
+        </ResponseField>
+        <ResponseField name="address_line_1" type="string" required>
+          The first line of the unit's address.
+        </ResponseField>
+        <ResponseField name="address_line_2" type="string">
+          The second line of the unit's address.
+        </ResponseField>
+        <ResponseField name="city" type="string">
+          The city of the unit's address.
+        </ResponseField>
+        <ResponseField name="country" type="string">
+          The country in which the unit's address is located.
+        </ResponseField>
+        <ResponseField name="state" type="string" required>
+          The state in which the unit's address is located.
+        </ResponseField>
+        <ResponseField name="postal_code" type="string" required>
+          The postal code for the unit's address.
+        </ResponseField>
+        <ResponseField name="latitude" type="string">
+          The latitude of the unit's address.
+        </ResponseField>
+        <ResponseField name="longitude" type="string">
+          The longitude of the unit's address.
+        </ResponseField>
+      </Expandable>
+
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+
+```
+
+Status Code - 400
+
+Returned if no portfolio ID is passed in the body.
+```json No portfolio ID supplied
+{
+   "error": {
+    "type": "no_portfolio_id",
+    "message": "You must provide a portfolio ID in the request body."
+  }
+}
+
+```
+
+Status Code - 404
+
+Returned if no portfolio for the provided portfolio ID is found
+```json Portfolio with provided ID not found
+{
+   "error": {
+    "type": "portfolio_not_found",
+    "message": "We could not find a portfolio with the ID you have provided."
+  }
+}
+
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request "POST 'https://api.travtus.com/units/multiple/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "portfolio": "portfolio-id-1",
+    "units": [
+      {
+        "identifier": "unit-id-1",
+        "external_ref": "unit-ext-ref-1",
+        "has_flex_wall": false,
+        "number_of_bathrooms": 2,
+        "number_of_bedrooms": 1,
+        "sqft": 40,
+        "unit_number": "2",
+        "bathrooms": [
+          {
+            "has_shower_or_bath": false,
+            "has_sink": true,
+            "has_toilet": true
+          },
+          {
+            "has_shower_or_bath": true,
+            "has_sink": true,
+            "has_toilet": true
+          }
+        ],
+        "address": {
+          "building_name": "Building 1",
+          "address_line_1": "Blvd Street",
+          "address_line_2": "Appartment 12",
+          "city": "New York",
+          "country": "United States",
+          "state": "New York",
+          "postal_code": "10001",
+          "latitude": 40.730610,
+          "longitude": -73.935242
+        },
+      },
+      {
+        "identifier": "unit-id-2",
+        "external_ref": "unit-ext-ref-2",
+        "has_flex_wall": false,
+        "number_of_bathrooms": 1,
+        "number_of_bedrooms": 1,
+        "sqft": 20,
+        "unit_number": "3",
+        "bathrooms": [
+          {
+            "has_shower_or_bath": true,
+            "has_sink": true,
+            "has_toilet": true
+          }
+        ],
+        "address": {
+          "building_name": "Building 1",
+          "address_line_1": "Blvd Street",
+          "address_line_2": "Appartment 13",
+          "city": "New York",
+          "country": "United States",
+          "state": "New York",
+          "postal_code": "10001",
+          "latitude": 40.730610,
+          "longitude": -73.935242
+        },
+      }
+    ]
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "units": [
+    {
+      "sucess": true,
+      "failure_reason": "",
+      "identifier": "unit-id-1",
+      "external_ref": "unit-ext-ref-1",
+      "has_flex_wall": false,
+      "number_of_bathrooms": 2,
+      "number_of_bedrooms": 1,
+      "sqft": 40,
+      "unit_number": "2",
+      "bathrooms": [
+        {
+          "has_shower_or_bath": false,
+          "has_sink": true,
+          "has_toilet": true
+        },
+        {
+          "has_shower_or_bath": true,
+          "has_sink": true,
+          "has_toilet": true
+        }
+      ],
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 12",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+      },
+
+    },
+    {
+      "sucess": true,
+      "failure_reason": "",
+      "identifier": "unit-id-2",
+      "external_ref": "unit-ext-ref-2",
+      "has_flex_wall": false,
+      "number_of_bathrooms": 1,
+      "number_of_bedrooms": 1,
+      "sqft": 20,
+      "unit_number": "3",
+      "bathrooms": [
+        {
+          "has_shower_or_bath": true,
+          "has_sink": true,
+          "has_toilet": true
+        }
+      ],
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 13",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+      },
+    }
+  ]
+}
+```
+
+</ResponseExample>

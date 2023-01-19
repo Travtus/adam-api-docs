@@ -1,0 +1,155 @@
+---
+title: "Get Unit"
+api: "GET https://api.travtus.com/units/{externalref}/"
+description: "This endpoint retrieves infromation about one unit with the provided external reference."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="externalref" type="string" default="none" required>
+  The external reference for the unit to be retrieved.
+</ParamField>
+
+### Response
+
+<ResponseField name="identifier" type="string">
+  The internal identifier for the retrieved unit. Unique across all portfolios.
+</ResponseField>
+
+<ResponseField name="unit_number" type="string">
+  The number of the retrieved unit.
+</ResponseField>
+
+<ResponseField name="is_flex" type="boolean">
+  True if the retrieved unit is a flex apartment, false if it is not.
+</ResponseField>
+
+<ResponseField name="full_bathrooms" type="integer">
+  The number of full bathrooms for the retrieved unit.
+</ResponseField>
+
+<ResponseField name="half_bathrooms" type="integer">
+  The number of half bathrooms for the retrieved unit.
+</ResponseField>
+
+<ResponseField name="number_of_bedrooms" type="integer">
+  The number of bedrooms for the retrieved unit.
+</ResponseField>
+
+<ResponseField name="sqft" type="integer">
+  The square feet surface for the retrieved unit.
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  The unit's address.
+
+<Expandable title="address">
+  <ResponseField name="building_name" type="string">
+    The name of the building.
+  </ResponseField>
+  <ResponseField name="address_line_1" type="string">
+    The first line of the unit's address.
+  </ResponseField>
+  <ResponseField name="address_line_2" type="string">
+    The second line of the unit's address.
+  </ResponseField>
+  <ResponseField name="city" type="string">
+    The city of the unit's address.
+  </ResponseField>
+  <ResponseField name="country" type="string">
+    The country of the unit's address.
+  </ResponseField>
+  <ResponseField name="state" type="string">
+    The state in which the unit's address is located.
+  </ResponseField>
+  <ResponseField name="postal_code" type="string">
+    The postal code of the unit's address.
+  </ResponseField>
+  <ResponseField name="latitude" type="float">
+    The latitude of the unit's address.
+  </ResponseField>
+  <ResponseField name="longitude" type="float">
+    The longitude of the unit's address.
+  </ResponseField>
+</Expandable>
+
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if a unit record with the provided `externalref` could not be found.
+```json No unit record found for the provided externalref
+{
+   "error": {
+    "type": "not_found",
+    "message": "There is no unit record with the provided external reference or internal id."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request GET 'https://api.travtus.com/units/external-unit-ref-1/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "identifier": "internal-unit-id-1",
+  "unit_number": "1",
+  "is_flex": false,
+  "full_bathrooms": 1,
+  "half_bathrooms": 1,
+  "number_of_bedrooms": 2,
+  "sqft": 40,
+  "address": {
+    "building_name": "Building 1",
+    "address_line_1": "Blvd Street",
+    "address_line_2": "Appartment 12",
+    "city": "New York",
+    "country": "United States",
+    "state": "New York",
+    "postal_code": "10001",
+    "latitude": 40.730610,
+    "longitude": -73.935242
+  }
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,156 @@
+---
+title: "Create/Update Person"
+api: "POST https://api.travtus.com/persons/"
+description: "This endpoint creates or updates a person with the provided information."
+---
+
+This API endpoint can be used to create or update a person record with the provided information. 
+
+It attempts to match the person information provided with existing records, within the scope of the portfolio IDs provided in the `portfolios` body parameter.
+
+If no match is found, a new person record will be created and automatically scoped to the portfolios with the provided IDs. 
+
+If a match is found, the existing person record will be updated with the information provided.
+
+Matching of the person record is done in the following order: by external reference (if the provided `external_ref` in the request body is an exact match) or by email address (`email_address`) or phone number (`phone_number`).
+
+If you do not provide portfolio IDs, the newly created or updated record will not be scoped to any portfolio and will instead be visible company-wide.
+
+In order for a new person record to be created, you must provide either a unique external reference via `external_ref` or a combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or last name (`last_name`).
+
+For example:
+```bash Example Request
+  curl --location --request POST 'https://api.travtus.com/integration/persons/' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: bearer <token>'
+  --data-raw '{
+      "email_address": "test.user@travtus.com",
+      "first_name": "Test"
+  }'
+  ```
+would be accepted as it provides an email address AND a first name, but
+```bash Example Request
+  curl --location --request POST 'https://api.travtus.com/integration/persons/' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: bearer <token>'
+  --data-raw '{
+      "email_address": "test.user@travtus.com",
+      "phone_number": "01234567890"
+  }'
+  ```
+would not be accepted, as it fails to provide a value for an attribute from the second group (no first or last name provided).
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Body
+
+<ParamField body="email_address" type="string" default="none">
+  The email adddress of the person you want to create or update.
+</ParamField>
+
+<ParamField body="first_name" type="string" default="none">
+  The first name of the person you want to create or update.
+</ParamField>
+
+<ParamField body="last_name" type="string" default="none">
+  The last name of the person you want to create or update.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+  An external reference for the person you want to create or update.
+  
+  This is typically an identifier you may use for person records in your own system.
+
+  Please not that this needs to be unique within a portfolio.
+
+  If you provide an external_ref that is already present in a portfolio, the existing person record will be updated instead.
+</ParamField>
+
+<ParamField body="phone_number" type="string" default="none">
+  The email adddress of the persons you want to create or update.
+</ParamField>
+
+<ParamField body="portfolios" type="[string]" default="none">
+  A list of portfolio IDs.
+
+  Used for:
+  - searching for an existing person record to update
+  - setting portfolio assignment for a newly created person record
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="boolean">
+  True if the person creation was successful, false otherwise.
+</ResponseField>
+
+<ResponseField name="identifier" type="string">
+  The internal id of the person that has been created.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+```json Insufficient information for creating a new person record.
+{
+   "error": {
+    "type": "insufficient_information",
+    "message": "Insufficient information to create a new person record. Please provide either an external reference or a combination of phone number OR email address AND first name OR last name."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/persons/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "email_address": "test.person.1@travtus.com",
+    "first_name": "Test",
+    "last_name": "Person 1",
+    "external_ref": "id-1",
+    "phone_number": "01234567890",
+    "portfolios": "['portfolio-1', 'portfolio-2']",
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "identifier": "internal-id-1"
+}
+```
+
+</ResponseExample>
