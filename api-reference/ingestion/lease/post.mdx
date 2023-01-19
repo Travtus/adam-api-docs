@@ -1,5 +1,5 @@
 ---
-title: "Create/Update Leases and tenants"
+title: "Create/Update Leases And Tenants"
 api: "POST https://api.travtus.com/leases/create/"
 description: "This endpoint creates or updates a lease and tenant records for it."
 ---
@@ -16,7 +16,17 @@ description: "This endpoint creates or updates a lease and tenant records for it
   The parameters for the lease to update or create.
   <Expandable title="lease">
     <ParamField body="identifier" type="string" default="none">
-      The identifier for the lease.
+      A unique identifier for the lease.
+
+      This will be used when determining whether a lease needs to be updated or created.
+
+      If this matches a lease that lease will be updated, otherwise a new one will be created.
+
+      The identifier for a lease can not be updated once it has been set.
+
+      When creating a new lease, a random, unique identifier will be set.
+
+      Any value passed in this request will only be used for finding an existing lease.
     </ParamField>
 
     <ParamField body="start_date" type="string" default="none">
@@ -95,6 +105,7 @@ description: "This endpoint creates or updates a lease and tenant records for it
 </ParamField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400

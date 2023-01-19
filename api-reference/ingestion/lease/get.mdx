@@ -4,9 +4,9 @@ api: "POST https://api.travtus.com/leases/"
 description: "This endpoint returns infromation about one lease based on the provided parameters."
 ---
 
-You need to provide exact matches in the body of the request for the attributes of the leases you are looking for.
+You need to provide exact matches in the body of the request for the attributes of the lease you are looking for.
 
-Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 
@@ -35,7 +35,7 @@ Please note that all date fields included in the body parameters need to be spec
 ### Response
 
 <ResponseField name="identifier" type="string" default="none">
-  The identifier for retrieved lease.
+  The identifier of the retrieved lease.
 </ResponseField>
 
 <ResponseField name="start_date" type="string" default="none">
@@ -99,7 +99,6 @@ Status Code - 401
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
   }
 }
-
 ```
 
 Status Code - 404
@@ -112,7 +111,6 @@ Returned if a lease record could not be found.
     "message": "There is no lease record matching the provided parameters."
   }
 }
-
 ```
 
 <RequestExample>

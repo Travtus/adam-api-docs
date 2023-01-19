@@ -4,7 +4,7 @@ api: "POST https://api.travtus.com/leases/tenants?after-id={after-id}"
 description: "This endpoint returns a list of tenants filtered with the specified parameters."
 ---
 
-Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 
@@ -27,11 +27,11 @@ Please note that all date fields included in the body parameters need to be spec
 </ParamField>
 
 <ParamField body="min_move_in_date" type="string" default="none">
-  The minimum date a tenant would have moved in to the lease property.``
+  The lower boundary for the lease's tenantsl move in date.
 </ParamField>
 
 <ParamField body="max_move_in_date" type="string" default="none">
-  The maximum date a tenant would have moved in to the lease property.`
+  The upper boundary for the lease's tenants' move in date.
 </ParamField>
 
 <ParamField body="portfolio" type="string" default="none">
@@ -79,6 +79,7 @@ Please note that all date fields included in the body parameters need to be spec
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400
@@ -99,7 +100,6 @@ Status Code - 401
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
   }
 }
-
 ```
 
 Status Code - 404
@@ -112,7 +112,6 @@ Returned if no tenant records could not be found.
     "message": "There are no tenant records matching the provided parameters."
   }
 }
-
 ```
 
 <RequestExample>

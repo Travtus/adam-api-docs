@@ -4,9 +4,9 @@ api: "POST https://api.travtus.com/leases/find/"
 description: "This endpoint returns information about all leases that match the given parameters."
 ---
 
-You need to provide exact matches in the body of the request for the attributes of the lease you are looking for.
+You need to provide exact matches in the body of the request for the attributes of the leases you are looking for.
 
-Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 ### Header
 
@@ -17,19 +17,19 @@ Please note that all date fields included in the body parameters need to be spec
 ### Body
 
 <ParamField body="identifier" type="string" default="none">
-  The identifier for the lease to be retrieved.
+  The identifier for the leases to be retrieved.
 </ParamField>
 
 <ParamField body="start_date" type="string" default="none">
-  The start date of the lease to be retrieved.
+  The start date of the leases to be retrieved.
 </ParamField>
 
 <ParamField body="end_date" type="string" default="none">
-  The end date of the lease to be retrieved.
+  The end date of the leases to be retrieved.
 </ParamField>
 
 <ParamField body="move_in_date" type="string" default="none">
-  The move in date of the lease to be retrieved.
+  The move in date of the leases to be retrieved.
 </ParamField>
 
 ### Response
@@ -38,7 +38,7 @@ Please note that all date fields included in the body parameters need to be spec
   A list of the leases that have been retrieved.
   <Expandable title="leases">
     <ResponseField name="identifier" type="string" default="none">
-      The identifier for retrieved lease.
+      The identifier of the retrieved lease.
     </ResponseField>
 
     <ResponseField name="start_date" type="string" default="none">
@@ -84,6 +84,7 @@ Please note that all date fields included in the body parameters need to be spec
 </ResponseField>
 
 ### Errors
+
 Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
 
 Status Code - 400
@@ -104,7 +105,6 @@ Status Code - 401
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
   }
 }
-
 ```
 
 Status Code - 404
@@ -117,13 +117,12 @@ Returned if no lease records could not be found.
     "message": "There are no lease records matching the provided parameters."
   }
 }
-
 ```
 
 <RequestExample>
 
 ```bash Request
-curl --location --request POST 'https://api.travtus.com/leases/' \
+curl --location --request POST 'https://api.travtus.com/leases/find/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
