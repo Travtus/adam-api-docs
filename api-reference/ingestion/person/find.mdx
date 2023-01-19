@@ -6,7 +6,7 @@ description: "This endpoint allows users to find a list of persons based on mult
 
 You need to provide exact matches in the body of the request for the attributes of the persons you are looking for.
 
-Optionally, you can also pass in a list of portfolio IDs to filter the returned persons down.
+Optionally, you can also pass in a list of group IDs to filter the returned persons down.
 
 ### Header
 
@@ -48,8 +48,8 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
   Internal identifier of the persons you want to retrieve.
 </ParamField>
 
-<ParamField body="portfolios" type="[string]" default="none" required>
-  The list of portfolio IDs for filterint the retrieved list.
+<ParamField body="groups" type="[string]" default="none" required>
+  The list of group IDs for filtering the retrieved list.
 </ParamField>
 
 ### Response
@@ -138,7 +138,7 @@ curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1/
 --header 'Authorization: bearer <token>'
 --data-raw '{
   "phone_number": "01234567890",
-  "portfolios": ["portfolio-1"]
+  "groups": ["group-1"]
 }
 ```
 

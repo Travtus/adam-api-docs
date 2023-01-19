@@ -6,7 +6,7 @@ description: "This endpoint finds units with the list of body attributes passed 
 
 You need to provide exact matches in the body of the request for the attributes of the units you are looking for.
 
-Optionally, you can also pass in a list of portfolio IDs to filter the returned units down.
+Optionally, you can also pass in a list of group IDs to filter the returned units down.
 
 ### Header
 
@@ -24,8 +24,8 @@ Optionally, you can also pass in a list of portfolio IDs to filter the returned 
 
 ### Body
 
-<ParamField body="portfolios" type="[string]" default="none">
-  The list of portfolio IDs you want to filter the returned units down to.
+<ParamField body="groups" type="[string]" default="none">
+  The list of group IDs you want to filter the returned units down to.
 </ParamField>
 
 <ParamField body="external_ref" type="string" default="none">
@@ -220,7 +220,7 @@ curl --location --request POST 'https://api.travtus.com/units/find?after-id=1/' 
   "address": {
     "country": "United States"
   },
-  "portfolios": ["portfolio-1"]
+  "groups": ["group-1"]
 }
 ```
 

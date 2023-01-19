@@ -15,6 +15,11 @@
       "name": "API Reference",
       "icon": "rectangle-terminal",
       "url": "api-reference"
+    },
+    {
+      "name": "Glossary",
+      "icon": "book",
+      "url": "glossary"
     }
   ],
   "navigation": [
@@ -28,7 +33,7 @@
     },
     {
       "group": "Glossary",
-      "pages": ["glossary"]
+      "pages": ["glossary/glossary"]
     },
     {
       "group": "Ingestion",

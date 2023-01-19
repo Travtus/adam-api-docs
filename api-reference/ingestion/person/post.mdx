@@ -6,15 +6,15 @@ description: "This endpoint creates or updates a person with the provided inform
 
 This API endpoint can be used to create or update a person record with the provided information. 
 
-It attempts to match the person information provided with existing records, within the scope of the portfolio IDs provided in the `portfolios` body parameter.
+It attempts to match the person information provided with existing records, within the scope of the group IDs provided in the `groups` body parameter.
 
-If no match is found, a new person record will be created and automatically scoped to the portfolios with the provided IDs. 
+If no match is found, a new person record will be created and automatically scoped to the groups with the provided IDs. 
 
 If a match is found, the existing person record will be updated with the information provided.
 
 Matching of the person record is done in the following order: by external reference (if the provided `external_ref` in the request body is an exact match) or by email address (`email_address`) or phone number (`phone_number`).
 
-If you do not provide portfolio IDs, the newly created or updated record will not be scoped to any portfolio and will instead be visible company-wide.
+If you do not provide group IDs, the newly created or updated record will not be scoped to any group and will instead be visible company-wide.
 
 In order for a new person record to be created, you must provide either a unique external reference via `external_ref` or a combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or last name (`last_name`).
 
@@ -65,21 +65,21 @@ would not be accepted, as it fails to provide a value for an attribute from the 
   
   This is typically an identifier you may use for person records in your own system.
 
-  Please not that this needs to be unique within a portfolio.
+  Please not that this needs to be unique within a group.
 
-  If you provide an external_ref that is already present in a portfolio, the existing person record will be updated instead.
+  If you provide an external_ref that is already present in a group, the existing person record will be updated instead.
 </ParamField>
 
 <ParamField body="phone_number" type="string" default="none">
   The email adddress of the persons you want to create or update.
 </ParamField>
 
-<ParamField body="portfolios" type="[string]" default="none">
-  A list of portfolio IDs.
+<ParamField body="groups" type="[string]" default="none">
+  A list of group IDs.
 
   Used for:
   - searching for an existing person record to update
-  - setting portfolio assignment for a newly created person record
+  - setting group assignment for a newly created person record
 </ParamField>
 
 ### Response
@@ -138,7 +138,7 @@ curl --location --request POST 'https://api.travtus.com/persons/' \
     "last_name": "Person 1",
     "external_ref": "id-1",
     "phone_number": "01234567890",
-    "portfolios": "['portfolio-1', 'portfolio-2']",
+    "groups": "['group-1', 'group-2']",
 }'
 ```
 

@@ -6,13 +6,13 @@ description: "This endpoint creates or updates multiple person records passed as
 
 This API endpoint allows you to create or update multiple person records.
 
-The API will attempt to match these records with existing person records within the scope of the provided portfolios.
+The API will attempt to match these records with existing person records within the scope of the provided groups.
 
 If a match is found, the existing person record will be updated with the information provided.
 
-If no match is found, a new person record will be created and scoped to the provided portfolios.
+If no match is found, a new person record will be created and scoped to the provided groups.
 
-If no portfolios are provided, any updated or created person records will be scoped to all portfolios.
+If no groups are provided, any updated or created person records will be scoped to all groups.
 
 Matching of the person records is done in the following order:
   1. By external reference. A person record will be updated if the provided `external_ref` in the request body is an exact match.
@@ -77,10 +77,10 @@ would not be accepted, as it fails to provide a value for an attribute from the 
       The phone number of the persons you want to create or update.
     </ParamField>
 
-    <ParamField header="portfolios" type="[string]" default="none">
-      A list of portfolio IDs to be used when creating or updating the person record.
+    <ParamField header="groups" type="[string]" default="none">
+      A list of group IDs to be used when creating or updating the person record.
 
-      The portfolios will be used for matching existing person records and for scoping newly created ones.
+      The groups will be used for matching existing person records and for scoping newly created ones.
     </ParamField>
   </Expandable>
 </ParamField>
@@ -168,7 +168,7 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
-        "portfolios": "['portfolio-1', 'portfolio-2']"
+        "groups": "['group-1', 'group-2']"
       },
       {
         "email_address": "test.person.2@travtus.com",
@@ -176,11 +176,11 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
-        "portfolios": "['portfolio-1']"
+        "groups": "['group-1']"
       },
       {
          "first_name": "Test insuficient info",
-         "portfolios": "['portfolio-1']"
+         "groups": "['group-1']"
       }
     ]
 }'
@@ -200,7 +200,7 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
-        "portfolios": "['portfolio-1', 'portfolio-2']",
+        "groups": "['group-1', 'group-2']",
         "success": true,
         "failure_reason": ""
       },
@@ -211,13 +211,13 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
-        "portfolios": "['portfolio-1']",
+        "groups": "['group-1']",
         "success": true,
         "failure_reason": ""
       },
       {
          "first_name": "Test insuficient info",
-         "portfolios": "['portfolio-1']",
+         "groups": "['group-1']",
          "success": false,
          "failure_reason": "Insufficient information to create a new person record. Please provide either an external reference or a combination of phone number OR email address AND first name OR last name."
       }

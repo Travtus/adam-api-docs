@@ -4,9 +4,9 @@ api: "POST https://api.travtus.com/units/multiple/"
 description: "This endpoint creates or updates multiple units."
 ---
 
-A portfolio must be provided for updating or creating the units.
+A group must be provided for updating or creating the units.
 
-If a portfolio id is not provided for the mulit-create/update endpoint, the operation will fail.
+If a group id is not provided for the mulit-create/update endpoint, the operation will fail.
 
 This endpoint firstly attempts to match the provided units data with existing units via the unit's identifier body parameter, in order to update an existing entry.
 
@@ -20,8 +20,8 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
 ### Body
 
-<ParamField body="portfolio" type="string" deafault="none" required>
-  The ID of the portfolio you want to create or update the units against.
+<ParamField body="group" type="string" deafault="none" required>
+  The ID of the group you want to create or update the units against.
 </ParamField>
 
 <ParamField body="units" type="[object]" default="none" required>
@@ -32,7 +32,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
       This will be used when determining whether a unit needs to be updated or created.
 
-      If this matches a unit in the portfolios you have specified that unit will be updated, otherwise a new one will be created.
+      If this matches a unit in the groups you have specified that unit will be updated, otherwise a new one will be created.
 
       The identifier for a unit can not be updated once it has been set.
 
@@ -228,12 +228,12 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if no portfolio ID is passed in the body.
-```json No portfolio ID supplied
+Returned if no group ID is passed in the body.
+```json No group ID supplied
 {
    "error": {
-    "type": "no_portfolio_id",
-    "message": "You must provide a portfolio ID in the request body."
+    "type": "no_group_id",
+    "message": "You must provide a group ID in the request body."
   }
 }
 
@@ -241,12 +241,12 @@ Returned if no portfolio ID is passed in the body.
 
 Status Code - 404
 
-Returned if no portfolio for the provided portfolio ID is found
-```json Portfolio with provided ID not found
+Returned if no group for the provided group ID is found
+```json Group with provided ID not found
 {
    "error": {
-    "type": "portfolio_not_found",
-    "message": "We could not find a portfolio with the ID you have provided."
+    "type": "group_not_found",
+    "message": "We could not find a group with the ID you have provided."
   }
 }
 
@@ -259,7 +259,7 @@ curl --location --request "POST 'https://api.travtus.com/units/multiple/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
-    "portfolio": "portfolio-id-1",
+    "group": "group-id-1",
     "units": [
       {
         "identifier": "unit-id-1",
