@@ -1,0 +1,158 @@
+---
+title: "Get Lease"
+api: "POST https://api.travtus.com/leases/tenants?after-id={after-id}"
+description: "This endpoint returns a list of tenants filter on the specified parameters."
+---
+
+Please note that all date fields included in the body parameters need to be specified as [ISO8601-formatted date string] (https://en.wikipedia.org/wiki/ISO_8601).
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Body
+
+<ParamField body="identifier" type="string" default="none">
+  The identifier of a lease to find the tenants for.
+</ParamField>
+
+<ParamField body="min_move_in_date" type="string" default="none">
+  The minimum date a tenant would have moved in to the lease property.``
+</ParamField>
+
+<ParamField body="max_move_in_date" type="string" default="none">
+  The maximum date a tenant would have moved in to the lease property.`
+</ParamField>
+
+<ParamField body="portfolio" type="string" default="none">
+  The id of the portfolio the lease and tenants should belong to.
+</ParamField>
+
+### Response
+
+<ResponseField name="tenants" type="string">
+  A list of the tenants that have been retrieved.
+  <Expandable title="properties">
+    <ResponseField name="identifier" type="string" default="none">
+      The internal identifier for the retrieved tenant.
+    </ResponseField>
+
+    <ResponseField name="email_address" type="string">
+      The email adddress of the retrieved tenant.
+    </ResponseField>
+
+    <ResponseField name="first_name" type="string">
+      The first name of the retrieved tenant.
+    </ResponseField>
+
+    <ResponseField name="last_name" type="string">
+      The last name of the retrieved tenant..
+    </ResponseField>
+
+    <ResponseField name="external_ref" type="string">
+      An external reference for the retrieved tenant.
+      
+      This is typically an identifier you may use for person records in your own system.
+    </ResponseField>
+
+    <ResponseField name="phone_number" type="string">
+      The phone number of the retrieved tenant.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
+</ResponseField>
+
+### Errors
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+
+```
+
+Status Code - 404
+
+Returned if no tenant records could not be found.
+```json No tenant records found for the provided parameters
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no tenant records matching the provided parameters."
+  }
+}
+
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.travtus.com/leases/tenants/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "min_move_in_date": "2020-01-17",
+    "identifier": "lease-1"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "tenants": [
+    {
+      "identifier": "internal-id-1",
+      "email_address": "test.use.1@travtus.com",
+      "first_name": "Test",
+      "last_name": "User",
+      "external_ref": "id-1",
+      "phone_number": "01234567890"
+    },
+    {
+      "identifier": "internal-id-2",
+      "email_address": "test.person.2@travtus.com",
+      "first_name": "Test",
+      "last_name": "Person 2",
+      "external_ref": "id-2",
+      "phone_number": "01234567890"
+    }
+  ],
+  "last_id": 5
+}
+```
+
+</ResponseExample>
