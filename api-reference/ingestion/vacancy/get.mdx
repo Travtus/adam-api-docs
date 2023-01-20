@@ -1,0 +1,103 @@
+---
+title: "Get Vacancy By Group"
+api: "GET https://api.travtus.com/vacancies/{groupid}?after-id={after-id}/"
+description: "This endpoint retrieves a list of vacancy and unit IDs for a specific group."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+  
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="groupid" type="string" default="none" required>
+  The id of the group you want to retrieve vacancies for.
+</ParamField>
+
+### Response
+<ResponseField name="vacancies" type="[object]">
+  A list of retrieved vacancies for the provided group id and their corresponding units.
+  <Expandable title="vacancies">
+    <ResponseField name="vacancy_id" type="string">
+      The internal ID of the retrieved vacancy.
+    </ResponseField>
+    <ResponseField name="unit_id" type="string">
+      The intenral ID of the retrieved unit for the vacancy
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if no vacancies are found for the provided group id.
+```json No vacancy records found for the provided group id
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no vacancy records for the provided group id."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request GET 'https://api.travtus.com/vacancies/group-id-1/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "vacancies": [
+    {
+      "vacancy_id": "vacancy-id-1",
+      "unit_id": "unit-id-1"
+    },
+    {
+      "vacancy_id": "vacancy-id-2",
+      "unit_id": "unit-id-2"
+    },
+  ]
+}
+```
+
+</ResponseExample>

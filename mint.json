@@ -69,6 +69,15 @@
             "api-reference/ingestion/lease/find-tenants",
             "api-reference/ingestion/lease/find-leases-for-tenant"
           ]
+        },
+        {
+          "group": "Vacancy",
+          "pages":[
+            "api-reference/ingestion/vacancy/find",
+            "api-reference/ingestion/vacancy/get",
+            "api-reference/ingestion/vacancy/post",
+            "api-reference/ingestion/vacancy/post-multiple"
+          ]
         }
       ]
     }
