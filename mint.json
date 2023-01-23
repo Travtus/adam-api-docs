@@ -10,6 +10,10 @@
     "light": "#FFFFFF",
     "dark": "#000000"
   },
+  "topAnchor": {
+    "name": "Introduction"
+  },
+  "hideFeedbackButtons": true,
   "anchors": [
     {
       "name": "API Reference",
