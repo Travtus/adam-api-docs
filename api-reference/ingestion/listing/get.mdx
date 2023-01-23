@@ -1,7 +1,7 @@
 ---
-title: "Get Vacancy By Group"
-api: "GET https://api.travtus.com/vacancies/{groupid}?after-id={after-id}/"
-description: "This endpoint retrieves a list of vacancy and unit IDs for a specific group."
+title: "Get Listings By Group"
+api: "GET https://api.travtus.com/listings/{groupid}?after-id={after-id}/"
+description: "This endpoint retrieves listings and unit IDs for a specific group."
 ---
 
 ### Header
@@ -21,18 +21,18 @@ description: "This endpoint retrieves a list of vacancy and unit IDs for a speci
 ### Path Parameters
 
 <ParamField path="groupid" type="string" default="none" required>
-  The id of the group you want to retrieve vacancies for.
+  The id of the group you want to retrieve listings for.
 </ParamField>
 
 ### Response
-<ResponseField name="vacancies" type="[object]">
-  A list of retrieved vacancies for the provided group id and their corresponding units.
-  <Expandable title="vacancies">
-    <ResponseField name="vacancy_id" type="string">
-      The internal ID of the retrieved vacancy.
+<ResponseField name="listings" type="[object]">
+  A list of retrieved listings for the provided group id and their corresponding units.
+  <Expandable title="listings">
+    <ResponseField name="listing_id" type="string">
+      The internal ID of the retrieved listing.
     </ResponseField>
     <ResponseField name="unit_id" type="string">
-      The intenral ID of the retrieved unit for the vacancy
+      The intenral ID of the retrieved unit for the listing
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -61,14 +61,26 @@ Status Code - 401
 }
 ```
 
+Status Code - 401
+
+Returned if the currently authenticated API user does not have access to the provided group
+```json No access to the provided group
+{
+   "error": {
+    "type": "no_access_to_group",
+    "message": "You do not have access to the group you have provided."
+  }
+}
+```
+
 Status Code - 404
 
-Returned if no vacancies are found for the provided group id.
-```json No vacancy records found for the provided group id
+Returned if no listings are found for the provided group id.
+```json No listing records found for the provided group id
 {
    "error": {
     "type": "not_found",
-    "message": "There are no vacancy records for the provided group id."
+    "message": "There are no listing records for the provided group id."
   }
 }
 ```
@@ -76,7 +88,7 @@ Returned if no vacancies are found for the provided group id.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request GET 'https://api.travtus.com/vacancies/group-id-1/' \
+curl --location --request GET 'https://api.travtus.com/listings/group-id-1/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 ```
@@ -87,13 +99,13 @@ curl --location --request GET 'https://api.travtus.com/vacancies/group-id-1/' \
 
 ```json Response
 {
-  "vacancies": [
+  "listings": [
     {
-      "vacancy_id": "vacancy-id-1",
+      "listing_id": "listing-id-1",
       "unit_id": "unit-id-1"
     },
     {
-      "vacancy_id": "vacancy-id-2",
+      "listing_id": "listing-id-2",
       "unit_id": "unit-id-2"
     },
   ]

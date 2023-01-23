@@ -239,6 +239,20 @@ Returned if no group ID is passed in the body.
 
 ```
 
+
+Status Code - 401
+
+Returned if the authenticated API user does not have access to the requested group.
+```json No access to the provided group
+{
+   "error": {
+    "type": "no_access_to_group",
+    "message": "You do not have access to the group you have provided."
+  }
+}
+
+```
+
 Status Code - 404
 
 Returned if no group for the provided group ID is found
