@@ -76,7 +76,7 @@
             "api-reference/ingestion/listing/find",
             "api-reference/ingestion/listing/get",
             "api-reference/ingestion/listing/post",
-            "api-reference/ingestion/listing/post-multiple"
+            "api-reference/ingestion/listing/delete"
           ]
         }
       ]
