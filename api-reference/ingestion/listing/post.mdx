@@ -1,0 +1,506 @@
+---
+title: "Create/Update Listing"
+api: "POST https://api.travtus.com/listing/"
+description: "This endpoint creates or updates a listing with the provided information."
+---
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="group_id" type="string" default="none" required>
+  The id of a group to use for the listing create/update operation.
+
+  Used for:
+    - searching for an existing listing record to update
+    - setting group assignment for a newly created listing record
+</ParamField>
+
+<ParamField body="unit_id" type="string" default="none">
+  The id of the unit you want to associate the newly created or updated listing.
+
+  If no unit id is specfified, a new unit record will be created instead.
+</ParamField>
+
+<ParamField body="amenities" type="[string]" default="none">
+  A list of amenities for the listing to be created or updated.
+</ParamField>
+
+<ParamField body="features" type="[string]" default="none">
+  A list of features for the listing to be created or updated.
+</ParamField>
+
+<ParamField body="finish" type="string" default="none">
+  The tier of finish for the listing to be created or updated.
+</ParamField>
+
+<ParamField body="active_date" type="date" default="none">
+  The date from which the listing should become active.
+
+  If this is not provided, it will default ot the current date.
+</ParamField>
+
+<ParamField body="address" type="object" default="none">
+  Address information for the listing to be added or updated.
+  <Expandable tilte="address">
+    <ParamField body="building_name" type="string">
+      The name of the building.
+    </ParamField>
+    <ParamField body="address_line_1" type="string" required>
+      The first line of the listing's address.
+    </ParamField>
+    <ParamField body="address_line_2" type="string">
+      The second line of the listing's address.
+    </ParamField>
+    <ParamField body="city" type="string">
+      The city of the listing's address.
+    </ParamField>
+    <ParamField body="country" type="string">
+      The country of the listing's address.
+    </ParamField>
+    <ParamField body="state" type="string" required>
+      The state in which the listing's address is located.
+    </ParamField>
+    <ParamField body="postal_code" type="string" required>
+      The postal code of the listing's address.
+    </ParamField>
+    <ParamField body="latitude" type="float">
+      The latitude of the listing's address.
+    </ParamField>
+    <ParamField body="longitude" type="float">
+      The longitude of the listing's address.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="bathrooms" type="[object]" default="none">
+  A list of bathroom characteristics for each bathroom for the listing to be updated or created.
+  <Expandable title="bathroom">
+    <ParamField body="has_shower_or_bath" type="boolean" default="none">
+      Does the bathroom have either a shower or a bath?
+    </ParamField>
+    <ParamField body="has_sink" type="boolean" default="none">
+      Does the bathroom have a sink?
+    </ParamField>
+    <ParamField body="has_toilet" type="boolean" default="none">
+      Does the bathroom have a toilet?
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="bedrooms" type="integer" default="none">
+  The number of bedrooms for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="description" type="string">
+  The description of the listing to be updated or created.
+</ParamField>
+
+<ParamField body="deposit_for_12_month_lease" type="float">
+  The deposit amount necessary for a 12 month lease for the listing.
+</ParamField>
+
+<ParamField body="floorplan_url" type="string">
+  The url to the floorplan for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="image_urls" type="[string]">
+  A list of urls of images for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="full_bathrooms" type="integer">
+  The number of full bathrooms for the listing (bathrooms including a shower or bath).
+</ParamField>
+
+<ParamField body="is_flex" type="boolean">
+  Whether the listing to be updated or created is for a flex apartment or not.
+</ParamField>
+
+<ParamField body="is_furnished" type="boolean">
+  Whether the listing to be updated or created is furnished or not.
+</ParamField>
+
+<ParamField body="lease_terms" type="object">
+  A list of the terms for the lease to be updated or created.
+
+  <Expandable title ="lease term">
+    <ParamField body="deposit" type="float">
+      The deposit amount for the lease term.
+    </ParamField>
+    <ParamField body="length_in_months" type="integer">
+      The length in months for the lease term.
+    </ParamField>
+    <ParamField body="rent" type="float">
+      The rent for the lease term.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="move_in_date" type="date">
+  The move in date for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="sqft" type="float">
+  The square feet surface for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="tour_url" type="string">
+  The url to the virtual tour for the listing to be updated or created.
+</ParamField>
+
+<ParamField body="unit_number" type="string">
+  The number of the unit record associated with the listing to be created or updated.
+</ParamField>
+
+<ParamField body="unit_type" type="string" required>
+  The type of the unit associated with the listing to be updated or created.
+
+  Will be either apartment or studio_apartment.
+</ParamField>
+
+<ParamField body="listing_url" type="string" required>
+  The url of the listing to be updated or created.
+</ParamField>
+
+### Response
+<ResponseField name="success" type="boolean">
+  Whether the unit update or create operation has been successful.
+</ResponseField>
+
+<ResponseField name="listing" type="object">
+  The listing that has just been created or updated.
+  <Expandable title="listing">
+    <ResponseField name="identifier" type="string">
+      The internal identifier for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="amenities" type="[string]">
+      The list of amenities available in the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="features" type="[string]">
+      A list of features for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="finish" type="string">
+      The tier of finish for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="bathrooms" type="[object]">
+      A list of bathroom characteristics for each bathroom of the created/updated listing.
+      <Expandable title="bathroom">
+        <ResponseField name="identifier" type="boolean">
+          The internal identifier for the bathroom.
+        </ResponseField>
+        <ResponseField name="has_shower_or_bath" type="boolean">
+          Does the bathroom have either a shower or a bath?
+        </ResponseField>
+        <ResponseField name="has_sink" type="boolean">
+          Does the bathroom have a sink?
+        </ResponseField>
+        <ResponseField name="has_toilet" type="boolean">
+          Does the bathroom have a toilet?
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="bedrooms" type="integer">
+      The the number of bedrooms for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="deposit_for_12_month_lease" type="float">
+      The deposit amount necessary for a 12 month lease for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      The description of the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="floorplan_url" type="string">
+      The url to the floorplan of the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="full_bathrooms" type="integer">
+      The number of full bathrooms for the created/updated listing (bathrooms including a shower or bath).
+    </ResponseField>
+
+    <ResponseField name="half_bathrooms" type="integer">
+      The number of half bathrooms for the created/updated listing (bathrooms without a shower or bath).
+    </ResponseField>
+
+    <ResponseField name="image_urls" type="[string]">
+      A list of urls of images for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="is_flex" type="boolean">
+      Whether the created/updated listing is for a flex apartment or not.
+    </ResponseField>
+
+    <ResponseField name="is_furnished" type="boolean">
+      Whether the created/updated listing is furnished or not.
+    </ResponseField>
+
+    <ResponseField name="lease_terms" type="object">
+      A list of the terms for the created/updated lease.
+
+      <Expandable title ="lease term">
+        <ResponseField name="identifier" type="string">
+          The identifier of the lease term.
+        </ResponseField>
+        <ResponseField name="deposit" type="float">
+          The deposit amount for the lease term.
+        </ResponseField>
+        <ResponseField name="length_in_months" type="integer">
+          The length in months for the lease term.
+        </ResponseField>
+        <ResponseField name="rent" type="float">
+          The rent for the lease term.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="move_in_date" type="date">
+      The move in date for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="rent_for_12_month_lease" type="float">
+      The amount of rent per month for a 12 month lease for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="sqft" type="float">
+      The square feet surface for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="tour_url" type="string">
+      The url to the virtual tour for the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="unit_id" type="string">
+      The internal identifier for the unit record associated with the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="unit_number" type="string">
+      The number of the unit record associated with the created/updated listing.
+    </ResponseField>
+
+    <ResponseField name="unit_type" type="string">
+      The type of unit associated with the created/updated listing.
+
+      Will be either apartment or studio_apartment.
+    </ResponseField>
+
+    <ResponseField name="listing_url" type="string">
+      The url of the created/updated listing.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no group id is provided
+```json No group provided for the listing
+{
+   "error": {
+    "type": "no_group_provided",
+    "message": "You have not provided a group for the listing."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no or wrong unit type is provided
+```json No or wrong unit type provided for the listing
+{
+   "error": {
+    "type": "no_group_provided",
+    "message": "You have not provided a unit type or provided an invalid unit type value for the listing. Please specify a unit type of apartment or studio_apartment."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no listing url is provided
+```json No listing url for the listing
+{
+   "error": {
+    "type": "no_group_provided",
+    "message": "You have not provided a listing URL for the listing."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if no listings are found for the provided group id.
+```json No listing records found for the provided group id
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no listing records for the provided group id."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/listings/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "amenities": [
+    "Swimming Pool",
+    "Gym"
+  ],
+  "features": [
+    "Floor heating"
+  ],
+  "finish": "gold",
+  "address": {
+    "building_name": "Building 1",
+    "address_line_1": "Blvd Street",
+    "address_line_2": "Appartment 12",
+    "city": "New York",
+    "country": "United States",
+    "state": "New York",
+    "postal_code": "10001",
+    "latitude": 40.730610,
+    "longitude": -73.935242
+  }
+  "bathrooms": [
+    {
+      "identifier": "listing-1-bathroom-1"
+      "has_shower_or_bath": true
+      "has_sink": true
+      "has_toilet": true
+    },
+    {
+      "identifier": "listing-1-bathroom-2"
+      "has_shower_or_bath": false
+      "has_sink": true
+      "has_toilet": true
+    },
+  ],
+  "bedrooms": 2,
+  "description": "A beautiful apartment in the heart of the city.",
+  "floorplan_url": "www.floorplans.com/listing-1",
+  "image_urls": [
+    "www.my-images-host.com/listing-1-1.jpg",
+    "www.my-images-host.com/listing-1-2.jpg"
+  ],
+  "is_flex": false,
+  "is_furnished": true,
+  "lease_terms": [
+    {
+      "identifier": "listing-1-lease-term-1",
+      "group": "group-id-1",
+      "deposit": 1400.00,
+      "length_in_months": 12,
+      "rent": 700.00
+    }
+  ],
+  "active_date": "2023-01-17",
+  "move_in_date": "2023-01-17",
+  "sqft": 40,
+  "tour_url": "www.virtualtours.com/listing-1",
+  "unit_number": "1",
+  "unit_type": "apartment",
+  "listing_url": "www.listings.com/listing-1"
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "listing": [
+    {
+      "identifier": "listing-1",
+      "amenities": [
+        "Swimming Pool",
+        "Gym"
+      ],
+      "features": [
+        "Floor heating"
+      ],
+      "finish": "gold",
+      "bathrooms": [
+        {
+          "identifier": "listing-1-bathroom-1"
+          "has_shower_or_bath": true
+          "has_sink": true
+          "has_toilet": true
+        },
+        {
+          "identifier": "listing-1-bathroom-2"
+          "has_shower_or_bath": false
+          "has_sink": true
+          "has_toilet": true
+        },
+      ],
+      "bedrooms": 2,
+      "deposit_for_12_month_lease": 1400.00,
+      "description": "A beautiful apartment in the heart of the city.",
+      "floorplan_url": "www.floorplans.com/listing-1",
+      "image_urls": [
+        "www.my-images-host.com/listing-1-1.jpg",
+        "www.my-images-host.com/listing-1-2.jpg"
+      ],
+      "is_flex": false,
+      "is_furnished": true,
+      "lease_terms": [
+        {
+          "identifier": "listing-1-lease-term-1",
+          "group": "group-id-1",
+          "deposit": 1400.00,
+          "length_in_months": 12,
+          "rent": 700.00
+        }
+      ],
+      "active_date": "2023-01-17",
+      "move_in_date": "2023-01-17",
+      "sqft": 40,
+      "tour_url": "www.virtualtours.com/listing-1",
+      "unit_identifer": "unit-1",
+      "unit_number": "1",
+      "unit_type": "apartment",
+      "listing_url": "www.listings.com/listing-1"
+    },
+  ]
+}
+```
+
+</ResponseExample>

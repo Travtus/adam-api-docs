@@ -14,6 +14,8 @@ If no match is found, a new person record will be created and scoped to the prov
 
 If no groups are provided, any updated or created person records will be scoped to all groups.
 
+If you do not have access to one of the groups you have provided, the endpoint will not attempt to match the person record against records in that group and any newly created persons will not be assigned to the group.
+
 Matching of the person records is done in the following order:
   1. By external reference. A person record will be updated if the provided `external_ref` in the request body is an exact match.
   2. By email address (`email_address`) or phone number (`phone_number`).

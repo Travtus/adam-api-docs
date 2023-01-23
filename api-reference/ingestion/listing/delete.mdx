@@ -1,0 +1,84 @@
+---
+title: Delete A Listing
+api: "DELETE https://api.travtus.com/listings/{listing-id}?inactive_date={inactive-date}/"
+description: "This endpoint delets a listing with the provided ID."
+---
+
+Allows for a listing to be immediately deleted or to be scheduled for deletion.
+
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+### Header
+
+<ParamField header="Auhtorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Path
+
+<ParamField path="listing_id" type="string" default="none" required>
+  The id of the listing to be deleted
+</ParamField>
+
+### Query
+
+<ParamField path="inactive-date" type="date" default="Current date" required>
+  The date at which the listing should be deleted.
+
+  If left empty, it defaults to the current date
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the listing has been succesfully scheduled for deletion or not.
+</ResponseField>
+
+<ResponseField name="listing_id" type="boolean">
+  The id of the listing scheduled for deletion.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request "DELETE 'https://api.travtus.com/listings/listing-id-1?inactive_date=2012-01-23/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true,
+  "listing_id": "listing-id-1"
+}
+```
+
+</ResponseExample>

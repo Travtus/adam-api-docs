@@ -16,6 +16,8 @@ Matching of the person record is done in the following order: by external refere
 
 If you do not provide group IDs, the newly created or updated record will not be scoped to any group and will instead be visible company-wide.
 
+If you do not have access to one of the groups you have provided, the endpoint will not attempt to match the person record against records in that group and any newly created persons will not be assigned to the group.
+
 In order for a new person record to be created, you must provide either a unique external reference via `external_ref` or a combination of phone number (`phone_number`) or email address (`email_address`) AND first name (`first_name`) or last name (`last_name`).
 
 For example:
