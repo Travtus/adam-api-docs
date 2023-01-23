@@ -71,12 +71,12 @@
           ]
         },
         {
-          "group": "Vacancy",
+          "group": "Listing",
           "pages":[
-            "api-reference/ingestion/vacancy/find",
-            "api-reference/ingestion/vacancy/get",
-            "api-reference/ingestion/vacancy/post",
-            "api-reference/ingestion/vacancy/post-multiple"
+            "api-reference/ingestion/listing/find",
+            "api-reference/ingestion/listing/get",
+            "api-reference/ingestion/listing/post",
+            "api-reference/ingestion/listing/post-multiple"
           ]
         }
       ]
