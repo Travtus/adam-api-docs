@@ -14,72 +14,55 @@
     "name": "Introduction"
   },
   "hideFeedbackButtons": true,
-  "anchors": [
-    {
-      "name": "API Reference",
-      "icon": "rectangle-terminal",
-      "url": "api-reference"
-    },
-    {
-      "name": "Glossary",
-      "icon": "book",
-      "url": "glossary"
-    }
-  ],
   "navigation": [
     {
-      "group": "Home",
+      "group": "Getting Started",
       "pages": ["introduction"]
     },
     {
-      "group": "API Documentation",
+      "group": "API Authentication",
       "pages": ["api-reference/authentication"]
+    },
+    {
+      "group": "Person",
+      "pages":[
+        "api-reference/person/find",
+        "api-reference/person/get",
+        "api-reference/person/post",
+        "api-reference/person/post-multiple"
+      ]
+    },
+    {
+      "group": "Unit",
+      "pages":[
+        "api-reference/unit/find",
+        "api-reference/unit/get",
+        "api-reference/unit/post",
+        "api-reference/unit/post-multiple"
+      ]
+    },
+    {
+      "group": "Lease",
+      "pages":[
+        "api-reference/lease/find",
+        "api-reference/lease/get",
+        "api-reference/lease/post",
+        "api-reference/lease/find-tenants",
+        "api-reference/lease/find-leases-for-tenant"
+      ]
+    },
+    {
+      "group": "Listing",
+      "pages":[
+        "api-reference/listing/find",
+        "api-reference/listing/get",
+        "api-reference/listing/post",
+        "api-reference/listing/delete"
+      ]
     },
     {
       "group": "Glossary",
       "pages": ["glossary/glossary"]
-    },
-    {
-      "group": "Ingestion",
-      "pages": [
-        {
-          "group": "Person",
-          "pages":[
-            "api-reference/ingestion/person/find",
-            "api-reference/ingestion/person/get",
-            "api-reference/ingestion/person/post",
-            "api-reference/ingestion/person/post-multiple"
-          ]
-        },
-        {
-          "group": "Unit",
-          "pages":[
-            "api-reference/ingestion/unit/find",
-            "api-reference/ingestion/unit/get",
-            "api-reference/ingestion/unit/post",
-            "api-reference/ingestion/unit/post-multiple"
-          ]
-        },
-        {
-          "group": "Lease",
-          "pages":[
-            "api-reference/ingestion/lease/find",
-            "api-reference/ingestion/lease/get",
-            "api-reference/ingestion/lease/post",
-            "api-reference/ingestion/lease/find-tenants",
-            "api-reference/ingestion/lease/find-leases-for-tenant"
-          ]
-        },
-        {
-          "group": "Listing",
-          "pages":[
-            "api-reference/ingestion/listing/find",
-            "api-reference/ingestion/listing/get",
-            "api-reference/ingestion/listing/post",
-            "api-reference/ingestion/listing/delete"
-          ]
-        }
-      ]
     }
   ],
   "footerSocials": {
