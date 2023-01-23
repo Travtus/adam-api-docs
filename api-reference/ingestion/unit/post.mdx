@@ -21,7 +21,7 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
   This will be used when determining whether a unit needs to be updated or created.
 
-  If this matches a unit in the portfolios you have specified (or in all of your portfolios if you've specified none) that unit will be updated, otherwise a new one will be created.
+  If this matches a unit in the group you have specified (or in all of your groups if you've specified none) that unit will be updated, otherwise a new one will be created.
 
   The identifier for a unit can not be updated once it has been set.
 
@@ -35,9 +35,9 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
   This is typically an identifier you may use for unit records in your own system.
 
-  Please not that this needs to be unique within the portfolios you are adding this unit to.
+  Please not that this needs to be unique within the groups you are adding this unit to.
 
-  If you provide an external reference that is already present in a portfolio, the existing unit will be updated instead.
+  If you provide an external reference that is already present in a group, the existing unit will be updated instead.
 
   The external reference will also be used to match a unit and the operation will fail if there is a mismatch between the unit retrieved via identifier or address and the unit retrieved via external reference.
 </ParamField>
@@ -110,8 +110,8 @@ If a unit is not found via the identifier or the identifier parameter is not set
   </Expandable>
 </ParamField>
 
-<ParamField body="portfolios" type="[string]" default="none">
-  A list of portfolio IDs.
+<ParamField body="groups" type="[string]" default="none">
+  A list of group IDs.
 
   Used when searching for an existing unit record to update, if an external reference is provided.
 </ParamField>
@@ -151,12 +151,12 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if an external reference is supplied, without supplying any portfolio IDs
-```json No portfolio IDs supplied for unit with external reference
+Returned if an external reference is supplied, without supplying any group IDs
+```json No group IDs supplied for unit with external reference
 {
    "error": {
-    "type": "no_portfolio_ids",
-    "message": "You must provide at least one portfolio ID if you are providing an external reference."
+    "type": "no_group_ids",
+    "message": "You must provide at least one group ID if you are providing an external reference."
   }
 }
 ```
@@ -210,7 +210,7 @@ curl --location --request "POST 'https://api.travtus.com/units/' \
       "latitude": 40.730610,
       "longitude": -73.935242
     },
-    "portfolios": ["portfolio-1", "portfolio-2"]
+    "groups": ["group-1", "group-2"]
 }'
 ```
 
