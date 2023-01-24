@@ -33,7 +33,7 @@
       ]
     },
     {
-      "group": "Unit",
+      "group": "Property",
       "pages":[
         "api-reference/unit/find",
         "api-reference/unit/get",
