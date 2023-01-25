@@ -27,8 +27,6 @@
       "group": "Person",
       "pages":[
         "api-reference/person/find",
-        "api-reference/person/get",
-        "api-reference/person/post",
         "api-reference/person/post-multiple"
       ]
     },
@@ -36,8 +34,6 @@
       "group": "Property",
       "pages":[
         "api-reference/unit/find",
-        "api-reference/unit/get",
-        "api-reference/unit/post",
         "api-reference/unit/post-multiple"
       ]
     },
@@ -45,7 +41,6 @@
       "group": "Lease",
       "pages":[
         "api-reference/lease/find",
-        "api-reference/lease/get",
         "api-reference/lease/post",
         "api-reference/lease/find-tenants",
         "api-reference/lease/find-leases-for-tenant"
