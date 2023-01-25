@@ -6,6 +6,17 @@ description: "This endpoint returns a list of tenants filtered with the specifie
 
 All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
+### Example use cases
+This endpoint allows you to find tenants based on lease parameters.
+
+You can retrieve tenants for a lease with a specific ID.
+
+You can retrieve tenants for all leases within a minimum (`min_move_in_date`) and/or maximum (`max_move_in_date`) move in date range.
+
+You can retrieve tenants for leases belonging specific group via the group's ID.
+
+You can retrieve tenants with a lease at a particular address, with the possibility of narrowing or broadening the search by providing more or less address data.
+
 ### Header
 
 <ParamField header="Authorization" type="string" default="none" required>
@@ -27,7 +38,7 @@ All date fields included in the body parameters need to be specified as [ISO8601
 </ParamField>
 
 <ParamField body="min_move_in_date" type="string" default="none">
-  The lower boundary for the lease's tenantsl move in date.
+  The lower boundary for the lease's tenants' move in date.
 </ParamField>
 
 <ParamField body="max_move_in_date" type="string" default="none">
@@ -36,6 +47,40 @@ All date fields included in the body parameters need to be specified as [ISO8601
 
 <ParamField body="group" type="string" default="none">
   The id of the group the lease and tenants belong to.
+</ParamField>
+
+<ParamField body="address" type="object" default="none">
+  The address of a lease to retrieve tenants for.
+
+  <Expandable>
+    <ParamField body="building_name" type="string">
+      The name of the addresses' building.
+    </ParamField>
+    <ParamField body="address_line_1" type="string">
+      The first line of the address.
+    </ParamField>
+    <ParamField body="address_line_2" type="string">
+      The second line of the address.
+    </ParamField>
+    <ParamField body="city" type="string">
+      The address' city.
+    </ParamField>
+    <ParamField body="country" type="string">
+      The address' country.
+    </ParamField>
+    <ParamField body="state" type="string">
+      The address' state.
+    </ParamField>
+    <ParamField body="postal_code" type="string">
+      The address' postal code.
+    </ParamField>
+    <ParamField body="latitude" type="float">
+      The address' latitude.
+    </ParamField>
+    <ParamField body="longitude" type="float">
+      The address' longitude.
+    </ParamField>
+  </Expandable>
 </ParamField>
 
 ### Response

@@ -1,8 +1,10 @@
 ---
 title: "Get Unit"
-api: "GET https://api.travtus.com/units/{externalref}/"
-description: "This endpoint retrieves infromation about one unit with the provided external reference."
+api: "GET https://api.travtus.com/units/{externalref}?group-id={group-id}/"
+description: "This endpoint retrieves infromation about one unit with the provided external reference for the provided group."
 ---
+
+You must provide a group id as external references are only unique within a group.
 
 ### Header
 
@@ -14,6 +16,12 @@ description: "This endpoint retrieves infromation about one unit with the provid
 
 <ParamField path="externalref" type="string" default="none" required>
   The external reference for the unit to be retrieved.
+</ParamField>
+
+### Query Parameters
+
+<ParamField path="group-id" type="string" default="none" required>
+  The group for the unit to be retrieved.
 </ParamField>
 
 ### Response
@@ -101,6 +109,18 @@ Status Code - 401
    "error": {
     "type": "invalid_authorization",
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no group id is provided
+```json No group id provided
+{
+   "error": {
+    "type": "missing_group_id",
+    "message": "Your request does not include a group-id query parameter. You must provide one as external references are only unique within a group."
   }
 }
 ```

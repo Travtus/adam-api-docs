@@ -4,6 +4,10 @@ api: "POST https://api.travtus.com/leases/create/"
 description: "This endpoint creates or updates a lease and tenant records for it."
 ---
 
+You must specify either a `unit_id` or `unit_external_ref` for your lease.
+
+If the corresponding unit record does not exist, you must create it separately via the relevant unit/property endpoints.
+
 ### Header
 
 <ParamField header="Authorization" type="string" default="none" required>
@@ -41,11 +45,11 @@ description: "This endpoint creates or updates a lease and tenant records for it
       The move in date of the lease.
     </ParamField>
 
-    <ParamField body="landlord_id" type="string" default="none">
-      The id of the landlord of the lease.
+    <ParamField body="unit_id" type="string" default="none">
+      The id of the property associated with the lease.
     </ParamField>
 
-    <ParamField body="property_id" type="string" default="none">
+    <ParamField body="unit_external_ref" type="string" default="none">
       The id of the property associated with the lease.
     </ParamField>
 
@@ -130,24 +134,36 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if more than one landlord is retrieved for the lease
-```json Could not retrieve a single landlord
-{
-   "error": {
-    "type": "multiple_landlord",
-    "message": "Could not retrieve a single landlord for the provided landlord_id."
-  }
-}
-```
-
-Status Code - 400
-
 Returned if a single tenant can not be retrieved for any of your tenant records
 ```json Could not retrieve a single tenant
 {
    "error": {
     "type": "multiple_landlord",
     "message": "Could not identify a single tenant record for one of the tenant objects you have provided."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if neither a unit id or a unit external reference is passed in the request body
+```json No unit specified for the lease
+{
+   "error": {
+    "type": "no_unit",
+    "message": "No unit id or unit external reference provided."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if a unit with the specified unit id or unit external reference could not be retrieved
+```json Unit to use for lease not found
+{
+   "error": {
+    "type": "unit_not_found",
+    "message": "No unit with the provided unit id or unit external reference."
   }
 }
 ```
@@ -165,7 +181,7 @@ curl --location --request POST 'https://api.travtus.com/leases/create/' \
     "end_date": "2023-12-17",
     "move_in_date": "2023-01-17",
     "landlord_id": "landlord-id-1",
-    "property_id": "property-id-1",
+    "unit_id": "unit-id-1",
     "is_furnished": false,
     "minimum_days_notice": 30,
     "deposit": 1400.0,
