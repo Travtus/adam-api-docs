@@ -50,7 +50,6 @@
       "group": "Listing",
       "pages":[
         "api-reference/listing/find",
-        "api-reference/listing/get",
         "api-reference/listing/post",
         "api-reference/listing/delete"
       ]
