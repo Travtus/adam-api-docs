@@ -100,20 +100,12 @@ description: "This endpoint creates or updates a listing with the provided infor
   The description of the listing to be updated or created.
 </ParamField>
 
-<ParamField body="deposit_for_12_month_lease" type="float">
-  The deposit amount necessary for a 12 month lease for the listing.
-</ParamField>
-
 <ParamField body="floorplan_url" type="string">
   The url to the floorplan for the listing to be updated or created.
 </ParamField>
 
 <ParamField body="image_urls" type="[string]">
   A list of urls of images for the listing to be updated or created.
-</ParamField>
-
-<ParamField body="full_bathrooms" type="integer">
-  The number of full bathrooms for the listing (bathrooms including a shower or bath).
 </ParamField>
 
 <ParamField body="is_flex" type="boolean">
@@ -341,7 +333,7 @@ Returned if no or wrong unit type is provided
 ```json No or wrong unit type provided for the listing
 {
    "error": {
-    "type": "no_group_provided",
+    "type": "missing_or_invalid_unit_type",
     "message": "You have not provided a unit type or provided an invalid unit type value for the listing. Please specify a unit type of apartment or studio_apartment."
   }
 }
@@ -353,20 +345,8 @@ Returned if no listing url is provided
 ```json No listing url for the listing
 {
    "error": {
-    "type": "no_group_provided",
+    "type": "no_listing_url",
     "message": "You have not provided a listing URL for the listing."
-  }
-}
-```
-
-Status Code - 404
-
-Returned if no listings are found for the provided group id.
-```json No listing records found for the provided group id
-{
-   "error": {
-    "type": "not_found",
-    "message": "There are no listing records for the provided group id."
   }
 }
 ```

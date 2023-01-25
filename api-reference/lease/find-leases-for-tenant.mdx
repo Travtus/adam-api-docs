@@ -69,6 +69,13 @@ You can retrieve all leases for a tenant given their phone number or email addre
 
 ### Response
 
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
+</ResponseField>
 <ResponseField name="leases" type="string">
   A list of the leases that have been retrieved.
   <Expandable title="leases">
@@ -88,12 +95,26 @@ You can retrieve all leases for a tenant given their phone number or email addre
       The move in date of the retrieved lease.
     </ResponseField>
 
-    <ResponseField name="tenant_id" type="[string]" default="none">
-      A list of tenant ids for the tenants associated with the retrieved lease.
+    <ResponseField name="tenants" type="[object]" default="none">
+      A list of tenants for the retrieved lease.
+
+      <Expandable title="tenant">
+        <ResponseField name="tenant_id" type="string" default="none">
+          The id for the tenant associated with the retrieved lease.
+        </ResponseField>
+
+        <ResponseField name="tenant_external_ref" type="string" default="none">
+          The external reference for the tenant associated with the retrieved lease.
+        </ResponseField>
+      </ Expandable>
     </ResponseField>
 
     <ResponseField name="unit_id" type="string" default="none">
       The id of the unit associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="unit_external_ref" type="string" default="none">
+      The external reference of the unit associated with the retrieved lease.
     </ResponseField>
 
     <ResponseField name="is_furnished" type="boolean" default="none">
@@ -211,9 +232,18 @@ curl --location --request POST 'https://api.travtus.com/leases/find-for-tenant/'
       "start_date": "2023-01-17",
       "end_date": "2023-12-17",
       "move_in_date": "2023-01-17",
-      "landlord_id": "landlord-id-1",
-      "tenant_id": "tenant-id-1",
-      "property_id": "property-id-1",
+      "tenants": [
+        {
+          "identifier": "0123-4567-8901-2345",
+          "external_ref": "person-external-ref-1",
+          "email_address": "test@example.com",
+          "phone_number": "01234567890",
+          "active": true,
+          "group": "group-1"
+        }
+      ]
+      "unit_id": "unit-id-1",
+      "unit_external_ref": "unit-id-1",
       "is_furnished": false,
       "minimum_days_notice": 30,
       "deposit": 1400.0,
