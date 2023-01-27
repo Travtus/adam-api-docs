@@ -62,6 +62,18 @@ Status Code - 401
 }
 ```
 
+Status Code - 401
+
+Returned if the currently authenticated user does not have permission to delete the listing they are attempting to delete
+```json Invalid/Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "not_authorized",
+    "message": "The user you have authenticated as is not authorized to delete the listing you are attempting to delete."
+  }
+}
+```
+
 <RequestExample>
 
 ```bash Example Request

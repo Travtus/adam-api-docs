@@ -1,6 +1,6 @@
 ---
 title: "Find Leases"
-api: "POST https://api.travtus.com/leases/find/"
+api: "POST https://api.travtus.com/leases/find?after-id={after-id}/"
 description: "This endpoint returns information about all leases that match the given parameters."
 ---
 
@@ -21,6 +21,14 @@ You can retrieve leases for a given address, with the possibility of narrowing o
 
 <ParamField header="Authorization" type="string" default="none" required>
   The authentication token for your request
+</ParamField>
+
+### Query
+
+<ParamField query="after-id" type="string" default="1">
+  The API returns a maximum of 10 records per call.
+
+  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
 </ParamField>
 
 ### Body
@@ -112,18 +120,32 @@ You can retrieve leases for a given address, with the possibility of narrowing o
       The id of the landlord of the retrieved lease.
     </ResponseField>
 
-    <ResponseField name="tenant_id" type="[string]" default="none">
-      A list of tenant ids for the tenants associated with the retrieved lease.
+    <ResponseField name="tenants" type="[object]" default="none">
+      A list of tenants for the retrieved lease.
+
+      <Expandable title="tenant">
+        <ResponseField name="tenant_id" type="string" default="none">
+          The id for the tenant associated with the retrieved lease.
+        </ResponseField>
+
+        <ResponseField name="tenant_external_ref" type="string" default="none">
+          The external reference for the tenant associated with the retrieved lease.
+        </ResponseField>
+      </ Expandable>
     </ResponseField>
 
-    <ResponseField name="tenant_external_refs" type="[string]" default="none">
-      A list of tenant external references for the tenants associated with the retrieved lease.
+    <ResponseField name="unit_id" type="string" default="none">
+      The id of the unit associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="unit_external_reference" type="string" default="none">
+      The external reference of the unit associated with the retrieved lease.
     </ResponseField>
 
     <ResponseField name="address" type="object">
       The address of the retrieved lease.
 
-      <Expandable>
+      <Expandable title="address">
         <ResponseField name="building_name" type="string">
           The name of the addresses' building.
         </ResponseField>
@@ -170,6 +192,13 @@ You can retrieve leases for a given address, with the possibility of narrowing o
       The rent amount for the retrieved lease.
     </ResponseField>
   </Expandable>
+</ResponseField>
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` query parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
 </ResponseField>
 
 ### Errors
@@ -232,8 +261,14 @@ curl --location --request POST 'https://api.travtus.com/leases/find/' \
       "end_date": "2023-12-17",
       "move_in_date": "2023-01-17",
       "landlord_id": "landlord-id-1",
-      "tenant_id": "tenant-id-1",
-      "property_id": "property-id-1",
+      "tenants": [
+        {
+          "tenant_id": "tenant-id-1",
+          "tenant_external_ref": "tenant-external-ref-1"
+        }
+      ]
+      "unit_id": "unit-id-1",
+      "unit_external_ref": "unit-external-ref-1",
       "is_furnished": false,
       "minimum_days_notice": 30,
       "deposit": 1400.0,
@@ -245,8 +280,18 @@ curl --location --request POST 'https://api.travtus.com/leases/find/' \
       "end_date": "2023-12-17",
       "move_in_date": "2023-01-17",
       "landlord_id": "landlord-id-1",
-      "tenant_id": "tenant-id-2",
-      "property_id": "property-id-2",
+      "tenants": [
+        {
+          "tenant_id": "tenant-id-2",
+          "tenant_external_ref": "tenant-external-ref-2"
+        },
+        {
+          "tenant_id": "tenant-id-3",
+          "tenant_external_ref": "tenant-external-ref-3"
+        }
+      ]
+      "unit_id": "unit-id-2",
+      "unit_external_ref": "unit-external-ref-2",
       "is_furnished": true,
       "minimum_days_notice": 30,
       "deposit": 1600.0,
