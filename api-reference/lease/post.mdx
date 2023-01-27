@@ -134,18 +134,6 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if a single tenant can not be retrieved for any of your tenant records
-```json Could not retrieve a single tenant
-{
-   "error": {
-    "type": "multiple_tenants_matched",
-    "message": "Multiple tenant records identified for one of the tenant objects you have provided. Please provide more information so a single tenant record can be identified."
-  }
-}
-```
-
-Status Code - 400
-
 Returned if neither a unit id or a unit external reference is passed in the request body
 ```json No unit specified for the lease
 {
