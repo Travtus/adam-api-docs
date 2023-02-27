@@ -1,6 +1,6 @@
 ---
 title: Delete A Listing
-api: "DELETE https://api.travtus.com/listings/{listing-id}?inactive_date={inactive-date}/"
+api: "DELETE https://api.travtus.com/listings/{listing-id}/"
 description: "This endpoint delets a listing with the provided ID."
 ---
 
@@ -20,9 +20,9 @@ All date fields included in the body parameters need to be specified as [ISO8601
   The id of the listing to be deleted
 </ParamField>
 
-### Query
+### Body
 
-<ParamField path="inactive-date" type="date" default="Current date" required>
+<ParamField body="inactive-date" type="date" default="Current date" required>
   The date at which the listing should be deleted.
 
   If left empty, it defaults to the current date
@@ -77,9 +77,12 @@ Returned if the currently authenticated user does not have permission to delete 
 <RequestExample>
 
 ```bash Example Request
-curl --location --request "DELETE 'https://api.travtus.com/listings/listing-id-1?inactive_date=2012-01-23/' \
+curl --location --request "DELETE 'https://api.travtus.com/listings/listing-id-1/' \
 --header 'Content-Type: application/json' \
---header 'Authorization: bearer <token>'
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "inactive_date": "2012-01-23"
+}
 ```
 
 </RequestExample>

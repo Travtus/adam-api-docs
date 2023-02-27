@@ -1,6 +1,6 @@
 ---
 title: "Find Persons"
-api: "POST https://api.travtus.com/persons/find?after-id={after-id}/"
+api: "POST https://api.travtus.com/persons/find/"
 description: "This endpoint allows users to find a list of persons based on multiple person attributes."
 ---
 
@@ -12,14 +12,6 @@ Optionally, you can also pass in a list of group IDs to filter the returned pers
 
 <ParamField header="Authorization" type="string" default="none" required>
   The authentication token for your request
-</ParamField>
-
-### Query
-
-<ParamField query="after-id" type="string" default="1">
-  The API returns a maximum of 10 records per call.
-  
-  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
 </ParamField>
 
 ### Body
@@ -50,6 +42,12 @@ Optionally, you can also pass in a list of group IDs to filter the returned pers
 
 <ParamField body="groups" type="[string]" default="none" required>
   The list of group IDs for filtering the retrieved list.
+</ParamField>
+
+<ParamField body="after-id" type="string" default="1">
+  The API returns a maximum of 100 records per call.
+
+  You can use this parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
 </ParamField>
 
 ### Response
@@ -87,7 +85,7 @@ Optionally, you can also pass in a list of group IDs to filter the returned pers
 <ResponseField name="last_id" type="integer">
   The last id in the set of results returned for this API call.
 
-  You can use this value in the `after-id` query parameter to load the next set of results.
+  You can use this value in the `after-id` parameter to load the next set of results.
 
   If there are no more results to load, this value will be -1.
 
@@ -133,12 +131,13 @@ Returned if no person records can be found matching the provided information.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.travtus.com/persons/find?after-id=1/' \
+curl --location --request POST 'https://api.travtus.com/persons/find/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>'
 --data-raw '{
   "phone_number": "01234567890",
-  "groups": ["group-1"]
+  "groups": ["group-1"],
+  "after-id": 1
 }
 ```
 
