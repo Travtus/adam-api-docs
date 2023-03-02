@@ -1,6 +1,6 @@
 ---
 title: "Find Tenants"
-api: "POST https://api.travtus.com/leases/tenants?after-id={after-id}/"
+api: "POST https://api.travtus.com/leases/tenants/"
 description: "This endpoint returns a list of tenants filtered with the specified parameters."
 ---
 
@@ -21,14 +21,6 @@ You can retrieve tenants with a lease at a particular address, with the possibil
 
 <ParamField header="Authorization" type="string" default="none" required>
   The authentication token for your request
-</ParamField>
-
-### Query
-
-<ParamField query="after-id" type="string" default="1">
-  The API returns a maximum of 10 records per call.
-  
-  You can use this query parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
 </ParamField>
 
 ### Body
@@ -83,6 +75,12 @@ You can retrieve tenants with a lease at a particular address, with the possibil
   </Expandable>
 </ParamField>
 
+<ParamField body="after-id" type="string" default="1">
+  The API returns a maximum of 100 records per call.
+
+  You can use this parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
 ### Response
 
 <ResponseField name="tenants" type="string">
@@ -118,7 +116,7 @@ You can retrieve tenants with a lease at a particular address, with the possibil
 <ResponseField name="last_id" type="integer">
   The last id in the set of results returned for this API call.
 
-  You can use this value in the `after-id` query parameter to load the next set of results.
+  You can use this value in the `after-id` parameter to load the next set of results.
 
   If there are no more results to load, this value will be -1.
 </ResponseField>
