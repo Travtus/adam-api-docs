@@ -1,0 +1,308 @@
+---
+title: "Synchronise Listings"
+api: "POST https://api.travtus.com/listing/sync/"
+description: "This endpoint synchronises the listings in the given group with the provided listings."
+---
+
+This endpoint allows you to update, create and delete listings for a group.
+
+The endpoint will attempt to reconcile every listing in the request body with an existing one for the given group and update it with the provided details.
+
+If a listing is not found, a new one will be created.
+
+Listings for the provided group that are not included in the request body will be deleted.
+
+If there are no listings passed in the request body, all listings for the provided porfolio will be deleted.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="group_id" type="string" default="none" required>
+  The id of a group to use for the listing sync operation.
+
+  Used for:
+    - searching for an existing listing record to update
+    - setting group assignment for a newly created listing record
+    - deleting listings in the group that are not provided in the request body
+</ParamField>
+
+<ParamField body="listings" type="[object]" default="none">
+  <Expandable title="listing">
+    <ParamField body="unit_id" type="string" default="none">
+      The id of the unit you want to associate the newly created or updated listing.
+
+      If no unit id is specified, a new unit record will be created instead.
+    </ParamField>
+
+    <ParamField body="amenities" type="[string]" default="none">
+      A list of amenities for the listing to be created or updated.
+    </ParamField>
+
+    <ParamField body="features" type="[string]" default="none">
+      A list of features for the listing to be created or updated.
+    </ParamField>
+
+    <ParamField body="finish" type="string" default="none">
+      The tier of finish for the listing to be created or updated.
+    </ParamField>
+
+    <ParamField body="active_date" type="date" default="none">
+      The date from which the listing should become active.
+
+      If this is not provided, it will default ot the current date.
+    </ParamField>
+
+    <ParamField body="address" type="object" default="none">
+      Address information for the listing to be added or updated.
+      <Expandable tilte="address">
+        <ParamField body="building_name" type="string">
+          The name of the building.
+        </ParamField>
+        <ParamField body="address_line_1" type="string" required>
+          The first line of the listing's address.
+        </ParamField>
+        <ParamField body="address_line_2" type="string">
+          The second line of the listing's address.
+        </ParamField>
+        <ParamField body="city" type="string">
+          The city of the listing's address.
+        </ParamField>
+        <ParamField body="country" type="string">
+          The country of the listing's address.
+        </ParamField>
+        <ParamField body="state" type="string" required>
+          The state in which the listing's address is located.
+        </ParamField>
+        <ParamField body="postal_code" type="string" required>
+          The postal code of the listing's address.
+        </ParamField>
+        <ParamField body="latitude" type="float">
+          The latitude of the listing's address.
+        </ParamField>
+        <ParamField body="longitude" type="float">
+          The longitude of the listing's address.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="bathrooms" type="[object]" default="none">
+      A list of bathroom characteristics for each bathroom for the listing to be updated or created.
+      <Expandable title="bathroom">
+        <ParamField body="has_shower_or_bath" type="boolean" default="none">
+          Does the bathroom have either a shower or a bath?
+        </ParamField>
+        <ParamField body="has_sink" type="boolean" default="none">
+          Does the bathroom have a sink?
+        </ParamField>
+        <ParamField body="has_toilet" type="boolean" default="none">
+          Does the bathroom have a toilet?
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="bedrooms" type="integer" default="none">
+      The number of bedrooms for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="description" type="string">
+      The description of the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="floorplan_url" type="string">
+      The url to the floorplan for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="image_urls" type="[string]">
+      A list of urls of images for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="is_flex" type="boolean">
+      Whether the listing to be updated or created is for a flex apartment or not.
+    </ParamField>
+
+    <ParamField body="is_furnished" type="boolean">
+      Whether the listing to be updated or created is furnished or not.
+    </ParamField>
+
+    <ParamField body="lease_terms" type="object">
+      A list of the terms for the lease to be updated or created.
+
+      <Expandable title ="lease term">
+        <ParamField body="deposit" type="float">
+          The deposit amount for the lease term.
+        </ParamField>
+        <ParamField body="length_in_months" type="integer">
+          The length in months for the lease term.
+        </ParamField>
+        <ParamField body="rent" type="float">
+          The rent for the lease term.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="move_in_date" type="date">
+      The move in date for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="sqft" type="float">
+      The square feet surface for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="tour_url" type="string">
+      The url to the virtual tour for the listing to be updated or created.
+    </ParamField>
+
+    <ParamField body="unit_number" type="string">
+      The number of the unit record associated with the listing to be created or updated.
+    </ParamField>
+
+    <ParamField body="unit_type" type="string" required>
+      The type of the unit associated with the listing to be updated or created.
+
+      Will be either apartment or studio_apartment.
+    </ParamField>
+
+    <ParamField body="listing_url" type="string" required>
+      The url of the listing to be updated or created.
+    </ParamField>    
+  </Expandable>
+</ParamField>
+
+### Response
+<ResponseField name="success" type="boolean">
+  Whether the listing sync operation has been successful.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no group id is provided
+```json No group provided for the listing synchronise operation
+{
+   "error": {
+    "type": "no_group_provided",
+    "message": "You have not provided a group for the listing synchronise operation."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/listings/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "group_id": "group-1",
+  "listings": [
+    {
+      "amenities": [
+        "Swimming Pool",
+        "Gym"
+      ],
+      "features": [
+        "Floor heating"
+      ],
+      "finish": "gold",
+      "address": {
+        "building_name": "Building 1",
+        "address_line_1": "Blvd Street",
+        "address_line_2": "Appartment 12",
+        "city": "New York",
+        "country": "United States",
+        "state": "New York",
+        "postal_code": "10001",
+        "latitude": 40.730610,
+        "longitude": -73.935242
+      },
+      "bathrooms": [
+        {
+          "identifier": "listing-1-bathroom-1"
+          "has_shower_or_bath": true
+          "has_sink": true
+          "has_toilet": true
+        },
+        {
+          "identifier": "listing-1-bathroom-2"
+          "has_shower_or_bath": false
+          "has_sink": true
+          "has_toilet": true
+        },
+      ],
+      "bedrooms": 2,
+      "description": "A beautiful apartment in the heart of the city.",
+      "floorplan_url": "www.floorplans.com/listing-1",
+      "image_urls": [
+        "www.my-images-host.com/listing-1-1.jpg",
+        "www.my-images-host.com/listing-1-2.jpg"
+      ],
+      "is_flex": false,
+      "is_furnished": true,
+      "lease_terms": [
+        {
+          "deposit": 1400.00,
+          "length_in_months": 12,
+          "rent": 700.00
+        }
+      ],
+      "active_date": "2023-01-17",
+      "move_in_date": "2023-01-17",
+      "sqft": 40.00,
+      "tour_url": "www.virtualtours.com/listing-1",
+      "unit_number": "1",
+      "unit_type": "apartment",
+      "listing_url": "www.listings.com/listing-1"
+    }
+  ]
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true
+}
+```
+
+</ResponseExample>
