@@ -1,0 +1,75 @@
+---
+title: "O365 Setup"
+---
+
+## Connect the Adam O365 App (ADAM3-LEARN)
+Authorize the Adam application to be able to access Email address within the domain. 
+
+To do this navigate [HERE](https://login.microsoftonline.com/common/adminconsent?client_id=a130724b-da41-4556-8d63-1abb61c196d1) to grant permissions to the application. You will need to login as an Authorized user. 
+
+After successful granting of permissions, you should be redirected to the success page on hiadam.com.  
+
+
+## Configure Active Directory Security Settings
+Create a Security Group to restrict the inboxes that the Adam application is able to monitor.
+
+### Create Security Group
+- Login to portal.office365.com with an Admin account
+- Click [HERE](https://admin.exchange.microsoft.com/#/groups) and click on the tab[Mail-enabled security]
+- Click on **Add a group**
+- Select **Mail-enabled security** then click Next
+- Set a Group Name e.g. “Adam Email App Security Group” name and click Next
+- Set a group Email Address 
+- Allow access to external users  **Communication**
+- Select **Approval** (this requires owner approval to be able to join the group)
+- Click Next, then create.
+
+_Make note of the Group Email address - you will need this later._
+
+### Add Email Inboxes to Group
+Add the inboxes to be monitored to the security group that you have just made. 
+
+Click [HERE](https://admin.exchange.microsoft.com/#/groups) and click on tab **Mail-enabled security**
+Click on the group and add emails you want to allow APIs to access
+
+
+### Access Restriction Policy
+Restrict the permissions that the security group is able to access. 
+
+- Run PowerShell as Admin
+- Run 
+	```
+	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned\
+	```
+- Install required Utilities 
+
+	```
+	Install-Module PowerShellGet -Force (skip if already installed)
+	```
+
+	```
+	Install-Module -Name ExchangeOnlineManagement -Force (skip if already installed)
+	```
+
+	```
+	Get-Module ExchangeOnlineManagement (skip if already installed)
+	```
+
+- Login as ADMIN to create Restriction Policy:
+
+	```
+	Connect-ExchangeOnline -UserPrincipalName {ADMIN_EMAIL_ADDRESS_HERE}
+	```
+- Sign in as Admin in pop-up window and run
+
+	```
+	New-ApplicationAccessPolicy -AppId a130724b-da41-4556-8d63-1abb61c196d1 -PolicyScopeGroupId {GROUP_EMAIL_ADDRESS_HERE} -AccessRight RestrictAccess -Description "YOUR DESCRIPTION HERE."
+	```
+
+### Test if the Access Restriction is working:
+To test a specific inbox address has been added to the security group correctly, run the below command in powershell.
+
+	```
+	Test-ApplicationAccessPolicy -Identity {AN_EMAIL_ADDRESS_HERE} -AppId a130724b-da41-4556-8d63-1abb61c196d1
+	```
+**AccessCheckResult** should be _**Granted**_ or _**Denied**_ 
