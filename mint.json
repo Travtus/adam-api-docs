@@ -17,7 +17,7 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction", "learn_onboarding", "chat_widget"]
+      "pages": ["introduction", "learn_onboarding", "s3_learn_setup", "chat_widget"]
     },
     {
       "group": "API Authentication",
