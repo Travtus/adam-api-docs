@@ -2,6 +2,7 @@
 title: "S3 Setup for Adam Learn"
 ---
 
+# Introduction
 Adam Learn supports learning from emails persisted in files. For example, an extract from a BI tool. 
 In order to provide this functionality Adam Learn requires access to an S3 bucket where the files are uploaded.
 This allows Adam Learn to periodically check for updates and process the new messages.
@@ -22,11 +23,11 @@ Steps:
   - Either:
     - Add user to a group (best practice), or
     - Attach policies directly
-  - The group or in-line policy must permit the following actions for the bucker/sub-directory containing the uploaded files:
+  - The group or in-line policy must permit the following actions for the bucket/sub-directory containing the uploaded files:
     - s3:GetObject
     - s3:ListBucket
 - Create long-lived credentials
-  - Navigate to IAM > Users > <User name>
+  - Navigate to IAM > Users > \<User name\>
   - Under security credentials > access keys click Create access key
   - Make a note of the access key and secret access key
 
