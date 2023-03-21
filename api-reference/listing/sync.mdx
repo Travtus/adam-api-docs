@@ -22,17 +22,40 @@ If there are no listings passed in the request body, all listings for the provid
 
 ### Body
 
-<ParamField body="group_id" type="string" default="none" required>
+<ParamField body="group_id" type="string" default="none">
   The id of a group to use for the listing sync operation.
 
   Used for:
     - searching for an existing listing record to update
     - setting group assignment for a newly created listing record
     - deleting listings in the group that are not provided in the request body
+
+  Please note that you can only pass one of the group_id and group_external_ref. Passing both will return an error.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of a group to use for the listing sync operation.
+
+  Used for:
+    - searching for an existing listing record to update
+    - setting group assignment for a newly created listing record
+    - deleting listings in the group that are not provided in the request body
+
+  Please note that you can only pass one of the group_id and group_external_ref. Passing both will return an error.
 </ParamField>
 
 <ParamField body="listings" type="[object]" default="none">
   <Expandable title="listing">
+    <ParamField body="identifier" type="string" default="none">
+      The identifier of the listing you want to update or create.
+
+      This is a unique identifier we have assigned to a listing within our system, which you can retrieve via our find endpoint.
+    </ParamField>
+    <ParamField body="external_reference" type="string" default="none">
+      The external reference of the listing you want to update or create.
+
+      This is a unique external reference for a listing that you may set when creating a listing.
+    </ParamField>
     <ParamField body="unit_id" type="string" default="none">
       The id of the unit you want to associate the newly created or updated listing.
 
@@ -103,6 +126,12 @@ If there are no listings passed in the request body, all listings for the provid
           Does the bathroom have a toilet?
         </ParamField>
       </Expandable>
+    </ParamField>
+
+    <ParamField body="number_of_bathrooms" type="float" default="none">
+      The number of bathrooms for this listing.
+
+      Please note that passing both the number_of_bathrooms and entries under the bathrooms attribute is not supported and will result in an error being fed back.
     </ParamField>
 
     <ParamField body="bedrooms" type="integer" default="none">
@@ -214,12 +243,48 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if no group id is provided
+Returned if no group id or group_external_ref are provided
 ```json No group provided for the listing synchronise operation
 {
    "error": {
     "type": "no_group_provided",
     "message": "You have not provided a group for the listing synchronise operation."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both a group id or group_external_ref are provided
+```json Both group id and external ref provided for the listing synchronise operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the listing synchronise operation. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both a listing identifier and external_ref are provided
+```json Both group id and external ref provided for the listing synchronise operation
+{
+   "error": {
+    "type": "both_identifier_and_external_ref_provided",
+    "message": "You have provided both an identifier and an external_ref for a listing. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both the number_of_bathrooms and the bathrooms attributes are populated
+```json Both the number_of_bathrooms and the bathrooms attributes are populated
+{
+   "error": {
+    "type": "both_bathroom_attributes_provided",
+    "message": "You have provided both a number_of_bathrooms and a bathrooms attribute. Please only provide one of the two."
   }
 }
 ```
