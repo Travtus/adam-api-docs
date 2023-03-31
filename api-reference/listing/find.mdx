@@ -26,6 +26,10 @@ This endpoint only returns vacancies that are active.
   The internal identifier of the listings to retrieve.
 </ParamField>
 
+<ParamField body="external_ref" type="string" default="none">
+  The external identifier of the listings to retrieve.
+</ParamField>
+
 <ParamField body="after-id" type="string" default="1">
   The API returns a maximum of 100 records per call.
   
@@ -237,6 +241,7 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
   "listings": [
     {
       "identifier": "listing-1",
+      "external_ref": "listing-external-ref-1",
       "amenities": [
         "Swimming Pool",
         "Gym"
