@@ -4,11 +4,15 @@ api: "POST https://api.travtus.com/listings/find/"
 description: "This endpoint finds listings for the provided parameters."
 ---
 
-If no group is passed in the request body, listings for all groups the authenticated user has access to will be retrieved.
-
 All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 This endpoint only returns vacancies that are active.
+
+You can provide either a group id through the `group_id` parameter or a group external reference through the `group_external_ref` attribute to filter the list of retrieved listings down.
+
+Do not provide both, as this will result in the request failing.
+
+If no group_id or group_external_ref are specified in the request body, the authenticated user will retrieve listing records for all groups they have access to.
 
 ### Header
 
@@ -18,8 +22,16 @@ This endpoint only returns vacancies that are active.
 
 ### Body
 
-<ParamField body="group" type="string" default="none">
+<ParamField body="group_id" type="string" default="none">
   The id of the group of the listings to retrieve.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of the group of the listings to retrieve.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+  The external identifier of the listings to retrieve.
 </ParamField>
 
 <ParamField body="identifier" type="string" default="none">
@@ -204,6 +216,18 @@ Status Code - 401
 }
 ```
 
+Status Code - 400
+
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the listing find operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the find listings operation. Please only provide one of the two."
+  }
+}
+```
+
 Status Code - 404
 
 Returned if no listing records can be found matching the provided information.
@@ -223,7 +247,7 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
-  "group": "group-id-1"
+  "group_id": "group-id-1"
 }
 ```
 
@@ -237,6 +261,7 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
   "listings": [
     {
       "identifier": "listing-1",
+      "external_ref": "listing-external-ref-1",
       "amenities": [
         "Swimming Pool",
         "Gym"

@@ -12,9 +12,13 @@ If a match is found, the existing person record will be updated with the informa
 
 If no match is found, a new person record will be created and scoped to the provided groups.
 
-If no groups are provided, any updated or created person records will be scoped to all groups.
+If no groups are provided, any updated or created person records will be scoped to all groups the logged in user has access to.
 
 If you do not have access to one of the groups you have provided, the endpoint will not attempt to match the person record against records in that group and any newly created persons will not be assigned to the group.
+
+You can provide either a group id via the `group_id` parameter or a group external reference via the `group_external_ref` attribute.
+
+If both are provided for any of the person records in ther request body, the request will not be successful.
 
 Matching of the person records is done in the following order:
   1. By external reference. A person record will be updated if the provided `external_ref` in the request body is an exact match.
@@ -79,8 +83,14 @@ would not be accepted, as it fails to provide a value for an attribute from the 
       The phone number of the persons you want to create or update.
     </ParamField>
 
-    <ParamField header="groups" type="[string]" default="none">
-      A list of group IDs to be used when creating or updating the person record.
+    <ParamField header="group_ids" type="[string]" default="none">
+      A list of group ids to be used when creating or updating the person record.
+
+      The groups will be used for matching existing person records and for scoping newly created ones.
+    </ParamField>
+
+    <ParamField header="groups_external_refs" type="[string]" default="none">
+      A list of group external refs to be used when creating or updating the person record.
 
       The groups will be used for matching existing person records and for scoping newly created ones.
     </ParamField>
@@ -166,6 +176,18 @@ Status Code - 401
 }
 ```
 
+Status Code - 400
+
+Returned if both of the group_ids and groups_external_refs attributes are provided for a person
+```json Both group ids and external refs provided for the person find operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both group ids and group external references for a person in your request body. Please only provide one of the two."
+  }
+}
+```
+
 <RequestExample>
 
 ```bash Example Request
@@ -180,7 +202,7 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
-        "groups": "['group-1', 'group-2']"
+        "group_ids": "['group-1', 'group-2']"
       },
       {
         "email_address": "test.person.2@travtus.com",
@@ -188,11 +210,11 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
-        "groups": "['group-1']"
+        "group_ids": "['group-1']"
       },
       {
          "first_name": "Test insuficient info",
-         "groups": "['group-1']"
+         "groups_external_refs": "['group-external-ref-1']"
       }
     ]
 }'
@@ -212,7 +234,6 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 1",
         "external_ref": "id-1",
         "phone_number": "01234567890",
-        "groups": "['group-1', 'group-2']",
         "success": true,
         "failure_reason": ""
       },
@@ -223,7 +244,6 @@ curl --location --request POST 'https://api.travtus.com/persons/multiple/' \
         "last_name": "Person 2",
         "external_ref": "id-2",
         "phone_number": "01234567891",
-        "groups": "['group-1']",
         "success": true,
         "failure_reason": ""
       },

@@ -14,6 +14,10 @@ Listings for the provided group that are not included in the request body will b
 
 If there are no listings passed in the request body, all listings for the provided porfolio will be deleted.
 
+You must provide either a group id via the `group_id` parameter or a group external reference via the `group_external_ref` attribute.
+
+If both are provided, the request will not be successful.
+
 ### Header
 
 <ParamField header="Authorization" type="string" default="none" required>
@@ -243,7 +247,7 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if no group id or group_external_ref are provided
+Returned if no group_id or group_external_ref is provided
 ```json No group provided for the listing synchronise operation
 {
    "error": {
@@ -260,7 +264,7 @@ Returned if both a group id or group_external_ref are provided
 {
    "error": {
     "type": "both_group_identifiers_provided",
-    "message": "You have provided both a group id and group external reference for the listing synchronise operation. Please only provide one of the two."
+    "message": "You have provided both a group id and group external reference for the listings synchronise operation. Please only provide one of the two."
   }
 }
 ```
