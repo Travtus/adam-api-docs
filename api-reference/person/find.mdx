@@ -6,7 +6,11 @@ description: "This endpoint allows users to find a list of persons based on mult
 
 You need to provide exact matches in the body of the request for the attributes of the persons you are looking for.
 
-Optionally, you can also pass in a list of group IDs to filter the returned persons down.
+You can provide either a list of group ids through the `group_ids` parameter or a list of group external references through the `groups_external_refs` attribute to filter the list of retrieved persons down.
+
+Do not provide both, as this will result in the request failing.
+
+If no group_ids or group_external_refs are specified in the request body, the authenticated user will retrieve person records for all groups they have access to.
 
 ### Header
 
@@ -40,8 +44,12 @@ Optionally, you can also pass in a list of group IDs to filter the returned pers
   Internal identifier of the persons you want to retrieve.
 </ParamField>
 
-<ParamField body="groups" type="[string]" default="none" required>
-  The list of group IDs for filtering the retrieved list.
+<ParamField body="group_ids" type="[string]" default="none">
+  The list of group ids for filtering the retrieved list.
+</ParamField>
+
+<ParamField body="groups_external_refs" type="[string]" default="none">
+  The list of group external references for filtering the retrieved list.
 </ParamField>
 
 <ParamField body="after-id" type="string" default="1">
@@ -126,6 +134,19 @@ Status Code - 401
 }
 ```
 
+Status Code - 400
+
+Returned if both of the group_ids and groups_external_refs attributes are provided
+```json Both group ids and external refs provided for the person find operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both group ids and group external references for the find persons operation. Please only provide one of the two."
+  }
+}
+```
+
+
 Status Code - 404
 
 Returned if no person records can be found matching the provided information.
@@ -146,7 +167,7 @@ curl --location --request POST 'https://api.travtus.com/persons/find/' \
 --header 'Authorization: bearer <token>'
 --data-raw '{
   "phone_number": "01234567890",
-  "groups": ["group-1"],
+  "groups_external_refs": ["group-1"],
   "after-id": 1
 }
 ```

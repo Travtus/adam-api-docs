@@ -18,6 +18,12 @@ Active leases have an end date in the future and a start date in the past relati
 
 All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
+If finding tenants via their external referance, you must provide the group the tenant belongs to.
+
+The group can be specified via either the `group_id` or `group_external_ref` attribute.
+
+Do not provide both, as this will result in the request failing.
+
 ### Example use cases
 This endpoint allows you to find leases for a specific tenant.
 
@@ -53,10 +59,16 @@ You can retrieve all leases for a tenant given their phone number or email addre
   Determines whether only active leases are retrieved for the provided tenant.
 </ParamField>
 
-<ParamField body="group" type="string" default="none">
-  The group ID the tenant belongs to.
+<ParamField body="group_id" type="string" default="none">
+  The id of the group the tenant belongs to.
 
-  This is needed if passing the external_ref as the tenant identifier.
+  This attribute or the group_external_ref one is needed if using the external_ref for the tenant.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of the group the tenant belongs to.
+
+  This attribute or the group_id one is needed if using the external_ref for the tenant.
 </ParamField>
 
 <ParamField body="after-id" type="string" default="1">
@@ -212,6 +224,30 @@ Returned if none of the tenant parameters are provided in the request body
    "error": {
     "type": "no_tenant_information",
     "message": "You need to provide at least one of identifier, external_ref AND group, email_address, or phone_number in the request body."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both of the group_id and group_external_ref attributes are provided
+```json Both group id and external ref provided for the find leases for tenant operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both the group id and group external reference for the find leases for tenant operation. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no group_id or group_external_ref is provdided when identifying a tenant via an external_ref
+```json No group id or group external ref provided for tenant external reference.
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have not a group id or group external reference when identifying a tenant via their external reference. Please provide one of the two."
   }
 }
 ```

@@ -17,6 +17,12 @@ You can retrieve all leases for a specific unit by passing the internal ID or th
 
 You can retrieve leases for a given address, with the possibility of narrowing or broadening the search by providing more or less address data.
 
+You can provide either group ids through the `group_ids` parameter or group external references through the `group_external_refs` attribute to filter the list of retrieved leases down.
+
+Do not provide both, as this will result in the request failing.
+
+If no group_ids or group_external_refs are specified in the request body, the authenticated user will retrieve lease records for all groups they have access to.
+
 ### Header
 
 <ParamField header="Authorization" type="string" default="none" required>
@@ -41,8 +47,12 @@ You can retrieve leases for a given address, with the possibility of narrowing o
   The move in date of the leases to be retrieved.
 </ParamField>
 
-<ParamField body="groups" type="[string]" default="none">
-  The id of groups to retrieve leases for.
+<ParamField header="group_ids" type="[string]" default="none">
+  A list of group ids to retrieve leases for.
+</ParamField>
+
+<ParamField header="groups_external_refs" type="[string]" default="none">
+  A list of group external refs to retrieve leases for.
 </ParamField>
 
 <ParamField body="unit_external_refs" type="[string]" default="none">
@@ -229,6 +239,18 @@ Status Code - 401
    "error": {
     "type": "invalid_authorization",
     "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the tenant find operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the find leases operation. Please only provide one of the two."
   }
 }
 ```

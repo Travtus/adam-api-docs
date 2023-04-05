@@ -6,7 +6,11 @@ description: "This endpoint creates or updates multiple units."
 
 A group must be provided for updating or creating the units.
 
-If a group id is not provided for the mulit-create/update endpoint, the operation will fail.
+You can provide either a group id through the `group_id` parameter or a group external reference through the `group_external_ref` attribute.
+
+Do not provide both, as this will result in the request failing.
+
+If no group id or group external reference is provided, the operation will fail.
 
 This endpoint firstly attempts to match the provided units data with existing units via the unit's identifier body parameter, in order to update an existing entry.
 
@@ -20,8 +24,12 @@ If a unit is not found via the identifier or the identifier parameter is not set
 
 ### Body
 
-<ParamField body="group" type="string" deafault="none" required>
-  The ID of the group you want to create or update the units against.
+<ParamField body="group_id" type="string" default="none">
+  The id of the group you want to create or update the units for.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of the group you want to create or update the units for.
 </ParamField>
 
 <ParamField body="units" type="[object]" default="none" required>
@@ -237,15 +245,27 @@ Status Code - 401
 
 Status Code - 400
 
-Returned if no group ID is passed in the body.
-```json No group ID supplied
+Returned if no group id or external reference is passed in the body.
+```json No group id or external reference supplied
 {
    "error": {
-    "type": "no_group_id",
-    "message": "You must provide a group ID in the request body."
+    "type": "no_group",
+    "message": "You must either provide a group id or group external reference in the request body."
   }
 }
 
+```
+
+Status Code - 400
+
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the unit post-multiple operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the create/update units operation. Please only provide one of the two."
+  }
+}
 ```
 
 
@@ -282,7 +302,7 @@ curl --location --request "POST 'https://api.travtus.com/units/multiple/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
-    "group": "group-id-1",
+    "group_id": "group-id-1",
     "units": [
       {
         "identifier": "unit-id-1",
