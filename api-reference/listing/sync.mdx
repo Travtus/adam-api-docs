@@ -247,36 +247,24 @@ Status Code - 401
 
 Status Code - 400
 
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the listing synchronise operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the synchronise listings operation. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 400
+
 Returned if no group_id or group_external_ref is provided
 ```json No group provided for the listing synchronise operation
 {
    "error": {
     "type": "no_group_provided",
-    "message": "You have not provided a group for the listing synchronise operation."
-  }
-}
-```
-
-Status Code - 400
-
-Returned if both a group id or group_external_ref are provided
-```json Both group id and external ref provided for the listing synchronise operation
-{
-   "error": {
-    "type": "both_group_identifiers_provided",
-    "message": "You have provided both a group id and group external reference for the listings synchronise operation. Please only provide one of the two."
-  }
-}
-```
-
-Status Code - 400
-
-Returned if both a listing identifier and external_ref are provided
-```json Both group id and external ref provided for the listing synchronise operation
-{
-   "error": {
-    "type": "both_identifier_and_external_ref_provided",
-    "message": "You have provided both an identifier and an external_ref for a listing. Please only provide one of the two."
+    "message": "You have not provided either a group id or a group external reference for the synchronise listings operation. Please provide one of the two."
   }
 }
 ```
@@ -289,6 +277,18 @@ Returned if both the number_of_bathrooms and the bathrooms attributes are popula
    "error": {
     "type": "both_bathroom_attributes_provided",
     "message": "You have provided both a number_of_bathrooms and a bathrooms attribute. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the user does not have access to the provided group
+```json Authenticated user does not have access to the requested group
+{
+   "error": {
+    "type": "no_access_to_group",
+    "message": "You do not have access to the synchronise listings operation for the group you have provided in the request."
   }
 }
 ```
@@ -361,7 +361,7 @@ curl --location --request POST 'https://api.travtus.com/listings/' \
       "listing_url": "www.listings.com/listing-1"
     }
   ]
-}
+}'
 ```
 
 </RequestExample>

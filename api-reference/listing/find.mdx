@@ -12,7 +12,7 @@ You can provide either a group id through the `group_id` parameter or a group ex
 
 Do not provide both, as this will result in the request failing.
 
-If no group_id or group_external_ref are specified in the request body, the authenticated user will retrieve listing records for all groups they have access to.
+You must provide either a group_id or group_external_ref, otherwise the request will fail.
 
 ### Header
 
@@ -60,6 +60,10 @@ If no group_id or group_external_ref are specified in the request body, the auth
       The internal identifier for the retrieved listing.
     </ResponseField>
 
+    <ResponseField name="external_ref" type="string">
+      The external identifier for the retrieved listing.
+    </ResponseField>
+
     <ResponseField name="amenities" type="[string]">
       A list of amenities available in the listing's building.
     </ResponseField>
@@ -70,24 +74,6 @@ If no group_id or group_external_ref are specified in the request body, the auth
 
     <ResponseField name="finish" type="string">
       The tier of finish for the listing.
-    </ResponseField>
-
-    <ResponseField name="bathrooms" type="[object]">
-      A list of bathroom characteristics for each bathroom in the listing.
-      <Expandable title="bathroom">
-        <ResponseField name="identifier" type="boolean">
-          The internal identifier for the bathroom.
-        </ResponseField>
-        <ResponseField name="has_shower_or_bath" type="boolean">
-          Does the bathroom have either a shower or a bath?
-        </ResponseField>
-        <ResponseField name="has_sink" type="boolean">
-          Does the bathroom have a sink?
-        </ResponseField>
-        <ResponseField name="has_toilet" type="boolean">
-          Does the bathroom have a toilet?
-        </ResponseField>
-      </Expandable>
     </ResponseField>
 
     <ResponseField name="bedrooms" type="integer">
@@ -124,28 +110,6 @@ If no group_id or group_external_ref are specified in the request body, the auth
 
     <ResponseField name="is_furnished" type="boolean">
       Whether the listing is furnished or not.
-    </ResponseField>
-
-    <ResponseField name="lease_terms" type="object">
-      A list of the terms for the retrieved lease.
-
-      <Expandable title ="lease term">
-        <ResponseField name="identifier" type="string">
-          The identifier of the retrieved lease term.
-        </ResponseField>
-        <ResponseField name="group" type="string">
-          The group the lease term belongs to.
-        </ResponseField>
-        <ResponseField name="deposit" type="float">
-          The deposit amount for the lease term.
-        </ResponseField>
-        <ResponseField name="length_in_months" type="integer">
-          The length in months for the lease term.
-        </ResponseField>
-        <ResponseField name="rent" type="float">
-          The rent for the lease term.
-        </ResponseField>
-      </Expandable>
     </ResponseField>
 
     <ResponseField name="move_in_date" type="date">
@@ -228,6 +192,30 @@ Returned if both a group id and group_external_ref are provided
 }
 ```
 
+Status Code - 400
+
+Returned if neither a group id nor a group_external_ref are provided
+```json Neither group id nor external ref provided for the listing find operation
+{
+   "error": {
+    "type": "no_group_identifier_provided",
+    "message": "You have not provided either a group id or a group external reference for the find listings operation. Please provide one of the two."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the user does not have access to the provided group
+```json Authenticated user does not have access to the requested group
+{
+   "error": {
+    "type": "no_access_to_group",
+    "message": "You do not have access to view information on the group you have provided in the request."
+  }
+}
+```
+
 Status Code - 404
 
 Returned if no listing records can be found matching the provided information.
@@ -248,7 +236,7 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
   "group_id": "group-id-1"
-}
+}'
 ```
 
 </RequestExample>
@@ -270,20 +258,6 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
         "Floor heating"
       ],
       "finish": "gold",
-      "bathrooms": [
-        {
-          "identifier": "listing-1-bathroom-1",
-          "has_shower_or_bath": true,
-          "has_sink": true,
-          "has_toilet": true
-        },
-        {
-          "identifier": "listing-1-bathroom-2",
-          "has_shower_or_bath": false,
-          "has_sink": true,
-          "has_toilet": true
-        }
-      ],
       "bedrooms": 2,
       "deposit_for_12_month_lease": 1400.00,
       "description": "A beautiful apartment in the heart of the city.",
@@ -296,15 +270,6 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
       ],
       "is_flex": false,
       "is_furnished": true,
-      "lease_terms": [
-        {
-          "identifier": "listing-1-lease-term-1",
-          "group": "group-id-1",
-          "deposit": 1400.00,
-          "length_in_months": 12,
-          "rent": 700.00
-        }
-      ],
       "move_in_date": "2023-01-17",
       "rent_for_12_month_lease": 700.00,
       "sqft": 40,
@@ -316,6 +281,7 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
     },
     {
       "identifier": "listing-2",
+      "external_ref": "listing-external-ref-2",
       "amenities": [
         "Swimming Pool",
         "Gym"
@@ -324,14 +290,6 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
         "Dishwasher"
       ],
       "finish": "Silver",
-      "bathrooms": [
-        {
-          "identifier": "listing-2-bathroom-1",
-          "has_shower_or_bath": true,
-          "has_sink": true,
-          "has_toilet": true
-        }
-      ],
       "bedrooms": 1,
       "deposit_for_12_month_lease": 1200.00,
       "description": "A beautiful unfurnished studio apartment in the heart of the city.",
@@ -344,15 +302,6 @@ curl --location --request POST 'https://api.travtus.com/listings/find/' \
       ],
       "is_flex": false,
       "is_furnished": false,
-      "lease_terms": [
-        {
-          "identifier": "listing-2-lease-term-1",
-          "group": "group-id-1",
-          "deposit": 1200.00,
-          "length_in_months": 12,
-          "rent": 600.00
-        }
-      ],
       "move_in_date": "2023-01-17",
       "rent_for_12_month_lease": 600.00,
       "sqft": 35,

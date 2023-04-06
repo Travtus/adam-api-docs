@@ -87,12 +87,12 @@ Returned if the currently authenticated user does not have permission to delete 
 <RequestExample>
 
 ```bash Example Request
-curl --location --request "DELETE 'https://api.travtus.com/listings/listing-id-1/' \
+curl --location --request "DELETE 'https://api.travtus.com/listings/listing-id-1/'" \
 --header 'Content-Type: application/json' \
 --header 'Authorization: bearer <token>' \
 --data-raw '{
   "inactive_date": "2012-01-23"
-}
+}'
 ```
 
 </RequestExample>
