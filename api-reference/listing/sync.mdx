@@ -18,6 +18,10 @@ You must provide either a group id via the `group_id` parameter or a group exter
 
 If both are provided, the request will not be successful.
 
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Date fields should follow a "YYYY-MM-DD" format.
+
 ### Header
 
 <ParamField header="Authorization" type="string" default="none" required>
@@ -55,7 +59,7 @@ If both are provided, the request will not be successful.
 
       This is a unique identifier we have assigned to a listing within our system, which you can retrieve via our find endpoint.
     </ParamField>
-    <ParamField body="external_reference" type="string" default="none">
+    <ParamField body="external_reference" type="string" default="none" required>
       The external reference of the listing you want to update or create.
 
       This is a unique external reference for a listing that you may set when creating a listing.
@@ -247,36 +251,24 @@ Status Code - 401
 
 Status Code - 400
 
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the listing synchronise operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the synchronise listings operation. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 400
+
 Returned if no group_id or group_external_ref is provided
 ```json No group provided for the listing synchronise operation
 {
    "error": {
     "type": "no_group_provided",
-    "message": "You have not provided a group for the listing synchronise operation."
-  }
-}
-```
-
-Status Code - 400
-
-Returned if both a group id or group_external_ref are provided
-```json Both group id and external ref provided for the listing synchronise operation
-{
-   "error": {
-    "type": "both_group_identifiers_provided",
-    "message": "You have provided both a group id and group external reference for the listings synchronise operation. Please only provide one of the two."
-  }
-}
-```
-
-Status Code - 400
-
-Returned if both a listing identifier and external_ref are provided
-```json Both group id and external ref provided for the listing synchronise operation
-{
-   "error": {
-    "type": "both_identifier_and_external_ref_provided",
-    "message": "You have provided both an identifier and an external_ref for a listing. Please only provide one of the two."
+    "message": "You have not provided either a group id or a group external reference for the synchronise listings operation. Please provide one of the two."
   }
 }
 ```
@@ -289,6 +281,102 @@ Returned if both the number_of_bathrooms and the bathrooms attributes are popula
    "error": {
     "type": "both_bathroom_attributes_provided",
     "message": "You have provided both a number_of_bathrooms and a bathrooms attribute. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the user does not have access to the provided group
+```json Authenticated user does not have access to the requested group
+{
+   "error": {
+    "type": "no_access_to_group",
+    "message": "You do not have access to the synchronise listings operation for the group you have provided in the request."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if no external reference is provided for one of the listings
+```json No external reference provided for a listing
+{
+   "error": {
+    "type": "no_external_reference",
+    "message": "You have not provided an external reference for a listing. Please provide one."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if any of the dates provided on a listing are in an incorrect format
+```json Date on listing is in an incorrect format
+{
+   "error": {
+    "type": "date_format_invalid",
+    "message": "You have provided a date in an invalid format. All dates must be provided in the YYYY-MM-DD format."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if any of the listings are missing a unit_type field
+```json Vacancy is missing unit_type
+{
+   "error": {
+    "type": "missing_unit_type",
+    "message": "You are missing the required unit_type field for a listing. Please add the field to your listing."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if any of the listings are missing the listing_url field
+```json Listing is missing listing_url
+{
+   "error": {
+    "type": "missing_listing_url",
+    "message": "You are missing the required listing_url field for a listing. Please add the field to your listing."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if any of the listings have an invalid unit_type
+```json Listing has invalid unit_type
+{
+   "error": {
+    "type": "invalid_unit_type",
+    "message": "Invalid value for unit_type field on a listing. Please use either \"apartment\" or \"studio_apartment\"."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if neither of the bathroom attributes are provided
+```json Listing has neither of the bathroom attributes provided
+{
+   "error": {
+    "type": "no_bathroom_attributes_provided",
+    "message": "You have provided neither the number_of_bathrooms or the bathrooms attribute. Please provide one of the two."
+  }
+}
+```
+
+Status Code - 401
+
+Returned if the bathroom attribute is not provided and the number of bathrooms is less than 1
+```json Listing does not have a bathroom attribute and the number of bathrooms is less than 1
+{
+   "error": {
+    "type": "invalid_number_of_bathrooms",
+    "message": "You have not provided a bathroom attribute and set the number_of_bathrooms to less than 1. Please provide the bathrooms attribute or set the number_of_bathrooms to a number greater than 0."
   }
 }
 ```
@@ -361,7 +449,7 @@ curl --location --request POST 'https://api.travtus.com/listings/' \
       "listing_url": "www.listings.com/listing-1"
     }
   ]
-}
+}'
 ```
 
 </RequestExample>
