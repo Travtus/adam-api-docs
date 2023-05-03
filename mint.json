@@ -17,7 +17,7 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction", "learn_onboarding", "s3_learn_setup", "chat_widget"]
+      "pages": ["introduction", "learn_onboarding", "s3_learn_setup", "chat_widget", "connecting_microsoft_todo"]
     },
     {
       "group": "API Authentication",
