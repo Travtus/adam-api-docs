@@ -17,12 +17,25 @@ We will send you the event to the endpoint url you have supplied.
 
 <ParamField body="event_name" type="string" default="none">
     The event that you want to subscribe to.
+
+    Supported event names: `task.created`.
 </ParamField>
 
 <ParamField body="webhook_url" type="string" default="none">
     The endpoint URL that receives the webhook event.
 </ParamField>
 
+<ParamField body="group_id" type="string" default="none">
+    The id of a group. This is the group that subscribes to the webhook event.
+
+    Please note you should just use this parameter or  `group_external_ref` to specify the group.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+    The external reference of a group. This is the group that subscribes to the webhook event.
+
+    Please note you should just use this parameter or  `group_id` to specify the group.
+</ParamField>
 
 ### Errors
 
