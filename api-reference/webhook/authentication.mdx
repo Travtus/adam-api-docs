@@ -1,0 +1,45 @@
+---
+title: "Authenticate webhook event"
+description: "Authenticate a webhook event."
+---
+
+When receiving a webhook event, you need to verify the request is coming from us.
+In each event we send to you, we include the following headers in the request:
+
+```
+{
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+}
+```
+
+You need to verify the signature on your end. Please follow the instructions to
+verify incoming requests.
+
+## Step 1: Install libray
+
+`pip install svix`
+
+## Step 2: Verify signature
+
+```python
+from svix.webhooks import Webhook
+
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+# These were all sent from the server
+headers = {
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+}
+payload = '{"test": 2432232314}'
+
+wh = Webhook(secret)
+# Throws on error, returns the verified content on success
+payload = wh.verify(payload, headers)
+```
+
+For verifying with other languages, please see this [article](https://docs.svix.com/receiving/verifying-payloads/how)
+

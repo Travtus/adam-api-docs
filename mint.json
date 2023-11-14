@@ -54,6 +54,20 @@
       ]
     },
     {
+      "group": "Task",
+      "pages": [
+        "api-reference/task/task",
+        "api-reference/task/task-webhook"
+      ]
+    },
+    {
+      "group": "Webhook Setup",
+      "pages": [
+        "api-reference/webhook/subscription",
+        "api-reference/webhook/authantication"
+      ]
+    },
+    {
       "group": "Glossary",
       "pages": ["glossary/glossary"]
     },
