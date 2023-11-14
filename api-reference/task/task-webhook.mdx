@@ -12,12 +12,6 @@ verifying webhook requests.
 When you receive a task creation event, you must send a 200 response.
 If you do not send a 2xx response Adam will resend a task creation event until 3 times failure.
 
-### Header
-
-<ParamField header="Authorization" type="string" default="none" required>
-  The authentication token for your request
-</ParamField>
-
 ### Body
 
 <ParamField body="task_identifier" type="string" default="none">
