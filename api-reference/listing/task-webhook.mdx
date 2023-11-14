@@ -4,9 +4,11 @@ api: "POST https://www.example.com/webhook/task_creation"
 description: "This endpoint for receiving task creation webhook event."
 ---
 
-This endpoint allows you to receive a task creation event from Adam.
+This endpoint allows you to receive a task creation event from Adam. Please
+refer to [Webhook Subscription Page](/api-reference/webhook/subscription) to subscribe
+the webhook event you want to receive.
 
-When you receive a task creation event, you must send a 2xx response.
+When you receive a task creation event, you must send a 200 response.
 If you do not send a 2xx response Adam will resend a task creation event until 3 times failure.
 
 ### Header
