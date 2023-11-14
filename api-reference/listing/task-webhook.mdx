@@ -1,0 +1,221 @@
+---
+title: "Create Task Webhook Event"
+api: "POST https://www.example.com/webhook/task_creation"
+description: "This endpoint for receiving task creation webhook event."
+---
+
+This endpoint allows you to receive a task creation event from Adam.
+
+When you receive a task creation event, you must send a 2xx response.
+If you do not send a 2xx response Adam will resend a task creation event until 3 times failure.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="task_identifier" type="string" default="none">
+  The id of the task.
+</ParamField>
+
+<ParamField body="group_id" type="string" default="none">
+  The id of a group that the task belongs to.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of a group. This is the group that a task is associated with.
+</ParamField>
+
+<ParamField body="category" type="string" default="none">
+    The topic of the task.
+</ParamField>
+
+<ParamField body="sub_category" type="string" default="none">
+    The intent of the task.
+</ParamField>
+
+<ParamField body="status" type="enum" default="none">
+    The status of the task.
+</ParamField>
+
+<ParamField body="conversation_transcript" type="string" default="none">
+    Conversation transcript of the task.
+</ParamField>
+
+<ParamField body="due_datetime" type="datetime" default="none">
+    The due date of the task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="notes" type="string" default="none">
+    The notes of the task.
+</ParamField>
+
+<ParamField body="queue_name" type="string" default="none">
+    The queue name of the task.
+</ParamField>
+
+<ParamField body="task_creator" type="[object]" default="none">
+    <Expandable title="task_creator">
+        <ParamField body="identifier" type="string" default="none">
+            The identifier of the person who creates the task.
+
+            This is a unique identifier we have assigned to a person within our system.
+        </ParamField>
+
+        <ParamField body="first_name" type="string" default="none">
+            The first name of the task creator.
+        </ParamField>
+
+        <ParamField body="last_name" type="string" default="none">
+            The last name of the task creator.
+        </ParamField>
+
+        <ParamField body="email_address" type="string" default="none">
+            The email address of the task creator.
+        </ParamField>
+
+        <ParamField body="phone_number" type="string" default="none">
+            The phone number of the task creator.
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="task_assignee" type="[object]" default="none">
+    <Expandable title="task_assignee">
+        <ParamField body="identifier" type="string" default="none">
+            The identifier of the person who is assigned to the task.
+
+            This is a unique identifier we have assigned to a person within our system.
+        </ParamField>
+
+        <ParamField body="first_name" type="string" default="none">
+            The first name of the task assignee.
+        </ParamField>
+
+        <ParamField body="last_name" type="string" default="none">
+            The last name of the task assignee.
+        </ParamField>
+
+        <ParamField body="email_address" type="string" default="none">
+            The email address of the task assignee.
+        </ParamField>
+
+        <ParamField body="phone_number" type="string" default="none">
+            The phone number of the task assignee.
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="unit" type="[object]" default="none">
+    <Expandable title="unit">
+        <ParamField body="identifier" type="string" default="none">
+            The identifier of the listing that the task is associated with.
+
+            This is a unique identifier we have assigned to a listing within our system, which you can retrieve via our find endpoint.
+        </ParamField>
+
+        <ParamField body="address" type="object" default="none">
+            Address information.
+            <Expandable tilte="address">
+                <ParamField body="building_name" type="string">
+                    The name of the building.
+                </ParamField>
+                <ParamField body="address_line_1" type="string" required>
+                    The first line of the listing's address.
+                </ParamField>
+                <ParamField body="address_line_2" type="string">
+                    The second line of the listing's address.
+                </ParamField>
+                <ParamField body="city" type="string">
+                    The city of the listing's address.
+                </ParamField>
+                <ParamField body="country" type="string">
+                    The country of the listing's address.
+                </ParamField>
+                <ParamField body="state" type="string" required>
+                    The state in which the listing's address is located.
+                </ParamField>
+                <ParamField body="postal_code" type="string" required>
+                    The postal code of the listing's address.
+                </ParamField>
+                <ParamField body="latitude" type="float">
+                    The latitude of the listing's address.
+                </ParamField>
+                <ParamField body="longitude" type="float">
+                    The longitude of the listing's address.
+                </ParamField>
+            </Expandable>
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+### Response
+<ResponseField name="success" type="boolean">
+  Whether the task update operation has been successful.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+<RequestExample>
+    ```json
+    {
+        "task_identifier": "6894cbc6-4a26-4c00-a433-c575c73dd2f2",
+        "group_id": "ad78b9d2-8024-461f-8764-4ea3d668c8d9",
+        "group_external_ref": "a-group-external-ref",
+        "task_creator": {
+	        "identifier": "9e988813-77d0-457f-95b2-44c616190792",
+	        "first_name": "John",
+	        "last_name": "Smith",
+	        "email_address": "john.smith@example.com",
+        },
+        "task_assignee": {
+	        "identifier": "32df7534-4320-4366-9180-555528a5daab",
+	        "first_name": "Jane",
+	        "last_name": "Lee",
+	        "email_address": "jane.lee@example.com",
+        },
+        "status": "created",
+        "conversation_transcript": "some conversation",
+        "due_datetime": "2024-01-01T00:00:00",
+        "notes": null,
+        "queue_name": "Queue - Customer Care",
+        "category": "Mantenance",
+        "sub_category": "Hot water issue"
+    }
+    ```
+</RequestExample>

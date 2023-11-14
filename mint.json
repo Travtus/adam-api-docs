@@ -50,7 +50,9 @@
       "group": "Listing",
       "pages":[
         "api-reference/listing/find",
-        "api-reference/listing/sync"
+        "api-reference/listing/sync",
+        "api-reference/listing/task",
+        "api-reference/listing/task-webhook"
       ]
     },
     {
