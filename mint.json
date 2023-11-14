@@ -64,7 +64,7 @@
       "group": "Webhook Setup",
       "pages": [
         "api-reference/webhook/subscription",
-        "api-reference/webhook/authantication"
+        "api-reference/webhook/authentication"
       ]
     },
     {
