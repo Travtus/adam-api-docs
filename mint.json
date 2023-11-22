@@ -17,7 +17,13 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction", "learn_onboarding", "s3_learn_setup", "chat_widget", "connecting_microsoft_todo"]
+      "pages": [
+        "introduction",
+        "learn_onboarding",
+        "s3_learn_setup",
+        "chat_widget",
+        "connecting_microsoft_todo"
+      ]
     },
     {
       "group": "API Authentication",
@@ -25,21 +31,18 @@
     },
     {
       "group": "Person",
-      "pages":[
+      "pages": [
         "api-reference/person/find",
         "api-reference/person/post-multiple"
       ]
     },
     {
       "group": "Property",
-      "pages":[
-        "api-reference/unit/find",
-        "api-reference/unit/post-multiple"
-      ]
+      "pages": ["api-reference/unit/find", "api-reference/unit/post-multiple"]
     },
     {
       "group": "Lease",
-      "pages":[
+      "pages": [
         "api-reference/lease/find",
         "api-reference/lease/post",
         "api-reference/lease/find-tenants",
@@ -48,17 +51,11 @@
     },
     {
       "group": "Listing",
-      "pages":[
-        "api-reference/listing/find",
-        "api-reference/listing/sync"
-      ]
+      "pages": ["api-reference/listing/find", "api-reference/listing/sync"]
     },
     {
       "group": "Task",
-      "pages": [
-        "api-reference/task/task",
-        "api-reference/task/task-webhook"
-      ]
+      "pages": ["api-reference/task/task", "api-reference/task/task-webhook"]
     },
     {
       "group": "Webhook Setup",
@@ -66,6 +63,10 @@
         "api-reference/webhook/subscription",
         "api-reference/webhook/authentication"
       ]
+    },
+    {
+      "group": "Methodology",
+      "pages": ["methodology/benchmarking-report", "methodology/customer-score"]
     },
     {
       "group": "Glossary",
