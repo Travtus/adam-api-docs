@@ -1,0 +1,137 @@
+---
+title: "Update Task"
+api: "PATCH https://api.travtus.com/task/"
+description: "This endpoint allows users to update a task created by Adam."
+version: "v2"
+---
+
+This endpoint allows you to update a task with provided details.
+
+You must provide either `identifier` parameter or an external reference via the `external_ref` attribute.
+
+All datetime fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+    The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="identifier" type="string" default="none">
+    The identifier of a task to use for updating a task.
+
+    Please note you can either use the `identifier` or `external_ref` to update a task.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+    The external reference of a task to use for updating a task.
+
+    Please note you can either use the `identifier` or `external_ref` to update a task.
+</ParamField>
+
+<ParamField body="status" type="enum" default="none">
+    The status of a task.
+
+    Possible value: `created`, `in_progress`, `completed`, `deleted`
+</ParamField>
+
+<ParamField body="due_datetime" type="datetime" default="none">
+    The due date of a task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="reminder_datetime" type="string" default="none">
+    The reminder date of a task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="completed_datetime" type="string" default="none">
+    The completed date of a task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="importance" type="enum" default="none">
+    The importance of a task. Possible value: `low`, `normal`, `high`, `very_high`.
+</ParamField>
+
+<ParamField body="assignee_id" type="string" default="none">
+    The identifier of task assignee. You can use this field to update the task assignee.
+</ParamField>
+
+<ParamField body="resident_id" type="string" default="none">
+    The identifier of a resident that a task is targeted for. You can use this field to update the task resident.
+</ParamField>
+
+<ParamField body="notes" type="string" default="none">
+    The notes of a task.
+</ParamField>
+
+<ParamField body="title" type="string" default="none">
+    The title of a task.
+</ParamField>
+
+<ParamField body="description" type="string" default="none">
+    The description of a task.
+</ParamField>
+
+### Response
+<ResponseField name="request_id" type="string">
+    The UUID of the request. We handle requests asynchronously, the task update result will be sending
+    by webhook event. You can use this ID to lookup webhook event on [consumer application portal](../webhook/consumer-app-portal).
+
+</ResponseField>
+
+<RequestExample>
+
+    ```bash Example Request
+    curl --location --request PATCH 'https://api.travtus.com/task/' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer <token>' \
+    --data-raw '{
+        "identifier": "2b1d4c71-766c-4834-a671-bea629e9af39",
+        "status": "completed",
+        "due_datetime": "2023-11-11 20:00:00",
+        "notes": "Some notes"
+    }'
+    ```
+
+</RequestExample>
+
+<ResponseExample>
+
+    ```json 200 - Response
+    {
+        "request_id": "5dc8327b-ebcb-4185-a0d0-5a5d40c56ed2"
+    }
+    ```
+
+    ```json 401 - Missing Authorization header
+    {
+        "error": {
+        "type": "missing_authorization",
+        "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+    }
+    }
+    ```
+
+    ```json 401 - Expired Authorization header bearer token value
+    {
+        "error": {
+        "type": "expired_token",
+        "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+    }
+    }
+    ```
+
+    ```json 401 - Invalid Authorization header bearer token value
+    {
+        "error": {
+        "type": "invalid_authorization",
+        "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+    }
+    }
+    ```
+
+</ResponseExample>
+
