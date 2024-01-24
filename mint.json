@@ -1,9 +1,6 @@
 {
   "name": "Travtus",
-  "versions": [
-    "v2",
-    "v1"
-  ],
+  "versions": ["v2", "v1"],
   "logo": {
     "dark": "/logo/logo-dark.png",
     "light": "/logo/logo-light.png"
