@@ -1,0 +1,128 @@
+---
+title: "Update Task"
+api: "PATCH https://api.travtus.com/task/"
+description: "This endpoint updates task in the given group."
+---
+
+This endpoint allows you to update a task with provided details under a group.
+
+You must provide either a group id via the `group_id` parameter or a group external reference via the `group_external_ref` attribute.
+
+If both are provided, the request will not be successful.
+
+All datetime fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="task_identifier" type="string" default="none">
+  The id of a task to use for finding the task.
+
+  Please note you can either use the `task_identifier` or `task_external_identifier` to find a task.
+</ParamField>
+
+<ParamField body="task_external_ref" type="string" default="none">
+  The external reference of a task to use for finding the task.
+
+  Please note if you pass a value to this parameter, you also need to pass a value to `group_external_ref`
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of a group. This is the group that a task is associated with.
+
+  Please note that you should use this parameter with `task_external_ref`.
+</ParamField>
+
+<ParamField body="status" type="enum" default="none">
+    The status of the task.
+
+    Possible values:
+        - created
+        - in_progress
+        - completed
+        - deleted
+</ParamField>
+
+<ParamField body="due_datetime" type="datetime" default="none">
+    The due date of the task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="completed_datetime" type="string" default="none">
+    The completed date of the task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="notes" type="string" default="none">
+    The notes of the task.
+</ParamField>
+
+### Response
+<ResponseField name="success" type="boolean">
+  Whether the task update operation has been successful.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request PATCH 'https://api.travtus.com/listings/task' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "task_identifier": "2b1d4c71-766c-4834-a671-bea629e9af39",
+    "status": "completed",
+    "due_datetime": "2023-11-11 20:00:00",
+    "notes": "Some notes"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": true
+}
+```
+
+</ResponseExample>
