@@ -1,9 +1,5 @@
 {
   "name": "Travtus",
-  "versions": [
-    "v2",
-    "v1"
-  ],
   "logo": {
     "dark": "/logo/logo-dark.png",
     "light": "/logo/logo-light.png"
@@ -22,20 +18,17 @@
     {
       "group": "Getting Started",
       "pages": [
-        "get-started/v1/introduction",
-        "get-started/v2/introduction",
-        "get-started/v1/learn_onboarding",
-        "get-started/v1/s3_learn_setup",
-        "get-started/v1/chat_widget",
-        "get-started/v1/connecting_microsoft_todo"
+        "introduction",
+        "learn_onboarding",
+        "s3_learn_setup",
+        "chat_widget",
+        "connecting_microsoft_todo",
+        "travtus_gateway"
       ]
     },
     {
       "group": "API Authentication",
-      "pages": [
-        "api-reference/authentication/v1/authentication",
-        "api-reference/authentication/v2/authentication"
-      ]
+      "pages": ["api-reference/authentication"]
     },
     {
       "group": "Person",
@@ -46,10 +39,7 @@
     },
     {
       "group": "Property",
-      "pages": [
-        "api-reference/unit/find",
-        "api-reference/unit/post-multiple"
-      ]
+      "pages": ["api-reference/unit/find", "api-reference/unit/post-multiple"]
     },
     {
       "group": "Lease",
@@ -62,21 +52,17 @@
     },
     {
       "group": "Listing",
-      "pages": [
-        "api-reference/listing/find",
-        "api-reference/listing/sync"
-      ]
+      "pages": ["api-reference/listing/find", "api-reference/listing/sync"]
     },
     {
       "group": "Task",
-      "pages": ["api-reference/task/update-task"]
+      "pages": ["api-reference/task/task", "api-reference/task/task-webhook"]
     },
     {
-      "group": "Webhook",
+      "group": "Webhook Setup",
       "pages": [
-        "api-reference/webhook/get-started",
-        "api-reference/webhook/authentication",
-        "api-reference/webhook/consumer-app-portal"
+        "api-reference/webhook/subscription",
+        "api-reference/webhook/authentication"
       ]
     },
     {
@@ -88,15 +74,11 @@
     },
     {
       "group": "Glossary",
-      "pages": [
-        "glossary/glossary"
-      ]
+      "pages": ["glossary/glossary"]
     },
     {
       "group": "Travtus API License Agreement",
-      "pages": [
-        "license-agreement"
-      ]
+      "pages": ["license-agreement"]
     }
   ],
   "footerSocials": {
