@@ -24,10 +24,6 @@ Travtus API uses token authentication. All API calls must include the following 
     Must be `client_credentials`.
 </ParamField>
 
-<ParamField query="scope" type="string">
-    The API scopes granted to the access token. Please use `travtus-api/knowledge-graph`.
-</ParamField>
-
 ### Response
 
 <ResponseField name="access_token" type="string">
@@ -41,8 +37,7 @@ curl --location --request POST ' https://travtus-api.auth.us-east-2.amazoncognit
 --header 'Content-Type:application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=client_credentials' \
 --data-urlencode 'client_id=<client-id>' \
---data-urlencode 'client_secret=<client-secret>' \
---data-urlencode 'scope=travtus-api/knowledge-graph'
+--data-urlencode 'client_secret=<client-secret>'
 ```
 
 </RequestExample>
