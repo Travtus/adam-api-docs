@@ -36,11 +36,11 @@ Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
 <ParamField body="status" type="enum" default="none">
     The status of a task.
 
-    Possible value: `created`, `in_progress`, `completed`, `deleted`
+    Possible values: `created`, `in_progress`, `completed`, or `deleted`
 </ParamField>
 
 <ParamField body="due_datetime" type="datetime" default="none">
-    The due date of a task. Example: 2023-01-01T00:00:00
+    The due date of the task. Example: 2023-01-01T00:00:00
 </ParamField>
 
 <ParamField body="reminder_datetime" type="string" default="none">
@@ -48,11 +48,11 @@ Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
 </ParamField>
 
 <ParamField body="completed_datetime" type="string" default="none">
-    The completed date of a task. Example: 2023-01-01T00:00:00
+    The completed date of the task. Example: 2023-01-01T00:00:00
 </ParamField>
 
 <ParamField body="importance" type="enum" default="none">
-    The importance of a task. Possible value: `low`, `normal`, `high`, `very_high`.
+    The importance of the task. Possible value: `low`, `normal`, `high`, `very_high`.
 </ParamField>
 
 <ParamField body="assignee_id" type="string" default="none">
@@ -60,19 +60,19 @@ Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
 </ParamField>
 
 <ParamField body="resident_id" type="string" default="none">
-    The identifier of a resident that a task is targeted for. You can use this field to update the task resident.
+    The identifier of the resident that the task is targeted for. You can use this field to update the task resident.
 </ParamField>
 
 <ParamField body="notes" type="string" default="none">
-    The notes of a task.
+    The notes of the task.
 </ParamField>
 
 <ParamField body="title" type="string" default="none">
-    The title of a task.
+    The title of the task.
 </ParamField>
 
 <ParamField body="description" type="string" default="none">
-    The description of a task.
+    The description of the task.
 </ParamField>
 
 ### Response
