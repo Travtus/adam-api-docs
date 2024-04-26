@@ -54,7 +54,8 @@
         "api-reference/lease/find",
         "api-reference/lease/post",
         "api-reference/lease/find-tenants",
-        "api-reference/lease/find-leases-for-tenant"
+        "api-reference/lease/find-leases-for-tenant",
+        "api-reference/lease/webhooks"
       ]
     },
     {
@@ -66,7 +67,10 @@
     },
     {
       "group": "Task",
-      "pages": ["api-reference/task/update-task"]
+      "pages": [
+        "api-reference/task/update-task",
+        "api-reference/task/webhooks"
+      ]
     },
     {
       "group": "Webhook",
