@@ -24,6 +24,7 @@
         "get-started/v1/learn_onboarding",
         "get-started/v1/s3_learn_setup",
         "get-started/v1/chat_widget",
+        "get-started/v2/chat_widget",
         "get-started/v1/connecting_microsoft_todo"
       ]
     },
