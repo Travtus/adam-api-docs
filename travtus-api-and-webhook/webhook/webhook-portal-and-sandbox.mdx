@@ -1,0 +1,160 @@
+---
+title: "Webhook Portal & Sandbox"
+api: "GET  https://api.travtus.com/webhook/app-portal-access/"
+description: "This endpoint allows users to request a short-lived URL for accessing consumer application portal."
+---
+
+
+# Travtus Webhook Portal & Sandbox
+
+## Overview
+
+The Travtus Webhook Portal allows you to manage and test your webhooks efficiently. This portal provides functionalities such as adding endpoints, testing configurations, and handling failed messages. 
+
+## Main Actions
+
+1. **Add Endpoints**: Configure where you want to receive webhook events.
+2. **Test Endpoints**: Send test events to ensure your endpoint is correctly set up.
+3. **View and Retry Events**: Monitor webhook deliveries and manually retry failed messages.
+
+## API Endpoint for Accessing the Portal
+
+**GET** `https://api.travtus.com/webhook/app-portal-access/`
+
+### Request Headers
+
+| Parameter      | Type    | Description                              |
+|----------------|---------|------------------------------------------|
+| Authorization  | string  | Bearer token for authentication |
+
+### Response
+
+| Field | Type   | Description                                                |
+|-------|--------|------------------------------------------------------------|
+| url   | string | Short-lived URL for accessing your webhook consumer application portal |
+
+### Example Request
+
+```bash
+curl --location --request GET 'https://api.travtus.com/webhook/app-portal-access/' \
+--header 'Authorization: Bearer <token>'
+```
+
+### Response Examples
+
+#### Success (200)
+
+```json
+{
+  "url": "https://app.svix.com/login?icon=https%3A%2F%2Ftravtus-marketing-images.s3.us-east-2.amazonaws.com%2FTravtus%2Bcircle_black.png#key=eyJhcHBJZCI6ImFwcF8yYjJUcVNCZjBNYWRJWDlpakZHVFpnenlmQk4iLCJvbmVUaW1lVG9rZW4iOiJYckxBTUhJM3RVaWRKTWNhZkdXT0E5NUhuYjNybF8tNCIsInJlZ2lvbiI6ImV1In0="
+}
+```
+
+#### Missing Authorization (401)
+
+```json
+{
+  "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+#### Expired Token (401)
+
+```json
+{
+  "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+#### Invalid Token (401)
+
+```json
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+## Adding an Endpoint
+
+### Steps
+
+1. **Access the Portal**: Use the provided short-lived URL to access the portal.
+2. **Navigate to Endpoints**: Go to the "Endpoints" section.
+3. **Add Endpoint**: Provide your endpoint URL and select event types.
+4. **Save**: Confirm and save your endpoint configuration.
+
+![Add Endpoint](/images/webhook/add-endpoint.png)
+
+> **Helpful Tip!** If your service isn't ready, use the **Svix Play** button to get a temporary URL.
+
+## Testing Your Endpoint
+
+### Steps
+
+1. **Go to Testing Tab**: Navigate to the "Testing" tab.
+2. **Send Test Events**: Use the interface to send example events.
+3. **Review Results**: Click on the message to view payload and delivery status.
+
+![Testing Endpoint](/images/webhook/testing-endpoint.png)
+
+## Webhook Signature Verification
+
+### Why Verify Webhooks
+
+Verifying webhook signatures ensures the authenticity and integrity of the messages from Travtus. Learn more about [why you should verify webhooks](https://docs.svix.com/receiving/verifying-payloads/why).
+
+### How to Verify
+
+#### Python Example
+
+```python
+from svix.webhooks import Webhook
+
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+headers = {
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+}
+payload = '{"test": 2432232314}'
+
+wh = Webhook(secret)
+payload = wh.verify(payload, headers)
+```
+
+For more examples, refer to the [webhook verification documentation](https://docs.svix.com/receiving/verifying-payloads/how).
+
+## Handling Retries
+
+### Automatic Retries
+
+- **Immediate**
+- **5 seconds**
+- **5 minutes**
+- **30 minutes**
+- **2 hours**
+- **5 hours**
+- **10 hours** (repeated)
+
+### Manual Retries
+
+Use the portal to manually retry failed messages or recover all failed messages from a specific date.
+
+## Troubleshooting Tips
+
+1. **Use Raw Payload Body**: Ensure the payload is verified exactly as received.
+2. **Correct Secret Key**: Verify that you are using the correct secret key for the endpoint.
+3. **Response Codes**: Use appropriate response codes (2xx for success).
+4. **Avoid Timeouts**: Ensure your endpoint responds within 15 seconds. Use asynchronous processing if needed.
+
+For any questions or further assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).

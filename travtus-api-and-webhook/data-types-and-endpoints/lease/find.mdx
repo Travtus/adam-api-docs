@@ -1,0 +1,337 @@
+---
+title: "Find Leases"
+api: "POST https://api.travtus.com/leases/find/"
+description: "This endpoint returns information about all leases that match the given parameters."
+---
+
+You need to provide exact matches in the body of the request for the attributes of the leases you are looking for.
+
+All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Date fields should follow a "YYYY-MM-DD" format.
+
+### Example use cases
+This endpoint allows you to find leases based on a number of parameters.
+
+You can retrieve all leases for a given group or list of groups by providing their IDs.
+
+You can retrieve all leases for a specific unit by passing the internal ID or the external reference.
+
+You can retrieve leases for a given address, with the possibility of narrowing or broadening the search by providing more or less address data.
+
+You can provide either group ids through the `group_ids` parameter or group external references through the `group_external_refs` attribute to filter the list of retrieved leases down.
+
+Do not provide both, as this will result in the request failing.
+
+If no group_ids or group_external_refs are specified in the request body, the authenticated user will retrieve lease records for all groups they have access to.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="identifier" type="string" default="none">
+  The identifier for the leases to be retrieved.
+</ParamField>
+
+<ParamField body="start_date" type="string" default="none">
+  The start date of the leases to be retrieved.
+</ParamField>
+
+<ParamField body="end_date" type="string" default="none">
+  The end date of the leases to be retrieved.
+</ParamField>
+
+<ParamField body="move_in_date" type="string" default="none">
+  The move in date of the leases to be retrieved.
+</ParamField>
+
+<ParamField header="group_ids" type="[string]" default="none">
+  A list of group ids to retrieve leases for.
+</ParamField>
+
+<ParamField header="groups_external_refs" type="[string]" default="none">
+  A list of group external refs to retrieve leases for.
+</ParamField>
+
+<ParamField body="unit_external_refs" type="[string]" default="none">
+  A list of unit external references to retrieve leases for.
+</ParamField>
+
+<ParamField body="unit_identifiers" type="[string]" default="none">
+  A list of unit internal IDs to retrieve leases for.
+</ParamField>
+
+<ParamField body="address" type="object" default="none">
+  An address to retrieve leases for.
+
+  <Expandable>
+    <ParamField body="building_name" type="string">
+      The name of the addresses' building.
+    </ParamField>
+    <ParamField body="address_line_1" type="string">
+      The first line of the address.
+    </ParamField>
+    <ParamField body="address_line_2" type="string">
+      The second line of the address.
+    </ParamField>
+    <ParamField body="city" type="string">
+      The address' city.
+    </ParamField>
+    <ParamField body="country" type="string">
+      The address' country.
+    </ParamField>
+    <ParamField body="state" type="string">
+      The address' state.
+    </ParamField>
+    <ParamField body="postal_code" type="string">
+      The address' postal code.
+    </ParamField>
+    <ParamField body="latitude" type="float">
+      The address' latitude.
+    </ParamField>
+    <ParamField body="longitude" type="float">
+      The address' longitude.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="after-id" type="string" default="1">
+  The API returns a maximum of 100 records per call.
+
+  You can use this parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Response
+
+<ResponseField name="leases" type="string">
+  A list of the leases that have been retrieved.
+  <Expandable title="leases">
+    <ResponseField name="identifier" type="string" default="none">
+      The identifier of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="start_date" type="string" default="none">
+      The start date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="end_date" type="string" default="none">
+      The end date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="move_in_date" type="string" default="none">
+      The move in date of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="landlord_id" type="string" default="none">
+      The id of the landlord of the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="tenants" type="[object]" default="none">
+      A list of tenants for the retrieved lease.
+
+      <Expandable title="tenant">
+        <ResponseField name="tenant_id" type="string" default="none">
+          The id for the tenant associated with the retrieved lease.
+        </ResponseField>
+
+        <ResponseField name="tenant_external_ref" type="string" default="none">
+          The external reference for the tenant associated with the retrieved lease.
+        </ResponseField>
+      </ Expandable>
+    </ResponseField>
+
+    <ResponseField name="unit_id" type="string" default="none">
+      The id of the unit associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="unit_external_reference" type="string" default="none">
+      The external reference of the unit associated with the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="address" type="object">
+      The address of the retrieved lease.
+
+      <Expandable title="address">
+        <ResponseField name="building_name" type="string">
+          The name of the addresses' building.
+        </ResponseField>
+        <ResponseField name="address_line_1" type="string">
+          The first line of the address.
+        </ResponseField>
+        <ResponseField name="address_line_2" type="string">
+          The second line of the address.
+        </ResponseField>
+        <ResponseField name="city" type="string">
+          The address' city.
+        </ResponseField>
+        <ResponseField name="country" type="string">
+          The address' country.
+        </ResponseField>
+        <ResponseField name="state" type="string">
+          The address' state.
+        </ResponseField>
+        <ResponseField name="postal_code" type="string">
+          The address' postal code.
+        </ResponseField>
+        <ResponseField name="latitude" type="float">
+          The address' latitude.
+        </ResponseField>
+        <ResponseField name="longitude" type="float">
+          The address' longitude.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="is_furnished" type="boolean" default="none">
+      Whether the retrieved lease is for a furnished or unfurnished property.
+    </ResponseField>
+
+    <ResponseField name="minimum_days_notice" type="integer" default="none">
+      Minimum days of notice that must be given to break the retrieved lease agreement.
+    </ResponseField>
+
+    <ResponseField name="deposit" type="float" default="none">
+      The deposit amount for the retrieved lease.
+    </ResponseField>
+
+    <ResponseField name="rent" type="float" default="none">
+      The rent amount for the retrieved lease.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+<ResponseField name="last_id" type="integer">
+  The last id in the set of results returned for this API call.
+
+  You can use this value in the `after-id` parameter to load the next set of results.
+
+  If there are no more results to load, this value will be -1.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+   "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+   "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+   "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if both a group id and group_external_ref are provided
+```json Both group id and external ref provided for the tenant find operation
+{
+   "error": {
+    "type": "both_group_identifiers_provided",
+    "message": "You have provided both a group id and group external reference for the find leases operation. Please only provide one of the two."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if no lease records could not be found.
+```json No lease records found for the provided parameters
+{
+   "error": {
+    "type": "not_found",
+    "message": "There are no lease records matching the provided parameters."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.travtus.com/leases/find/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+    "start_date": "2023-01-17"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "leases": [
+    {
+      "identifier": "lease-1",
+      "start_date": "2023-01-17",
+      "end_date": "2023-12-17",
+      "move_in_date": "2023-01-17",
+      "landlord_id": "landlord-id-1",
+      "tenants": [
+        {
+          "tenant_id": "tenant-id-1",
+          "tenant_external_ref": "tenant-external-ref-1"
+        }
+      ]
+      "unit_id": "unit-id-1",
+      "unit_external_ref": "unit-external-ref-1",
+      "is_furnished": false,
+      "minimum_days_notice": 30,
+      "deposit": 1400.0,
+      "rent": 700.0
+    },
+    {
+      "identifier": "lease-2",
+      "start_date": "2023-01-17",
+      "end_date": "2023-12-17",
+      "move_in_date": "2023-01-17",
+      "landlord_id": "landlord-id-1",
+      "tenants": [
+        {
+          "tenant_id": "tenant-id-2",
+          "tenant_external_ref": "tenant-external-ref-2"
+        },
+        {
+          "tenant_id": "tenant-id-3",
+          "tenant_external_ref": "tenant-external-ref-3"
+        }
+      ]
+      "unit_id": "unit-id-2",
+      "unit_external_ref": "unit-external-ref-2",
+      "is_furnished": true,
+      "minimum_days_notice": 30,
+      "deposit": 1600.0,
+      "rent": 800.0
+    }
+  ]
+ 
+}
+```
+
+</ResponseExample>

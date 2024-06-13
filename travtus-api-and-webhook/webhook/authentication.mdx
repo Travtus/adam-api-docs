@@ -1,0 +1,101 @@
+---
+title: "Authentication"
+---
+
+# Webhook Signature Verification
+
+To ensure the integrity and authenticity of webhook messages sent by Travtus, webhook signatures are used. This process helps to verify that the messages are indeed from us. For a more detailed explanation, check out this article on [why you should verify webhooks](https://docs.svix.com/receiving/verifying-payloads/why).
+
+## How to Verify Webhooks with Svix Libraries
+
+Our webhook partner Svix offers a set of useful libraries that make verifying webhooks very simple. Below is an example using Python:
+
+### Python Example
+
+```python
+from svix.webhooks import Webhook
+
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+# These were all sent from the server
+headers = {
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+}
+payload = '{"test": 2432232314}'
+
+wh = Webhook(secret)
+# Throws on error, returns the verified content on success
+payload = wh.verify(payload, headers)
+```
+
+### Additional Resources
+
+For more instructions and examples on how to verify signatures, please refer to the [webhook verification documentation](https://docs.svix.com/receiving/verifying-payloads/how).
+
+## Webhook Setup Instructions
+
+To set up webhooks and ensure they are authenticated properly, follow these steps:
+
+1. **Request Webhook Setup**: Contact [support@travtus.com](mailto:support@travtus.com) to request the setup of your webhook. Provide the URL where you would like to receive webhook events.
+
+2. **Receive Webhook Credentials**: Once the webhook is set up, you will receive a webhook secret (`whsec_...`) from Travtus. This secret is used to verify the authenticity of incoming webhook events.
+
+3. **Configure Webhook Verification**: Use the Svix libraries to configure webhook verification in your application. Below are examples in various programming languages.
+
+### Node.js Example
+
+```javascript
+const { Webhook } = require('svix');
+
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+const headers = {
+  'svix-id': 'msg_p5jXN8AQM9LWM0D4loKWxJek',
+  'svix-timestamp': '1614265330',
+  'svix-signature': 'v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=',
+};
+const payload = '{"test": 2432232314}';
+
+const wh = new Webhook(secret);
+
+try {
+  const verifiedPayload = wh.verify(payload, headers);
+  console.log('Verified payload:', verifiedPayload);
+} catch (err) {
+  console.error('Verification failed:', err);
+}
+```
+
+### PHP Example
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use Svix\Webhook;
+
+$secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+$headers = [
+  'svix-id' => 'msg_p5jXN8AQM9LWM0D4loKWxJek',
+  'svix-timestamp' => '1614265330',
+  'svix-signature' => 'v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=',
+];
+$payload = '{"test": 2432232314}';
+
+$wh = new Webhook($secret);
+
+try {
+  $verifiedPayload = $wh->verify($payload, $headers);
+  echo 'Verified payload: ', $verifiedPayload;
+} catch (Exception $e) {
+  echo 'Verification failed: ', $e->getMessage();
+}
+?>
+```
+
+For any questions or further assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
+
+Thank you for choosing Travtus!

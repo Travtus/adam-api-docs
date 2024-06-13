@@ -1,0 +1,142 @@
+---
+title: "Vacancies"
+---
+
+Below is our standard data structure for a vacancy:    
+
+<ParamField body="community_name" type="string" default="none">
+  The name of the community for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+  The external reference of the community for the vacancy you want create.
+</ParamField>
+
+<ParamField body="active_date" type="string" default="none">
+  The active date for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="building_name" type="string" default="none">
+  The name of the building for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="address_line_1" type="string" default="none">
+  The first line of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="address_line_2" type="string" default="none">
+  The second line of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="city" type="string" default="none">
+  The city of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="state" type="string" default="none">
+  The state of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="country" type="string" default="none">
+  The country of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="postal_code" type="string" default="none">
+  The postal code of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="original_string" type="string" default="none">
+  A string of the complete address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="longitude" type="string" default="none">
+  The longitude of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="latitude" type="string" default="none">
+  The latitude of the address for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="amenities" type="string" default="none">
+  The list of amenities available in the vacancy's building.
+</ParamField>
+
+<ParamField body="bathrooms" type="string" default="none">
+  The number of bathrooms for the property you want to create.
+</ParamField>
+
+<ParamField body="bedrooms" type="string" default="none">
+  The number of bedrooms for the vacancy you want to create.
+</ParamField>
+
+<ParamField body="description" type="string" default="none">
+  Free text description of the vacancy.
+</ParamField>
+
+<ParamField body="features" type="string" default="none">
+  Text description of any features of the unit.
+</ParamField>
+
+<ParamField body="finish" type="string" default="none">
+  Apartment finish name.
+</ParamField>
+
+<ParamField body="floorplan_url" type="string" default="none">
+  The URL for the floorplan of the vacancy you want to create.
+</ParamField>
+
+<ParamField body="image_urls" type="string" default="none">
+  URLs for any images associated with the vacancy you want to create.
+</ParamField>
+
+<ParamField body="is_flex" type="string" default="none">
+  Whether the vacancy is for a flex apartment or not.
+</ParamField>
+
+<ParamField body="is_furnished" type="string" default="none">
+  Whether the vacancy is for a furnished apartment or not.
+</ParamField>
+
+<ParamField body="is_furnished" type="string" default="none">
+  Whether the vacancy is for a furnished apartment or not.
+</ParamField>
+
+<ParamField body="lease_terms" type="object">
+  A list of the terms for the vacancy to be created.
+  <Expandable title ="lease term">
+    <ParamField body="deposit" type="float">
+      The deposit amount for the lease term.
+    </ParamField>
+    <ParamField body="length_in_months" type="integer">
+      The length in months for the lease term.
+    </ParamField>
+    <ParamField body="rent" type="float">
+      The rent for the lease term.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="move_in_date" type="date">
+  The move in date for the vacancy to be created.
+</ParamField>
+
+<ParamField body="sqft" type="float">
+  The square feet surface for the vacancy to be created.
+</ParamField>
+
+<ParamField body="tour_url" type="string">
+  The url for online/video tours of the vacancy to be created.
+</ParamField>
+
+<ParamField body="unit_number" type="string">
+ The unit number for the vacancy to be created.
+</ParamField>
+
+<ParamField body="unit_type" type="string">
+  The type of the unit associated with the vacancy to be created.
+
+  Will be either apartment or studio_apartment.
+</ParamField>
+
+<ParamField body="vacancy_url" type="string">
+  The url of the vacancy to be created.
+</ParamField>
