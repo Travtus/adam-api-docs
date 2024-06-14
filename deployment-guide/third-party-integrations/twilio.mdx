@@ -1,0 +1,40 @@
+---
+title: "Twilio"
+---
+
+# Setting Up a Twilio Phone Number to Interact with Adam
+To set up a Twilio phone number to interact with Adam, follow the instructions below. This setup will allow Adam to handle both voice calls and SMS messages for your community.
+## Step 1: Request Configuration
+Submit a request to [support@travtus.com](mailto:support@travtus.com) with the following information for each community you want to configure:
+- Twilio Account SID
+- Phone Number
+- Community it is linked to
+## Step 2: Configure Twilio Phone Number
+### Access Your Twilio Console
+1. Log in to your Twilio account at [Twilio Console](https://www.twilio.com/console).
+2. Navigate to the "Phone Numbers" section.
+### Configure Voice and Messaging URLs
+For each phone number you want to configure:
+1. Select the phone number you want to set up from the list.
+2. Scroll down to the "Voice & Fax" section.
+   - In the "A CALL COMES IN" field, select "Webhook" and enter the following URL for UAT:
+     ```
+     https://uat-twilio.adam-api.com/v2/voice
+     ```
+   - For Production, enter:
+     ```
+     https://adam3-twilio.adam-api.com/v2/voice
+     ```
+3. Scroll down to the "Messaging" section.
+   - In the "A MESSAGE COMES IN" field, select "Webhook" and enter the following URL for UAT:
+     ```
+     https://uat-twilio.adam-api.com/v2/sms
+     ```
+   - For Production, enter:
+     ```
+     https://adam3-twilio.adam-api.com/v2/sms
+     ```
+### Save Configuration
+- Click on the "Save" button to apply the changes.
+By following these steps, you can configure your Twilio phone numbers to interact with Adam, allowing seamless handling of voice calls and SMS messages.
+For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).

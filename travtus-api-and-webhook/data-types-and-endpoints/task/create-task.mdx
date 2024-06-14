@@ -1,0 +1,253 @@
+---
+title: "Create Task"
+api: "POST https://api.travtus.com/task/"
+description: "This endpoint allows users to create a task created by Adam."
+---
+
+This endpoint allows you to create a task.
+
+You can provide either a group id through the `group_id` parameter or a group external reference through the `group_external_ref` attribute.
+
+Do not provide both, as this will result in the request failing.
+
+All datetime fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+    The authentication token for your request
+</ParamField>
+
+### Body
+
+<ParamField body="group_id" type="string" default="none">
+  The id of the group you want to create the task for.
+</ParamField>
+
+<ParamField body="group_external_ref" type="string" default="none">
+  The external reference of the group you want to create the task for.
+</ParamField>
+
+<ParamField body="external_ref" type="string" default="none">
+    The external reference of the task.
+</ParamField>
+
+<ParamField body="due_datetime" type="datetime" default="none">
+    The due date of the task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="reminder_datetime" type="datetime" default="none">
+    The reminder date of a task. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="importance" type="enum" default="none">
+    The importance of the task. Possible value: `low`, `normal`, `high`, `very_high`.
+</ParamField>
+
+<ParamField body="priority_score" type="number" default="none">
+    The priority score of the task.
+</ParamField>
+
+<ParamField body="queue_name" type="string" default="none">
+    The name of the queue the task should be assigned to.
+</ParamField>
+
+<ParamField body="onsite_indicator" type="enum" default="none">
+    Whether the task is onsite or not. Possible value: `onsite`, `not_onsite`.
+</ParamField>
+
+<ParamField body="topic" type="string" default="none">
+    The tasks's topic.
+</ParamField>
+
+<ParamField body="user_goal" type="string" default="none">
+    What the user hopes to achieve if the task is completed.
+</ParamField>
+
+<ParamField body="escalation_flag" type="boolean" default="none">
+    Whether the task should be escalated or not.
+</ParamField>
+
+<ParamField body="relevant_conversation" type="enum" default="none">
+    The conversation that led to the creation of a task record.
+</ParamField>
+
+<ParamField body="creator" type="object" default="none">
+    The tasks's creator.
+
+    Please note that if you specify a creator you must specify either:
+    - an identifier or external_ref for the person
+    - OR:
+        - an email address or phone number
+        - a first name or last name
+
+    <Expandable tilte="creator">
+        <ParamField body="identifier" type="string">
+            The Travtus internal identifier for the person record that is the task's creator.
+        </ParamField>
+        <ParamField body="external_ref" type="string">
+            The external reference for the person record that is the task's creator.
+        </ParamField>
+        <ParamField body="email_address" type="string">
+            The email address for the person record that is the task's creator.
+        </ParamField>
+        <ParamField body="first_name" type="string">
+            The first name for the person record that is the task's creator.
+        </ParamField>
+        <ParamField body="last_name" type="string">
+            The last name for the person record that is the task's creator.
+        </ParamField>
+        <ParamField body="phone_number" type="string">
+            The phone number for the person record that is the task's creator.
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="assignee" type="object" default="none">
+    The person assigned to deal with the tasks.
+
+    Please note that if you specify an assignee you must specify either:
+    - an identifier or external_ref for the person
+    - OR:
+        - an email address or phone number
+        - a first name or last name
+
+    <Expandable tilte="assignee">
+    <ParamField body="identifier" type="string">
+        The Travtus internal identifier for the person record that is the task's assignee.
+    </ParamField>
+    <ParamField body="external_ref" type="string">
+        The external reference for the person record that is the task's assignee.
+    </ParamField>
+    <ParamField body="email_address" type="string">
+        The email address for the person record that is the task's assignee.
+    </ParamField>
+    <ParamField body="first_name" type="string">
+        The first name for the person record that is the task's assignee.
+    </ParamField>
+    <ParamField body="last_name" type="string">
+        The last name for the person record that is the task's assignee.
+    </ParamField>
+    <ParamField body="phone_number" type="string">
+        The phone number for the person record that is the task's assignee.
+    </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="resident" type="object" default="none">
+    The person record of the resident for which the task is being created.
+
+    Please note that if you specify a resident you must specify either:
+    - an identifier or external_ref for the person
+    - OR:
+        - an email address or phone number
+        - a first name or last name
+
+    <Expandable tilte="resident">
+    <ParamField body="identifier" type="string">
+        The Travtus internal identifier for the person record that is the task's resident.
+    </ParamField>
+    <ParamField body="external_ref" type="string">
+        The external reference for the person record that is the task's resident.
+    </ParamField>
+    <ParamField body="email_address" type="string">
+        The email address for the person record that is the task's resident.
+    </ParamField>
+    <ParamField body="first_name" type="string">
+        The first name for the person record that is the task's resident.
+    </ParamField>
+    <ParamField body="last_name" type="string">
+        The last name for the person record that is the task's resident.
+    </ParamField>
+    <ParamField body="phone_number" type="string">
+        The phone number for the person record that is the task's resident.
+    </ParamField>
+    </Expandable>
+</ParamField>
+
+
+<ParamField body="unit_id" type="string" default="none">
+    The identifier of the unit that the task is targeted for.
+</ParamField>
+
+<ParamField body="unit_external_ref" type="string" default="none">
+    The external reference of the unit that the task is targeted for.
+</ParamField>
+
+<ParamField body="notes" type="string" default="none">
+    The notes of the task.
+</ParamField>
+
+<ParamField body="title" type="string" default="none">
+    The title of the task.
+</ParamField>
+
+<ParamField body="description" type="string" default="none">
+    The description of the task.
+</ParamField>
+
+### Response
+<ResponseField name="request_id" type="string">
+    The UUID of the request. We handle requests asynchronously, the task update result will be sending
+    by webhook event. You can use this ID to lookup webhook event on [consumer application portal](../webhook/consumer-app-portal).
+
+</ResponseField>
+<ResponseField name="identifier" type="string">
+    The UUID of the created task.
+
+</ResponseField>
+
+<RequestExample>
+
+    ```bash Example Request
+    curl --location --request Post 'https://api.travtus.com/task/' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer <token>' \
+    --data-raw '{
+        "group_external_ref": "group-1",
+        "due_datetime": "2023-11-11 20:00:00",
+        "notes": "Some notes"
+    }'
+    ```
+
+</RequestExample>
+
+<ResponseExample>
+
+    ```json 200 - Response
+    {
+        "request_id": "5dc8327b-ebcb-4185-a0d0-5a5d40c56ed2"
+    }
+    ```
+
+    ```json 401 - Missing Authorization header
+    {
+        "error": {
+        "type": "missing_authorization",
+        "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+    }
+    }
+    ```
+
+    ```json 401 - Expired Authorization header bearer token value
+    {
+        "error": {
+        "type": "expired_token",
+        "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+    }
+    }
+    ```
+
+    ```json 401 - Invalid Authorization header bearer token value
+    {
+        "error": {
+        "type": "invalid_authorization",
+        "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+    }
+    }
+    ```
+
+</ResponseExample>
+

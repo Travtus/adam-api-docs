@@ -1,0 +1,169 @@
+---
+title: "Resident"
+---
+
+email_1: ColumnName | None = None
+email_2: ColumnName | None = None
+email_3: ColumnName | None = None
+phone_1: ColumnName | None = None
+phone_2: ColumnName | None = None
+phone_3: ColumnName | None = None
+cell_1: ColumnName | None = None
+cell_2: ColumnName | None = None
+cell_3: ColumnName | None = None
+
+
+Below is our standard data structure for a resident:
+
+
+
+<ParamField body="community_name" type="string" default="none">
+  The name of the community for the resident you want to create.
+</ParamField>
+
+<ParamField body="community_external_ref" type="string" default="none">
+  The external reference of the community for the resident you want create.
+</ParamField>
+
+<ParamField body="unit_external_ref" type="string" default="none">
+  The external reference for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="lease_external_ref" type="string" default="none">
+  The external reference for the vacancy corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="move_in_date" type="date">
+  The move in date for the vacancy corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="lease_start_date" type="string" default="none">
+    The start date for the vacancy corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="lease_end_date" type="string" default="none">
+    The end date for the vacancy corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="property_type" type="string">
+  The type of the property associated with the resident to be created.
+
+  Can be:
+  - SF (Single Family)
+  - GS (Garden Style)
+  - MR (Mid Rise)
+  - HR (High Rise)
+</ParamField>
+
+<ParamField body="construction_year" type="string" default="none">
+    The end date unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="number_of_bedrooms" type="string" default="none">
+  The number of bedrooms for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="number_of_bathrooms" type="string" default="none">
+    The number of bathrooms for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="sqft" type="float">
+  The square feet surface for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="address_1" type="string" default="none">
+  The first line of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="address_2" type="string" default="none">
+  The second line of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="city" type="string" default="none">
+  The city of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="state" type="string" default="none">
+  The state of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="country" type="string" default="none">
+  The country of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="postal_code" type="string" default="none">
+  The postal code of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="original_string" type="string" default="none">
+  The original string of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="longitude" type="string" default="none">
+  The longitude of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="latitude" type="string" default="none">
+  The latitude of the address for the unit corresponding to the resident you want to create.
+</ParamField>
+
+<ParamField body="customer_external_ref" type="string" default="none">
+  The external reference for the resident you want to create.
+</ParamField>
+
+<ParamField body="first_name" type="string" default="none">
+  The first name of the resident you want to create.
+</ParamField>
+
+<ParamField body="last_name" type="string" default="none">
+    The last name of the resident you want to create.
+</ParamField>
+
+<ParamField body="role" type="string" default="none">
+    Role of the resident.
+
+    Can be:
+        - Prospect
+        - Applicant
+        - Leasholder
+        - Occupant
+        - Guarantor
+        - Minor
+        - ExTenant
+</ParamField>
+
+<ParamField body="email_1" type="string" default="none">
+    The email address of the resident you want to create.
+</ParamField>
+
+<ParamField body="email_2" type="string" default="none">
+    An alternative email address for the resident you want to create.
+</ParamField>
+
+<ParamField body="email_3" type="string" default="none">
+    A third alternative email address for the resident you want to create.
+</ParamField>
+
+<ParamField body="phone_1" type="string" default="none">
+    The phone number of the resident you want to create.
+</ParamField>
+
+<ParamField body="phone_2" type="string" default="none">
+    An alternative phone number for the resident you want to create.
+</ParamField>
+
+<ParamField body="phone_3" type="string" default="none">
+    A third alternative phone number for the resident you want to create.
+</ParamField>
+
+<ParamField body="cell_1" type="string" default="none">
+    The cell phone number of the resident you want to create.
+</ParamField>
+
+<ParamField body="cell_2" type="string" default="none">
+    An alternative cell phone number for the resident you want to create.
+</ParamField>
+
+<ParamField body="cell_3" type="string" default="none">
+    A third alternative cell phone number of the resident you want to create.
+</ParamField>

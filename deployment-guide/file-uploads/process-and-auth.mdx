@@ -1,0 +1,249 @@
+---
+title: "Uploading Data to the Travtus Platform"
+---
+
+To process your data on the Travtus platform, you need to upload your files to your client-specific S3 directory. Follow the instructions below to connect to your S3 bucket and upload files using different programming languages.
+
+## Request Credentials
+
+First, request your S3 credentials by contacting our support team at [support@travtus.com](mailto:support@travtus.com). You will receive the following information:
+
+- **Bucket Name**
+- **Directory Extension**
+- **Access Key**
+- **Secret Key**
+
+## Types of Files That Can Be Uploaded
+
+- **Community Data**
+- **Unit Data**
+- **Vacancy Data**
+- **Resident Data**
+- **Review Data**
+- **Message Data** 
+    * SMS
+    * Email
+    * Web Chat 
+    * Call Recordings
+    * Call Transcripts
+    * Reviews
+
+**Note:** Data can be uploaded in .csv format.
+
+## Python (boto3)
+
+### Step 1: Install boto3
+
+If you haven't already, install the boto3 library using pip:
+
+```bash
+pip install boto3
+```
+
+### Step 2: Upload Files
+
+Use the following script to upload files:
+
+```python
+import boto3
+from botocore.exceptions import NoCredentialsError
+
+bucket_name = 'your-bucket-name'
+directory_extension = 'your-directory-extension'
+access_key = 'your-access-key'
+secret_key = 'your-secret-key'
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key
+)
+
+def upload_file(file_name, object_name=None):
+    if object_name is None:
+        object_name = f"{directory_extension}/{file_name}"
+
+    try:
+        s3.upload_file(file_name, bucket_name, object_name)
+        print(f"File {file_name} uploaded successfully to {object_name}")
+    except FileNotFoundError:
+        print(f"The file {file_name} was not found")
+    except NoCredentialsError:
+        print("Credentials not available")
+
+upload_file('path/to/your/file.csv')
+```
+
+## JavaScript (Node.js)
+
+### Step 1: Install AWS SDK
+
+If you haven't already, install the AWS SDK:
+
+```bash
+npm install aws-sdk
+```
+
+### Step 2: Upload Files
+
+Use the following script to upload files:
+
+```javascript
+const AWS = require('aws-sdk');
+const fs = require('fs');
+
+const bucketName = 'your-bucket-name';
+const directoryExtension = 'your-directory-extension';
+const accessKeyId = 'your-access-key';
+const secretAccessKey = 'your-secret-key';
+
+const s3 = new AWS.S3({
+  accessKeyId: accessKeyId,
+  secretAccessKey: secretAccessKey
+});
+
+const uploadFile = (fileName) => {
+  const fileContent = fs.readFileSync(fileName);
+  const params = {
+    Bucket: bucketName,
+    Key: `${directoryExtension}/${fileName}`,
+    Body: fileContent
+  };
+
+  s3.upload(params, (err, data) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`File uploaded successfully. ${data.Location}`);
+  });
+};
+
+uploadFile('path/to/your/file.csv');
+```
+
+## PHP
+
+### Step 1: Install AWS SDK for PHP
+
+If you haven't already, install the AWS SDK for PHP using Composer:
+
+```bash
+composer require aws/aws-sdk-php
+```
+
+### Step 2: Upload Files
+
+Use the following script to upload files:
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+$bucketName = 'your-bucket-name';
+$directoryExtension = 'your-directory-extension';
+$accessKeyId = 'your-access-key';
+$secretAccessKey = 'your-secret-key';
+
+$s3Client = new S3Client([
+    'region'  => 'us-east-1',
+    'version' => 'latest',
+    'credentials' => [
+        'key'    => $accessKeyId,
+        'secret' => $secretAccessKey,
+    ],
+]);
+
+function uploadFile($fileName) {
+    global $s3Client, $bucketName, $directoryExtension;
+    
+    try {
+        $result = $s3Client->putObject([
+            'Bucket' => $bucketName,
+            'Key'    => "$directoryExtension/$fileName",
+            'SourceFile' => $fileName,
+        ]);
+        echo "File uploaded successfully. " . $result['ObjectURL'] . "\n";
+    } catch (AwsException $e) {
+        echo $e->getMessage() . "\n";
+    }
+}
+
+uploadFile('path/to/your/file.csv');
+?>
+```
+
+## C#
+
+### Step 1: Install AWS SDK for .NET
+
+If you haven't already, install the AWS SDK for .NET:
+
+```bash
+Install-Package AWSSDK.S3
+```
+
+### Step 2: Upload Files
+
+Use the following script to upload files:
+
+```csharp
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+class Program
+{
+    private const string bucketName = "your-bucket-name";
+    private const string directoryExtension = "your-directory-extension";
+    private const string accessKeyId = "your-access-key";
+    private const string secretAccessKey = "your-secret-key";
+    private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
+    private static IAmazonS3 s3Client;
+
+    public static async Task Main(string[] args)
+    {
+        s3Client = new AmazonS3Client(accessKeyId, secretAccessKey, bucketRegion);
+        await UploadFileAsync("path/to/your/file.csv");
+    }
+
+    private static async Task UploadFileAsync(string filePath)
+    {
+        try
+        {
+            var fileTransferUtility = new TransferUtility(s3Client);
+            var fileTransferUtilityRequest = new TransferUtilityUploadRequest
+            {
+                BucketName = bucketName,
+                FilePath = filePath,
+                StorageClass = S3StorageClass.Standard,
+                Key = $"{directoryExtension}/{Path.GetFileName(filePath)}",
+                CannedACL = S3CannedACL.PublicRead
+            };
+
+            await fileTransferUtility.UploadAsync(fileTransferUtilityRequest);
+            Console.WriteLine("File uploaded successfully.");
+        }
+        catch (AmazonS3Exception e)
+        {
+            Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+        }
+    }
+}
+```
+
+By following these steps and using the provided scripts, you can easily upload your data files in .csv format to the Travtus platform's S3 bucket for processing in Python, JavaScript, PHP, and C#. 
+
+For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
+
+Thank you for choosing Travtus!
+
+---
