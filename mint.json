@@ -13,6 +13,9 @@
   "topAnchor": {
     "name": "Introduction"
   },
+  "modeToggle": {
+    "default": "light"
+  },
   "hideFeedbackButtons": true,
   "navigation": [
     {
@@ -131,9 +134,15 @@
               ]
             },
             {
+              "group": "Reviews",
+              "pages": [
+                "travtus-api-and-webhook/data-types-and-endpoints/review/create-review"
+              ]
+            },
+            {
               "group": "Messaging",
               "pages": [
-                "travtus-api-and-webhook/data-types-and-endpoints/messaging/create-message"
+                "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api"
               ]
             }
           ]

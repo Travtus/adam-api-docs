@@ -1,10 +1,10 @@
 ---
-title: "Create Message"
+title: "Create Google Review"
 api: "POST https://api.travtus.com/messages/"
-description: "This endpoint creates a standard message."
+description: "This endpoint ingests a Google review."
 ---
 
-A group must be provided for updating or creating a message units.
+A group must be provided for creating a review.
 
 You can provide either a group id through the `group_id` parameter or a group external reference through the `group_external_ref` attribute.
 
@@ -177,78 +177,3 @@ curl --location --request "https://api.travtus.com/messages/'" \
 ```
 
 </RequestExample>
-
-<ResponseExample>
-
-```json Response
-{
-  "units": [
-    {
-      "sucess": true,
-      "failure_reason": "",
-      "identifier": "unit-id-1",
-      "external_ref": "unit-ext-ref-1",
-      "has_flex_wall": false,
-      "number_of_bathrooms": 2,
-      "number_of_bedrooms": 1,
-      "sqft": 40,
-      "unit_number": "2",
-      "bathrooms": [
-        {
-          "has_shower_or_bath": false,
-          "has_sink": true,
-          "has_toilet": true
-        },
-        {
-          "has_shower_or_bath": true,
-          "has_sink": true,
-          "has_toilet": true
-        }
-      ],
-      "address": {
-        "building_name": "Building 1",
-        "address_line_1": "Blvd Street",
-        "address_line_2": "Appartment 12",
-        "city": "New York",
-        "country": "United States",
-        "state": "New York",
-        "postal_code": "10001",
-        "latitude": 40.730610,
-        "longitude": -73.935242
-      },
-
-    },
-    {
-      "sucess": true,
-      "failure_reason": "",
-      "identifier": "unit-id-2",
-      "external_ref": "unit-ext-ref-2",
-      "has_flex_wall": false,
-      "number_of_bathrooms": 1,
-      "number_of_bedrooms": 1,
-      "sqft": 20,
-      "unit_number": "3",
-      "bathrooms": [
-        {
-          "has_shower_or_bath": true,
-          "has_sink": true,
-          "has_toilet": true
-        }
-      ],
-      "address": {
-        "building_name": "Building 1",
-        "address_line_1": "Blvd Street",
-        "address_line_2": "Appartment 13",
-        "city": "New York",
-        "country": "United States",
-        "state": "New York",
-        "postal_code": "10001",
-        "latitude": 40.730610,
-        "longitude": -73.935242
-      },
-    }
-  ]
-}
-```
-
-</ResponseExample>
