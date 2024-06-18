@@ -1,0 +1,253 @@
+---
+title: "Messaging API"
+---
+
+
+# Interacting with the Travtus Messaging API
+
+The Travtus Messaging API allows clients and partners to interact with Travtus Teammates via their own phone number routing or web chat solutions. Follow the instructions below to set up and use the Messaging API.
+
+## Request API Credentials
+
+To use the Messaging API, request API credentials by contacting our support team at [support@travtus.com](mailto:support@travtus.com).
+
+## Involved Users and Systems
+
+The following users and systems are involved in this integration scenario:
+
+- **Customer:** End user
+- **Travtus Teammate:** The initial point of contact, handles all incoming customer messages until escalation is triggered.
+- **Travtus Messaging API:** Provides an API to receive requests from the Source System and send responses from Travtus Teammate.
+- **Source System:** Provides an SMS channel for customers and integrates with the Travtus Messaging API.
+
+## API Endpoint Overview
+
+- **POST /v1/sessions:** Create a new customer session.
+- **POST /v1/sessions/session-id-1/messages:** Send a message in an existing session.
+- **POST /v1/webhooks:** Set up a webhook to receive API responses.
+
+## Authentication
+
+All API requests must be authenticated using the provided API credentials.
+
+```http
+Authorization: Bearer <your-api-key>
+```
+
+## Detailed Workflow
+
+The following step-by-step description provides a detailed explanation of the logic and API requests used at each step of the workflow.
+
+### Use Case: Create Customer Session
+
+#### Step 1: Customer Interacts with Source System
+
+The customer sends a message via the Source System (e.g., SMS, web chat).
+
+#### Step 2: Source System Sends "Create Customer Session" Request
+
+If the customer conversation does not yet have an existing session, the Source System creates a new session for the customer by sending a request to the Travtus Messaging API.
+
+```json
+POST 'https://dev-messaging.adam-api.com/v1/sessions'
+-----
+{
+  "clientId": "425462d5fcc648958485f40e501fed2f",
+  "source": "sms",
+  "customer": {
+    "firstName": "Darren",
+    "lastName": "Smith",
+    "phoneNumber": "+1123456789",
+    "emailAddress": "darren@example.org",
+    "unitNumber": "1-A",
+    "address": "5 Summer St, MA 01045, USA"
+  }
+}
+```
+
+#### Step 3: Travtus Messaging API Confirms Receipt
+
+Upon receipt of the "create session" request, the Travtus Messaging API will create a new session, returning a 200 status with the `sessionId` and `userId`.
+
+```json
+RESPONSE:
+POST 'https://dev-messaging.adam-api.com/v1/sessions'
+-----
+{
+  "status": 200,
+  "sessionId": "d6a2593eddd3457d8c31b8c04c8d84ef",
+  "userId": "1ba95b86d8384caa98b2b9d1e0b0faca"
+}
+```
+
+Once a customer session is created, customer messages can be submitted.
+
+### Use Case: Customer Sends a Message
+
+#### Step 1: Source System Sends Customer Message
+
+The Source System sends the message data to the Travtus Messaging API to create a message in the Travtus system using the supplied `sessionId`.
+
+```json
+POST 'https://dev-messaging.adam-api.com/v1/sessions/d6a2593eddd3457d8c31b8c04c8d84ef/messages'
+-----
+{
+  "content": "Hello world"
+}
+```
+
+#### Step 2A: Travtus Messaging API Confirms Receipt
+
+Upon receipt of the "message" request, the Travtus Messaging API adds a new message to the conversation, returning a 200 status.
+
+```json
+RESPONSE:
+POST 'https://dev-messaging.adam-api.com/v1/sessions/d6a2593eddd3457d8c31b8c04c8d84ef/messages'
+-----
+{
+  "status": 200
+}
+```
+
+#### Step 2B: Session Expired
+
+In case of an expired session, a `session_not_found` error is returned.
+
+```json
+RESPONSE:
+POST 'https://dev-messaging.adam-api.com/v1/sessions/d6a2593eddd3457d8c31b8c04c8d84ef/messages'
+-----
+{
+  "status": 404,
+  "errorCode": "session_not_found"
+}
+```
+
+#### Step 3: Travtus API Sends "Message" Event with Reply Message
+
+Travtus API replies are sent to the appropriate webhook:
+
+```json
+POST 'https://api.example.org/v1/messages'
+-----
+{
+  "event": "message",
+  "data": {
+    "sessionId": "d6a2593eddd3457d8c31b8c04c8d84ef",
+    "userId": "1ba95b86d8384caa98b2b9d1e0b0faca",
+    "content": "Hi, I'm a Travtus Teammate, how can I help?",
+    "participantType": "bot"
+  }
+}
+```
+
+Webhook calls expect to receive an HTTP 200 status response.
+
+Participant types:
+- `bot`: Travtus Teammate
+- `agent`: Human agent
+
+## Error Handling
+
+Common error responses:
+
+- **400 Bad Request:** The request could not be understood or was missing required parameters.
+- **401 Unauthorized:** Authentication failed or user does not have permissions for the requested operation.
+- **404 Not Found:** The requested resource could not be found.
+- **500 Internal Server Error:** An error occurred on the server.
+
+## Rate Limits
+
+API rate limits are imposed to ensure fair use. Please contact support for details on rate limits.
+
+## Webhook Configuration
+
+To receive responses from the Travtus API, set up a webhook by sending a request to the following endpoint:
+
+```json
+POST 'https://dev-messaging.adam-api.com/v1/webhooks'
+-----
+{
+  "url": "https://api.example.org/v1/messages",
+  "event": "message"
+}
+```
+
+## Code Samples
+
+### Python
+
+```python
+import requests
+
+url = "https://dev-messaging.adam-api.com/v1/sessions"
+payload = {
+    "clientId": "425462d5fcc648958485f40e501fed2f",
+    "source": "sms",
+    "customer": {
+        "firstName": "Darren",
+        "lastName": "Smith",
+        "phoneNumber": "+1123456789",
+        "emailAddress": "darren@example.org",
+        "unitNumber": "1-A",
+        "address": "5 Summer St, MA 01045, USA"
+    }
+}
+headers = {
+    "Authorization": "Bearer <your-api-key>",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())
+```
+
+### JavaScript (Node.js)
+
+```javascript
+const axios = require('axios');
+
+const url = 'https://dev-messaging.adam-api.com/v1/sessions';
+const payload = {
+  clientId: '425462d5fcc648958485f40e501fed2f',
+  source: 'sms',
+  customer: {
+    firstName: 'Darren',
+    lastName: 'Smith',
+    phoneNumber: '+1123456789',
+    emailAddress: 'darren@example.org',
+    unitNumber: '1-A',
+    address: '5 Summer St, MA 01045, USA'
+  }
+};
+const headers = {
+  Authorization: 'Bearer <your-api-key>',
+  'Content-Type': 'application/json'
+};
+
+axios.post(url, payload, { headers })
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+```
+
+### PHP
+
+```php
+<?php
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://dev-messaging.adam-api.com/v1/sessions');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    'clientId' => '425462d5fcc648958485f40e501fed2f',
+    'source' => 'sms',
+    'customer' => [
+        'firstName' => 'Darren',
+        'lastName' => 'Smith',
+        'phoneNumber' => '+1123456789',
+        'emailAddress' => 'darren@example.org',
+        'unitNumber'
