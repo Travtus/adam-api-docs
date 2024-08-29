@@ -71,6 +71,7 @@
             "deployment-guide/third-party-integrations/o365-to-do",
             "deployment-guide/third-party-integrations/google-reviews",
             "deployment-guide/third-party-integrations/google-gmail",
+            "deployment-guide/third-party-integrations/gmail-oauth",
             "deployment-guide/third-party-integrations/twilio"
           ]
         }
