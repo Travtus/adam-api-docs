@@ -4,51 +4,42 @@ title: "Google Gmail"
 
 # Connecting Your Google Gmail inbox to the Travtus Platform
 
-Integrating your Gmail inbox with the Travtus platform is a straightforward process. We provide two approaches to
-get started, these steps should guide you through successfully delegated authority access for specific Gmail accounts
-within your organization.
+These steps should guide you through successfully installing and setting up the Travtus Marketplace application with
+delegated authority access for specific Gmail accounts within your organization.
 
-1. [Domain-wide delegation of authority](#domain-wide-delegation-of-authority)
-2. [OAuth 2.0 Authorization](#oauth-2-0-authorization)
+## Step 1: Create a Google Group
 
-## Domain-wide delegation of authority
+1. **Log in to Google Admin Console:**
+    - Navigate to the [Google Admin Console](https://admin.google.com/).
+    - Log in using your admin account.
+2. **Create a New Group:**
+    - In the Admin Console, click on **Groups** from the left-hand menu.
+    - Click the **Create Group** button.
+    - Enter the following details:
+        - **Group name:** Enter "Travtus".
+        - **Group email:** This will be the email address associated with the group.
+        - **Group description:** Optionally, provide a brief description of the group's purpose, such as "Group for managing delegated Gmail access."
+    - Click **Next** and configure the group settings as desired.
+    - Click **Create Group** to finalize.
 
-We recommend using this approach if you use group email addresses as your service inboxes.
+## Step 2: Add Members to the Group
 
-To delegate domain-wide authority to our service account:
+1. **Add Specific Gmail Accounts to the Group:**
+    - In the Admin Console, go to **Groups** and select the "Travtus" group you just created.
+    - Click on **Members** in the group’s page.
+    - Click on **Add members**.
+    - Enter the email addresses of the Gmail accounts (inboxes) that need to be monitored.
+    - Click **Add to group** to include them.
 
-1. From your domain’s [Admin console](http://admin.google.com/), go to **Main menu ☰ > Security > Access and data control > API controls.**
-2. In the **Domain wide delegation** pane, select **Manage Domain Wide Delegation**.
-3. Click **Add new**.
-4. In the **Client ID** field, enter the client ID that we enclosed in the onboarding email.
-5. In the **OAuth Scopes** field, enter a comma-delimited list of the scopes that we provided in the onboarding email.
-6. Click **Authorize**.
+## Step 3: Install the Travtus App and Assign to the Group
 
-That's it! Our service account now has domain-wide access to your Gmail inboxes within your organization.
-
-## OAuth 2.0 Authorization
-
-We recommend using this approach if your service inboxes are individual Gmail accounts.
-
-### Step 1: Navigate to Authorization Page
-
-To begin, you need to access the Travtus Gmail authorization page:
-    - Ensure you are logged into the Gmail account you wish to integrate, or have access to log in.
-    - Navigate to the following URL: [https://google-workspace.travtus.com/gmail/authorize](https://google-workspace.travtus.com/gmail/authorize)
-
-### Step 2: Review and Provide Authorization
-
-Once on the authorization page, you'll need to review and agree to the permissions requested:
-    - Carefully read through the Gmail consent screen presented to you.
-    - Review the permissions that Travtus is requesting access to.
-    - If you agree, click on the button to provide authorization.
-
-### Step 3: Integration complete
-
-After you have approved the access:
-    - You will be redirected to the Travtus homepage [https://www.travtus.com/](https://www.travtus.com/).
-    - The Travtus platform will automatically handle the integration process.
-    - Your Gmail account is now connected to the Travtus platform.
-
-That's it! Your Gmail account will now be accessible through the Travtus platform, providing you with enhanced data management capabilities. For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
-Thank you for choosing Travtus!
+1. Your Travtus Customer Success Manager will provide you with a link to the Travtus Workspace App.
+2. **Install the App:**
+    - Click on the Travtus app listing.
+    - Click **Install**.
+    - Review the permissions requested by the app, and click **Continue**.
+2. **Assign to the Group:**
+    - During the installation process, you will be prompted to select who has access to the app.
+    - Choose **Specific groups**.
+    - Select the "Travtus" group you created earlier.
+    - Complete the installation by following the on-screen instructions.
