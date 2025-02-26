@@ -1,12 +1,12 @@
 ---
 title: "Find Leases"
-api: "POST https://api.travtus.com/leases/find/"
+api: "GET https://api.travtus.com/leases/"
 description: "This endpoint returns information about all leases that match the given parameters."
 ---
 
-You need to provide exact matches in the body of the request for the attributes of the leases you are looking for.
+You need to provide at least one search parameter in your request to find leases.
 
-All date fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+All date fields included in the query parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
 
 Date fields should follow a "YYYY-MM-DD" format.
 
@@ -23,7 +23,7 @@ You can provide either group ids through the `group_ids` parameter or group exte
 
 Do not provide both, as this will result in the request failing.
 
-If no group_ids or group_external_refs are specified in the request body, the authenticated user will retrieve lease records for all groups they have access to.
+If no group_ids or group_external_refs are specified in the request, the authenticated user will retrieve lease records for all groups they have access to.
 
 ### Header
 
@@ -31,85 +31,93 @@ If no group_ids or group_external_refs are specified in the request body, the au
   The authentication token for your request
 </ParamField>
 
-### Body
+### Query Parameters
 
-<ParamField body="identifier" type="string" default="none">
+<ParamField query="identifier" type="string" default="none">
   The identifier for the leases to be retrieved.
 </ParamField>
 
-<ParamField body="start_date" type="string" default="none">
+<ParamField query="start_date" type="string" default="none">
   The start date of the leases to be retrieved.
 </ParamField>
 
-<ParamField body="end_date" type="string" default="none">
+<ParamField query="end_date" type="string" default="none">
   The end date of the leases to be retrieved.
 </ParamField>
 
-<ParamField body="move_in_date" type="string" default="none">
+<ParamField query="move_in_date" type="string" default="none">
   The move in date of the leases to be retrieved.
 </ParamField>
 
-<ParamField header="group_ids" type="[string]" default="none">
-  A list of group ids to retrieve leases for.
+<ParamField query="group_ids" type="string" default="none">
+  A comma-separated list of group ids to retrieve leases for.
 </ParamField>
 
-<ParamField header="groups_external_refs" type="[string]" default="none">
-  A list of group external refs to retrieve leases for.
+<ParamField query="group_external_refs" type="string" default="none">
+  A comma-separated list of group external refs to retrieve leases for.
 </ParamField>
 
-<ParamField body="unit_external_refs" type="[string]" default="none">
-  A list of unit external references to retrieve leases for.
+<ParamField query="unit_external_ref" type="string" default="none">
+  The unit external reference to retrieve leases for.
 </ParamField>
 
-<ParamField body="unit_identifiers" type="[string]" default="none">
-  A list of unit internal IDs to retrieve leases for.
+<ParamField query="unit_identifier" type="string" default="none">
+  The unit internal ID to retrieve leases for.
 </ParamField>
 
-<ParamField body="address" type="object" default="none">
+<ParamField query="address" type="object" default="none">
   An address to retrieve leases for.
 
   <Expandable>
-    <ParamField body="building_name" type="string">
+    <ParamField query="building_name" type="string">
       The name of the addresses' building.
     </ParamField>
-    <ParamField body="address_line_1" type="string">
+    <ParamField query="address_line_1" type="string">
       The first line of the address.
     </ParamField>
-    <ParamField body="address_line_2" type="string">
+    <ParamField query="address_line_2" type="string">
       The second line of the address.
     </ParamField>
-    <ParamField body="city" type="string">
+    <ParamField query="city" type="string">
       The address' city.
     </ParamField>
-    <ParamField body="country" type="string">
+    <ParamField query="country" type="string">
       The address' country.
     </ParamField>
-    <ParamField body="state" type="string">
+    <ParamField query="state" type="string">
       The address' state.
     </ParamField>
-    <ParamField body="postal_code" type="string">
+    <ParamField query="postal_code" type="string">
       The address' postal code.
     </ParamField>
-    <ParamField body="latitude" type="float">
+    <ParamField query="latitude" type="float">
       The address' latitude.
     </ParamField>
-    <ParamField body="longitude" type="float">
+    <ParamField query="longitude" type="float">
       The address' longitude.
     </ParamField>
   </Expandable>
 </ParamField>
 
-<ParamField body="after-id" type="string" default="1">
+<ParamField query="after_id" type="string" default="none">
   The API returns a maximum of 100 records per call.
 
-  You can use this parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+  You can use this parameter to load the next set of records by passing in the value returned in the response, under `pagination.next_cursor`.
+</ParamField>
+
+<ParamField query="offset" type="integer" default="0">
+  Number of records to skip before returning results.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="100">
+  Maximum number of records to return per page.
 </ParamField>
 
 ### Response
 
-<ResponseField name="leases" type="string">
+<ResponseField name="data" type="array">
   A list of the leases that have been retrieved.
-  <Expandable title="leases">
+  <Expandable title="lease object">
     <ResponseField name="identifier" type="string" default="none">
       The identifier of the retrieved lease.
     </ResponseField>
@@ -203,12 +211,25 @@ If no group_ids or group_external_refs are specified in the request body, the au
     </ResponseField>
   </Expandable>
 </ResponseField>
-<ResponseField name="last_id" type="integer">
-  The last id in the set of results returned for this API call.
 
-  You can use this value in the `after-id` parameter to load the next set of results.
-
-  If there are no more results to load, this value will be -1.
+<ResponseField name="pagination" type="object">
+  Pagination information for navigating through the result set.
+  
+  <Expandable title="pagination">
+    <ResponseField name="count" type="integer">
+      Total number of items matching the query.
+    </ResponseField>
+    
+    <ResponseField name="next_cursor" type="string">
+      The cursor to use in the `after_id` parameter to get the next page of results.
+      Will be null if there are no more pages.
+    </ResponseField>
+    
+    <ResponseField name="previous_cursor" type="string">
+      The cursor to use in the `after_id` parameter to get the previous page of results.
+      Will be null if this is the first page.
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 ### Errors
@@ -246,8 +267,16 @@ Status Code - 401
 ```
 
 Status Code - 400
+```json No search parameters provided
+{
+   "error": {
+    "type": "no_search_parameters",
+    "message": "At least one search parameter is required to find leases."
+  }
+}
+```
 
-Returned if both a group id and group_external_ref are provided
+Status Code - 400
 ```json Both group id and external ref provided for the tenant find operation
 {
    "error": {
@@ -272,12 +301,8 @@ Returned if no lease records could not be found.
 <RequestExample>
 
 ```bash Request
-curl --location --request POST 'https://api.travtus.com/leases/find/' \
---header 'Content-Type: application/json' \
---header 'Authorization: bearer <token>' \
---data-raw '{
-    "start_date": "2023-01-17"
-}'
+curl --location --request GET 'https://api.travtus.com/leases/?start_date=2023-01-17' \
+--header 'Authorization: bearer <token>'
 ```
 
 </RequestExample>
@@ -298,7 +323,7 @@ curl --location --request POST 'https://api.travtus.com/leases/find/' \
           "tenant_id": "tenant-id-1",
           "tenant_external_ref": "tenant-external-ref-1"
         }
-      ]
+      ],
       "unit_id": "unit-id-1",
       "unit_external_ref": "unit-external-ref-1",
       "is_furnished": false,
@@ -321,7 +346,7 @@ curl --location --request POST 'https://api.travtus.com/leases/find/' \
           "tenant_id": "tenant-id-3",
           "tenant_external_ref": "tenant-external-ref-3"
         }
-      ]
+      ],
       "unit_id": "unit-id-2",
       "unit_external_ref": "unit-external-ref-2",
       "is_furnished": true,
