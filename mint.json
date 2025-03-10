@@ -94,6 +94,12 @@
           "group": "Data Types & Endpoints",
           "pages": [
             {
+              "group": "Community",
+              "pages": [
+                "travtus-api-and-webhook/data-types-and-endpoints/community/find-community"
+              ]
+            },
+            {
               "group": "Person",
               "pages": [
                 "travtus-api-and-webhook/data-types-and-endpoints/person/find",
