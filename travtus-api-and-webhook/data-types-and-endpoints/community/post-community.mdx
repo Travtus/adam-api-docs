@@ -1,0 +1,148 @@
+---
+title: "Create Community"
+api: "POST https://api.travtus.com/communities/"
+description: "This endpoint creates a new community (property or building portfolio)."
+---
+
+### Example use cases
+
+This endpoint allows you to create a new community with the specified properties:
+
+- Create a new property or building portfolio
+- Specify contact information, location, and other details for the community
+- Establish the foundation for further property management operations
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  The name of the community.
+</ParamField>
+
+<ParamField body="community_external_ref" type="string" default="none">
+  An external reference ID for the community (recommended for system integration).
+</ParamField>
+
+<ParamField body="description" type="string" default="none">
+  A description of the community.
+</ParamField>
+
+<ParamField body="timezone" type="string" required>
+  The timezone where the community is located (e.g., "US/Eastern", "UTC").
+</ParamField>
+
+<ParamField body="email_address" type="string" default="none">
+  The primary contact email for the community.
+</ParamField>
+
+<ParamField body="phone_number" type="string" default="none">
+  The primary contact number for the community.
+</ParamField>
+
+<ParamField body="property_type" type="string" default="none">
+  The type of property (e.g., "residential", "commercial").
+</ParamField>
+
+<ParamField body="status" type="string" default="none">
+  The current status of the community (e.g., "active", "inactive").
+</ParamField>
+
+<ParamField body="website_address" type="string" default="none">
+  The website URL for the community.
+</ParamField>
+
+<ParamField body="latitude" type="number" default="none">
+  The latitude coordinate of the community location.
+</ParamField>
+
+<ParamField body="longitude" type="number" default="none">
+  The longitude coordinate of the community location.
+</ParamField>
+
+### Response
+
+<ResponseField name="request_id" type="string">
+  A unique identifier for tracking the request. This ID can be used for support inquiries or tracking status.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing required fields
+{
+  "name": [
+    "This field is required."
+  ],
+  "timezone": [
+    "This field is required."
+  ]
+}
+```
+
+Status Code - 400
+```json Invalid field value
+{
+  "email_address": [
+    "Enter a valid email address."
+  ]
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 500
+```json Internal server error
+{
+  "error": {
+    "message": "An error occurred while creating the community."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.travtus.com/communities/' \
+--header 'Authorization: bearer <token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "name": "Skyline Apartments",
+  "community_external_ref": "SKY-APT-001",
+  "description": "Modern apartment complex with panoramic city views",
+  "timezone": "US/Eastern",
+  "email_address": "contact@skylineapts.com",
+  "phone_number": "555-123-4567",
+  "property_type": "residential",
+  "status": "active",
+  "website_address": "https://skylineapartments.com",
+  "latitude": 40.7128,
+  "longitude": -74.0060
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "request_id": "7f5ce31c-39a1-42df-9182-4858b7d94c3d"
+}
+```
+
+</ResponseExample>
