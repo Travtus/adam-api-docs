@@ -96,7 +96,9 @@
             {
               "group": "Community",
               "pages": [
-                "travtus-api-and-webhook/data-types-and-endpoints/community/find-community"
+                "travtus-api-and-webhook/data-types-and-endpoints/community/find-community",
+                "travtus-api-and-webhook/data-types-and-endpoints/community/patch-community",
+                "travtus-api-and-webhook/data-types-and-endpoints/community/post-community"
               ]
             },
             {
