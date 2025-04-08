@@ -1,0 +1,167 @@
+---
+title: "Update Community"
+api: "PATCH https://api.travtus.com/communities/"
+description: "This endpoint updates an existing community with the provided parameters."
+---
+
+### Example use cases
+
+This endpoint allows you to update details of an existing community:
+
+- Update contact information such as email or phone number
+- Change the community name, status, or description
+- Update location details or web presence information
+
+You must identify the community to update with either `community_id` or `community_external_ref`, and include at least one field to update.
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Request Body
+
+<ParamField body="community_id" type="string" default="none">
+  The unique identifier for the community to update.
+  Either this or `community_external_ref` is required.
+</ParamField>
+
+<ParamField body="community_external_ref" type="string" default="none">
+  The external reference ID for the community to update.
+  Either this or `community_id` is required.
+</ParamField>
+
+<ParamField body="name" type="string" default="none">
+  The updated name of the community.
+</ParamField>
+
+<ParamField body="description" type="string" default="none">
+  An updated description of the community.
+</ParamField>
+
+<ParamField body="timezone" type="string" default="none">
+  The updated timezone where the community is located.
+</ParamField>
+
+<ParamField body="email_address" type="string" default="none">
+  The updated primary contact email for the community.
+</ParamField>
+
+<ParamField body="phone_number" type="string" default="none">
+  The updated primary contact number for the community.
+</ParamField>
+
+<ParamField body="property_type" type="string" default="none">
+  The updated type of property.
+</ParamField>
+
+<ParamField body="status" type="string" default="none">
+  The updated status of the community.
+</ParamField>
+
+<ParamField body="website_address" type="string" default="none">
+  The updated website URL for the community.
+</ParamField>
+
+<ParamField body="latitude" type="number" default="none">
+  The updated latitude coordinate of the community location.
+</ParamField>
+
+<ParamField body="longitude" type="number" default="none">
+  The updated longitude coordinate of the community location.
+</ParamField>
+
+### Response
+
+<ResponseField name="request_id" type="string">
+  A unique identifier for tracking the update request. This ID can be used for support inquiries or tracking status.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing community identifier
+{
+  "non_field_errors": [
+    "Either community_id or community_external_ref must be provided"
+  ]
+}
+```
+
+Status Code - 400
+```json No update fields provided
+{
+  "non_field_errors": [
+    "At least one field to update must be provided"
+  ]
+}
+```
+
+Status Code - 400
+```json Invalid field value
+{
+  "email_address": [
+    "Enter a valid email address."
+  ]
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 404
+```json Community not found
+{
+  "error": {
+    "type": "community_not_found",
+    "message": "There are no community records matching the information provided."
+  }
+}
+```
+
+Status Code - 500
+```json Internal server error
+{
+  "error": {
+    "message": "An error occurred while updating the community."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Update by community_id
+curl --location --request PATCH 'https://api.travtus.com/communities/' \
+--header 'Authorization: bearer <token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "community_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "name": "Skyline Apartments - East Tower",
+  "description": "Updated luxury apartment complex with panoramic city views",
+  "status": "inactive"
+}'
+```
+
+```bash Update by external reference
+curl --location --request PATCH 'https://api.travtus.com/communities/' \
+--header 'Authorization: bearer <token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "community_external_ref": "SKY-APT-001",
+  "email_address": "newemail@skylineapts.com",
+  "phone_number": "555-987-6543",
+  "website_address": "https://new-skylineapartments.com"
+}'
+```
+
+</RequestExample>

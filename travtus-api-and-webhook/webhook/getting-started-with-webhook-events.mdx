@@ -1,0 +1,113 @@
+---
+title: "Getting Started with Webhook Events"
+---
+# Using Travtus Webhooks
+
+Webhooks allow services to notify each other of events. They work by sending a `POST` request to a pre-determined endpoint. Below are the details on how to set up, verify, and manage Travtus webhooks effectively.
+
+## Introduction to Travtus Webhooks
+
+At their core, webhooks are a way to send automated messages or information from one app to another as events happen. For example, you can set up an endpoint like `https://www.example.com/acme/webhooks/` to receive notifications from Travtus.
+
+To indicate that a webhook has been processed, return a `2xx` (status code `200-299`) response to the webhook message within a reasonable time frame (15 seconds). Disable `CSRF` protection for this endpoint if the framework you use enables it by default.
+
+### Why Verify Webhooks
+
+Webhook signatures help verify that the messages are genuinely sent by Travtus and not by an attacker. Signatures also help prevent replay attacks by including a timestamp in the webhook. It’s crucial to verify the signature and timestamp to ensure the security of your application.
+
+For more details on the importance of verifying webhooks, refer to [why you should verify webhooks](https://docs.svix.com/receiving/verifying-payloads/why).
+
+## How to Verify Webhooks with Travtus Libraries
+
+Travtus uses Svix libraries to make webhook verification simple. Below is an example using Python:
+
+### Python Example
+
+```python
+from svix.webhooks import Webhook
+
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+# These were all sent from the server
+headers = {
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+}
+payload = '{"test": 2432232314}'
+
+wh = Webhook(secret)
+# Throws on error, returns the verified content on success
+payload = wh.verify(payload, headers)
+```
+
+For more instructions and examples on how to verify signatures, check out the [webhook verification documentation](https://docs.svix.com/receiving/verifying-payloads/how).
+
+## Adding an Endpoint
+
+To start receiving messages from Travtus, you need to configure your **endpoints**:
+
+1. **Access the Webhook Portal**: Request a short-lived URL for accessing your webhook consumer application portal.
+2. **Add Endpoint**: Provide a URL and a list of **event types** you want to listen to.
+
+![add endpoint](/images/webhook/add-endpoint.png)
+
+> **Helpful Tip!** If you don't have a URL or your service isn't ready to start receiving events, press the **use Svix Play** button for a temporary URL.
+
+If you don't specify any event types, your endpoint will receive all events by default. This can be helpful for initial testing.
+
+### Testing Your Endpoint
+
+Use the "Testing" tab to send example events to your endpoint.
+
+![testing endpoint](/images/webhook/testing-endpoint.png)
+
+After sending an example event, click into the message to view the payload, message attempts, and success or failure status.
+
+## Retries
+
+Travtus uses a retry schedule with exponential backoff for delivering webhook messages.
+
+### Retry Schedule
+
+Each message is retried based on the following schedule:
+
+- Immediately
+- 5 seconds
+- 5 minutes
+- 30 minutes
+- 2 hours
+- 5 hours
+- 10 hours
+- 10 hours (repeated)
+
+If an endpoint fails consistently for 5 days, it will be disabled, and an `EndpointDisabledEvent` will be sent.
+
+### Manual Retries
+
+You can manually retry each message or automatically retry all failed messages from a specific date using the application portal.
+
+## Troubleshooting Tips
+
+### Common Issues
+
+1. **Not Using the Raw Payload Body**: Verify the payload exactly as sent to ensure accurate verification.
+2. **Missing the Secret Key**: Ensure you are using the correct secret key unique to each endpoint.
+3. **Wrong Response Codes**: Use the correct response status codes to indicate success or failure.
+4. **Responses Timing Out**: Ensure your endpoint responds within 15 seconds. Consider processing messages asynchronously to avoid timeouts.
+
+## Failure Recovery
+
+### Re-enable a Disabled Endpoint
+
+To re-enable a disabled endpoint, go to the webhook dashboard, find the endpoint, and select "Enable Endpoint".
+
+### Recovering/Resending Failed Messages
+
+If you need to replay a single event, find the message from the UI, click the options menu, and select "resend". For more extensive recovery, use the "Recover Failed Messages" option.
+
+For more details on replaying messages, visit [replaying messages](https://docs.svix.com/receiving/using-app-portal/replaying-messages).
+
+For any questions or further assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
+
+Thank you for choosing Travtus!

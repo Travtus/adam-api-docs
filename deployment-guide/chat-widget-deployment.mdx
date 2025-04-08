@@ -1,0 +1,180 @@
+---
+title: "Chat Widget Deployment"
+---
+
+<center><img src="/images/widget/widget-desktop.png" width="476" height="662" /></center>
+
+## Widget Installation
+
+<Warning>The chat widget must be embedded in an environment accessible through the public Internet.</Warning>
+
+Include the installation script before the `</body>` tag on every page you want Adam to show, replacing `CLIENT_ID` with the relevant community ID:
+
+```
+<script src="https://adam-widget.travtus.com/main.js"></script>
+<script>
+  (function () {
+    window.onload = function () {
+      AdamChat.init('adam-bot', {
+        clientId: "CLIENT_ID",
+        source: "website"
+      });                
+    }
+  })()
+</script>
+```
+
+## Widget API 
+The below describe the options and methods that can be called in the Widget API to customize behaviour of the chat widget. 
+
+### Methods
+
+The below methods can be called:
+
+<AccordionGroup>
+<Accordion title="init(reference, options)">
+Initializes Adam, and returns the instance.
+
+It takes two arguments: 
+
+`reference`: A unique reference for the instance (use `adam` if unsure):
+
+```
+AdamChat.init("adam", options);
+```
+
+`options`: An options object to configure the widget (`clientId` and `source` are mandatory):
+
+```
+AdamChat.init("adam", {
+  clientId: "CLIENT_ID",
+  source: "website"
+});
+```
+
+You can find more options to customize the widget below.
+</Accordion>
+
+
+<Accordion title="remove()">
+Disconnects the chat and removes it from the page:
+
+```
+AdamChat.remove();
+```
+
+In order to initialize the chat again, you must use the init() method detailed above.
+</Accordion>
+
+
+<Accordion title="openChatWindow()">
+Acts like a click on the Adam launcher, opening the chat window. This can be especially useful for mobile, where you might not want the launcher button to show - rather you can create a custom element and trigger the opening of the chat window programatically:
+
+```
+AdamChat.openChatWindow();
+```
+</Accordion>
+
+<Accordion title="closeChatWindow()">
+Closes the chat window:
+
+```
+AdamChat.closeChatWindow();
+```
+</Accordion>
+</AccordionGroup>
+
+
+### Available Options
+These values enable you to tailor the widget to your requirements.
+
+<AccordionGroup>
+<Accordion title="clientId">
+`string`
+
+This is a _mandatory_ field. Pass the clientId relating to your community.
+</Accordion>
+<Accordion title="source">
+`string`
+
+This is a _mandatory_ field. Pass one of the following values to identify the channel that the conversations is being held on:
+
+    - **portal** - if the user is accessing Adam via a private/secure portal
+    - **website** - if the user is accessing Adam via a public website
+</Accordion>
+
+<Accordion title="clientInfo">
+`object`
+
+You can optionally pass a `clientInfo` object to initiate the chat with the user information pre-loaded (e.g. for use in resident portals in logged-in state):
+	
+	- **firstName** `string`: user's first name
+  - **lastName** `string`: user's last name
+  - **phoneNumber** `string`: user's registered phone number
+  - **email** `string`: user's registered email address
+  - **unit** `string`: apartment number
+  - **address** `string`: property address
+</Accordion>
+
+<Accordion title="colors">
+`object`
+
+You can optionally pass a `colors` object to tailor the colors used in the widget to your brand:
+	
+	- **background** `string`: 6-digit HEX or RGB string
+  - **foreground** `string`: 6-digit HEX or RGB string
+  - **text** `string`: user's 6-digit HEX or RGB string
+
+When passing a `colors` object, the icon on the launcher button will change from the Travtus T logo to a message bubble.
+
+<img src="/images/widget/widget-colors.png" width="474" height="657" />
+
+</Accordion>
+
+<Accordion title="breakpoint">
+`number`
+
+This is the resolution at which the chat window should switch from full screen (mobile view) to an overlay in the bottom right (desktop view). Defaults to `769` (tablet portrait).
+
+Mobile view:
+
+<img src="/images/widget/widget-mobile.png" width="316" height="682" />
+</Accordion>
+
+<Accordion title="hideLauncherOnMobile">
+`boolean`
+
+You can choose to hide the launcher button on mobile, and to instead open the chat window programatically using the `openChatWindow()` method. This defaults to `false`.
+</Accordion>
+
+<Accordion title="hideFooter">
+`boolean`
+
+Hide the "Powered by Travtus" footer. Defaults to `false`.
+</Accordion>
+</AccordionGroup>
+
+Example with all options passed:
+
+```
+AdamChat.init('adam-bot', { 
+  clientId: "CLIENT_ID", 
+  source: "portal", 
+  clientInfo: { 
+      firstName: "Adam", 
+      lastName: "Bot", 
+      phoneNumber: "123456789", 
+      email: "adam@travtus.com", 
+      unit: "unit 3", 
+      address: "Summer 5 Rd", 
+  },
+  colors: {
+    background: "#94E087",
+    foreground: "#000000",
+    text: "#000000",
+  },
+  breakpoint: 641,
+  hideLauncherOnMobile: false,
+  hideFooter: false,
+});
+```

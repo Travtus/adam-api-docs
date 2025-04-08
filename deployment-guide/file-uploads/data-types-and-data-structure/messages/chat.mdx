@@ -1,0 +1,49 @@
+---
+title: "Chat Messages"
+---
+
+Below is our standard data structure for a chat message:
+
+<ParamField body="conversation_id" type="string" default="none">
+  Unique Identifier for the chain of messages or conversation. 
+</ParamField>
+
+<ParamField body="message_id" type="string" default="none">
+  Unique identifier for the individual message.
+</ParamField>
+
+<ParamField body="created_at" type="string" default="none">
+  The data time that the message was created. Expects ISO format, e.g. 2023-01-01T00:00:00.
+</ParamField>
+
+<ParamField body="portfolio_id" type="string" default="none">
+  The Travtus Unique Identifier for the community.
+</ParamField>
+
+<ParamField body="message_text" type="string" default="none">
+  The body text of the message.
+</ParamField>
+
+<ParamField body="first_name" type="string" default="none">
+  The first name of the sender.
+</ParamField>
+
+<ParamField body="last_name" type="string" default="none">
+  The last name of the sender.
+</ParamField>
+
+<ParamField body="sender_ext_ref" type="string" default="none">
+  The unique identifier from the clients system of record.
+</ParamField>
+
+<ParamField body="phone_number" type="string" default="none">
+  The senders phone number.
+</ParamField>
+
+<ParamField body="email_address" type="string" default="none">
+  The senders email address.
+</ParamField>
+
+<ParamField body="message_direction" type="string" default="none">
+  The direction of the message - whether it was sent inbound from a customer or outbound to a customer.
+</ParamField>

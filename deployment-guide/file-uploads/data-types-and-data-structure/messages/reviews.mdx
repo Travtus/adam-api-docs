@@ -1,0 +1,37 @@
+---
+title: "Reviews"
+---
+
+All datetime fields included in the body parameters need to be specified as [ISO8601-formatted date strings](https://en.wikipedia.org/wiki/ISO_8601).
+
+Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
+
+Below is our standard data structure for a review:    
+
+<ParamField body="review_id" type="string" default="none">
+  The ID of the review to be created.
+</ParamField>
+
+<ParamField body="rating" type="string" default="none">
+  The rating for the review to be created.
+</ParamField>
+
+<ParamField body="display_name" type="string" default="none">
+  The name of the person that has left the review to be created.
+</ParamField>
+
+<ParamField body="is_anonymous" type="string" default="none">
+  Whether the person that has left the review to be created was anonymous or not.
+</ParamField>
+
+<ParamField body="created_datetime" type="datetime" default="none">
+  The date and time that the review was posted. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="updated_datetime" type="datetime" default="none">
+  The date and time that the review was updated. Example: 2023-01-01T00:00:00
+</ParamField>
+
+<ParamField body="comment" type="string" default="none">
+  The comment left for the review to be created.
+</ParamField>

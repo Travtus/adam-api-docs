@@ -1,0 +1,202 @@
+---
+title: "Find Communities"
+api: "GET https://api.travtus.com/communities/"
+description: "This endpoint returns information about communities that match the given parameters."
+---
+
+You need to provide at least one search parameter in your request to find communities.
+
+### Example use cases
+
+This endpoint allows you to find communities (properties or building portfolios) based on various parameters:
+
+- Retrieve a specific community by its ID or external reference
+- Search for communities by name
+- Paginate through results for larger data sets
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="community_id" type="string" default="none">
+  The unique identifier for the community.
+</ParamField>
+
+<ParamField query="community_external_ref" type="string" default="none">
+  The external reference ID for the community.
+</ParamField>
+
+<ParamField query="name" type="string" default="none">
+  The name of the community to search for.
+</ParamField>
+
+<ParamField query="after_id" type="integer" default="1">
+  The API returns a maximum of 100 records per call.
+
+  You can use this parameter to load the next set of records by passing in the value returned in the response, under `last_id`.
+</ParamField>
+
+### Response
+
+<ResponseField name="communities" type="array">
+  A list of communities that match the search criteria.
+  <Expandable title="community object">
+    <ResponseField name="community_id" type="string">
+      The unique identifier of the community.
+    </ResponseField>
+
+    <ResponseField name="community_external_ref" type="string">
+      The external reference of the community.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      The name of the community.
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Description of the community.
+    </ResponseField>
+
+    <ResponseField name="location" type="object">
+      The geographic coordinates of the community.
+
+      <Expandable title="location">
+        <ResponseField name="latitude" type="string">
+          The latitude coordinate of the community.
+        </ResponseField>
+        <ResponseField name="longitude" type="string">
+          The longitude coordinate of the community.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="timezone" type="string">
+      The timezone where the community is located.
+    </ResponseField>
+
+    <ResponseField name="unit_count" type="integer">
+      The number of units in the community.
+    </ResponseField>
+
+    <ResponseField name="website" type="string">
+      The website URL for the community.
+    </ResponseField>
+
+    <ResponseField name="phone_number" type="string">
+      The primary contact number for the community.
+    </ResponseField>
+
+    <ResponseField name="email" type="string">
+      The primary contact email for the community.
+    </ResponseField>
+
+    <ResponseField name="status" type="string">
+      The current status of the community.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="last_id" type="integer">
+  The ID to use with the `after_id` parameter to get the next page of results.
+  A value of -1 indicates that there are no more pages available.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+  "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+  "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+```json No search parameters provided
+{
+  "error": {
+    "type": "no_search_parameters",
+    "message": "At least one search parameter is required to find communities."
+  }
+}
+```
+
+Status Code - 404
+
+Returned if no communities could be found.
+```json No communities found
+{
+  "error": "No communities found matching the provided criteria."
+}
+```
+
+Status Code - 500
+```json Internal server error
+{
+  "error": "An internal error occurred while processing your request."
+}
+```
+
+<RequestExample>
+
+```bash Request
+curl --location --request GET 'https://api.travtus.com/communities/?name={Your_Community_name_here}' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "communities": [
+    {
+      "community_id": "test1234-4e84-4d02-8fa1-71d5ff0e0979",
+      "community_external_ref": "987123",
+      "name": "Test Community",
+      "description": null,
+      "location": {
+        "latitude": "34.0811089",
+        "longitude": "-84.2789026"
+      },
+      "timezone": "America/New_York",
+      "website": "https://community.test.com/apartments/community-test",
+      "phone_number": "801-456-1234",
+      "email": "test@community.com",
+      "status": "active"
+    }
+  ],
+  "last_id": -1
+}
+```
+
+</ResponseExample>

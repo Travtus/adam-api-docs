@@ -1,0 +1,245 @@
+---
+title: "Accessing Your Data Feeds"
+---
+
+Data feeds provide aggregated output files from the Travtus platform, allowing you to import them into your own BI environment. Follow the instructions below to download files from your S3 bucket using the same credentials as before, in various programming languages.
+
+## Request Credentials
+
+First, request your S3 credentials by contacting our support team at [support@travtus.com](mailto:support@travtus.com). You will receive the following information:
+
+- **Bucket Name**
+- **Directory Extension**
+- **Access Key**
+- **Secret Key**
+
+## Downloading Files from S3
+
+### Python (boto3)
+
+#### Step 1: Install boto3
+
+If you haven't already, install the boto3 library using pip:
+
+```bash
+pip install boto3
+```
+
+#### Step 2: Download Files
+
+Use the following script to download files:
+
+```python
+import boto3
+from botocore.exceptions import NoCredentialsError
+
+bucket_name = 'your-bucket-name'
+directory_extension = 'your-directory-extension'
+access_key = 'your-access-key'
+secret_key = 'your-secret-key'
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key
+)
+
+def download_file(object_name, file_name=None):
+    if file_name is None:
+        file_name = object_name.split('/')[-1]
+
+    try:
+        s3.download_file(bucket_name, f"{directory_extension}/{object_name}", file_name)
+        print(f"File {object_name} downloaded successfully as {file_name}")
+    except NoCredentialsError:
+        print("Credentials not available")
+
+download_file('path/to/your/file.csv')
+```
+
+### JavaScript (Node.js)
+
+#### Step 1: Install AWS SDK
+
+If you haven't already, install the AWS SDK:
+
+```bash
+npm install aws-sdk
+```
+
+#### Step 2: Download Files
+
+Use the following script to download files:
+
+```javascript
+const AWS = require('aws-sdk');
+const fs = require('fs');
+
+const bucketName = 'your-bucket-name';
+const directoryExtension = 'your-directory-extension';
+const accessKeyId = 'your-access-key';
+const secretAccessKey = 'your-secret-key';
+
+const s3 = new AWS.S3({
+  accessKeyId: accessKeyId,
+  secretAccessKey: secretAccessKey
+});
+
+const downloadFile = (objectName, fileName = null) => {
+  if (!fileName) {
+    fileName = objectName.split('/').pop();
+  }
+
+  const params = {
+    Bucket: bucketName,
+    Key: `${directoryExtension}/${objectName}`
+  };
+
+  s3.getObject(params, (err, data) => {
+    if (err) {
+      throw err;
+    }
+    fs.writeFileSync(fileName, data.Body.toString());
+    console.log(`File ${objectName} downloaded successfully as ${fileName}`);
+  });
+};
+
+downloadFile('path/to/your/file.csv');
+```
+
+### PHP
+
+#### Step 1: Install AWS SDK for PHP
+
+If you haven't already, install the AWS SDK for PHP using Composer:
+
+```bash
+composer require aws/aws-sdk-php
+```
+
+#### Step 2: Download Files
+
+Use the following script to download files:
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+$bucketName = 'your-bucket-name';
+$directoryExtension = 'your-directory-extension';
+$accessKeyId = 'your-access-key';
+$secretAccessKey = 'your-secret-key';
+
+$s3Client = new S3Client([
+    'region'  => 'us-east-1',
+    'version' => 'latest',
+    'credentials' => [
+        'key'    => $accessKeyId,
+        'secret' => $secretAccessKey,
+    ],
+]);
+
+function downloadFile($objectName, $fileName = null) {
+    global $s3Client, $bucketName, $directoryExtension;
+    
+    if ($fileName === null) {
+        $fileName = basename($objectName);
+    }
+
+    try {
+        $result = $s3Client->getObject([
+            'Bucket' => $bucketName,
+            'Key'    => "$directoryExtension/$objectName",
+            'SaveAs' => $fileName
+        ]);
+        echo "File $objectName downloaded successfully as $fileName\n";
+    } catch (AwsException $e) {
+        echo $e->getMessage() . "\n";
+    }
+}
+
+downloadFile('path/to/your/file.csv');
+?>
+```
+
+### C#
+
+#### Step 1: Install AWS SDK for .NET
+
+If you haven't already, install the AWS SDK for .NET:
+
+```bash
+Install-Package AWSSDK.S3
+```
+
+#### Step 2: Download Files
+
+Use the following script to download files:
+
+```csharp
+using Amazon.S3;
+using Amazon.S3.Transfer;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+class Program
+{
+    private const string bucketName = "your-bucket-name";
+    private const string directoryExtension = "your-directory-extension";
+    private const string accessKeyId = "your-access-key";
+    private const string secretAccessKey = "your-secret-key";
+    private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
+    private static IAmazonS3 s3Client;
+
+    public static async Task Main(string[] args)
+    {
+        s3Client = new AmazonS3Client(accessKeyId, secretAccessKey, bucketRegion);
+        await DownloadFileAsync("path/to/your/file.csv");
+    }
+
+    private static async Task DownloadFileAsync(string objectName, string fileName = null)
+    {
+        if (fileName == null)
+        {
+            fileName = Path.GetFileName(objectName);
+        }
+
+        try
+        {
+            var fileTransferUtility = new TransferUtility(s3Client);
+            await fileTransferUtility.DownloadAsync(fileName, bucketName, $"{directoryExtension}/{objectName}");
+            Console.WriteLine($"File {objectName} downloaded successfully as {fileName}");
+        }
+        catch (AmazonS3Exception e)
+        {
+            Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+        }
+    }
+}
+```
+
+## Connecting from Snowflake and Databricks
+
+### Snowflake
+
+To connect Snowflake to your S3 data feeds, follow the instructions in the Snowflake documentation: [Snowflake and Amazon S3 Integration](https://docs.snowflake.com/en/user-guide/data-load-s3.html).
+
+### Databricks
+
+To connect Databricks to your S3 data feeds, follow the instructions in the Databricks documentation: [Databricks and Amazon S3 Integration](https://docs.databricks.com/data/data-sources/aws/amazon-s3.html).
+
+By following these steps and using the provided scripts, you can easily download your data feeds from the Travtus platform's S3 bucket in Python, JavaScript, PHP, and C#. 
+
+For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
+
+Thank you for choosing Travtus!
+
+---
