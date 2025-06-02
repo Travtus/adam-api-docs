@@ -165,6 +165,17 @@
       ]
     },
     {
+      "group": "Miscellaneous",
+      "pages": [
+        {
+          "group": "Chrome Extension",
+          "pages": [
+            "miscellaneous/chrome-extension/sideloading-gateway-on-chrome"
+          ]
+        }
+      ]
+    },
+    {
       "group": "Glossary",
       "pages": [
         "glossary/glossary"
