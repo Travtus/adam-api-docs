@@ -65,6 +65,12 @@
           ]
         },
         {
+          "group": "Embedded Gateway",
+          "pages": [
+            "deployment-guide/embedded-gateway"
+          ]
+        },
+        {
           "group": "3rd Party Integrations",
           "pages": [
             "deployment-guide/third-party-integrations/o365-email",

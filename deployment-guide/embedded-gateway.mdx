@@ -1,0 +1,93 @@
+---
+title: "Embedded Gateway"
+---
+
+## Embedded Gateway Overview
+
+The Embedded Gateway allows the Travtus Gateway to be seamlessly integrated into your own dashboard or webpage. This enables users to access the Travtus Gateway's features directly from your site, providing a cohesive user experience.
+
+## Installation
+
+To embed the Gateway, include the following script before the `</body>` tag on every page where you want the Gateway to appear. You will need to replace `CONFIG_OBJECT` with the configuration object generated from our [online configurator generator](https://generate.notarealurl.com).
+
+```html
+<script>
+  (function () {
+    window.onload = function () {
+      const config = CONFIG_OBJECT; // Replace with your configuration object
+      const gatewayInstance = new GatewayEmbedded(config);
+    }
+  })();
+</script>
+```
+
+## Configuration Options
+
+The configuration object allows you to customize the behavior and appearance of the Embedded Gateway. Below are the available options:
+
+- **breakpoint**: `number`  
+  The resolution at which the Gateway should switch from full screen (mobile view) to an overlay (desktop view). Defaults to `769`.
+
+- **theme**: `object`  
+  Defines the theme for different components of the Gateway. Options include:
+  - **search**: `"light"` or `"dark"` - Sets the theme for the search bar.
+  - **window**: `"light"` or `"dark"` - Sets the theme for the main window.
+  - **bubble**: `"light"` or `"dark"` - Sets the theme for the chat bubble.
+
+- **colors**: `object`  
+  Customizes the color scheme of the Gateway. Options include:
+  - **bubble**: `string` - HEX color for the chat bubble.
+  - **search**: `string` - HEX color for the search bar.
+  - **window**: `string` - HEX color for the main window.
+  - **popup**: `string` - HEX color for popups.
+  - **link**: `string` - HEX color for links.
+  - **linkHover**: `string` - HEX color for links on hover.
+
+- **logo**: `string`  
+  URL to the logo image to be displayed in the Gateway.
+
+- **idp**: `string` (optional)
+  If you are integrating a SAML solution please state the identity provider name given by Travtus here.
+
+- **redirectUri**: `string` (optional)
+  If you are integrating a SAML solution please state the redirect URL given by Travtus here.
+
+## Methods
+
+### remove()
+
+Removes the Gateway from the page and cleans up event listeners. This method should be called on the instance of `GatewayEmbedded`.
+
+```javascript
+const gatewayInstance = new GatewayEmbedded(config);
+
+gatewayInstance.remove();
+```
+
+## Example
+
+Here is an example of how to initialize the Embedded Gateway with a configuration object and call the `remove` method:
+
+```javascript
+const config = {
+  breakpoint: 641,
+  theme: {
+    search: "light",
+    window: "light",
+    bubble: "light"
+  },
+  colors: {
+    bubble: "#11c3ff",
+    search: "#c9c8c7",
+    window: "#f2f0ef",
+    popup: "#fff",
+    link: "#245F73",
+    linkHover: "#000000"
+  },
+  logo: "http://localhost:5174/images/brain-white.svg"
+};
+
+const gatewayInstance = new GatewayEmbedded(config);
+```
+
+By following these instructions, you can successfully embed the Travtus Gateway into your site, providing users with direct access to its features. 
