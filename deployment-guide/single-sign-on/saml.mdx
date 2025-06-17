@@ -1,0 +1,84 @@
+---
+title: "Single Sign-On (SSO) Setup with SAML 2.0"
+description: "DescriptionWelcome! This guide will help your IT team set up Single Sign-On (SSO) between your organization’s Identity Provider (IdP)—such as Azure AD, Okta, or similar—and our application using the SAML 2.0 protocol. of your new file."
+sidebarTitle: "SSO with SAML"
+---
+
+## **1. Overview**
+
+We support SSO via SAML 2.0, allowing your users to securely access our platform with their existing corporate credentials. This process requires cooperation between your IT administrators and our support team to ensure a secure and smooth setup.
+
+---
+
+## **2. Information We’ll Need from You**
+
+To begin the integration, please provide **your SAML metadata**. This is typically shared in one of two ways:
+
+- **SAML Metadata XML file** (exported from your IdP), or
+- **Metadata URL** (a direct link to your IdP’s SAML metadata)
+
+### **How to Retrieve Your SAML Metadata (Azure AD Example)**
+
+If you’re using **Microsoft Azure AD**:
+
+1. Log into [Microsoft Entra ID](https://entra.microsoft.com/).
+2. Go to **Enterprise Applications** and select your app.
+3. Click **Single sign-on**.
+4. Under **SAML Signing Certificate**, find and copy the **App Federation Metadata Url**.
+
+_For other IdPs (e.g., Okta), your admin can typically find metadata export or URL options in their SAML app settings._
+
+---
+
+## **3. What We Do on Our Side**
+
+Once we receive your SAML metadata, our team will:
+
+1. **Set up a SAML Identity Provider** within our system (using AWS Cognito).
+2. Link your IdP to our application for authentication.
+3. Configure technical details, such as:
+   - **Entity ID** (Audience URI)
+   - **SSO URL**
+   - **Certificates**
+   - **Callback URLs** (e.g., https://fusionplus.bhmanagement.com/)
+   - **Logout URLs** (if required)
+4. Test your connection in our **UAT (User Acceptance Testing) environment** to ensure everything works before going live.
+
+---
+
+## **4. What You Need to Configure**
+
+Once we provide you with the necessary details, you’ll need to:
+
+- **Add our Service Provider (SP) settings to your IdP**:
+  - **Reply URL (Assertion Consumer Service, ACS)**: We will provide this.
+  - **Audience URI (SP Entity ID)**: Provided by us; must match our SAML configuration.
+  - **Attribute Mapping**: At minimum, the user’s email. If any custom attributes (e.g., roles, department) are needed, we will communicate these.
+- **Test login and confirm successful SSO authentication.**
+
+> 👉 [Step-by-step guide: Configuring Sign-On Settings in Azure Portal](https://scribehow.com/viewer/Configuring_Sign-On_Settings_in_Azure_Portal__NzjWmUYGSBmOrmP0BJVHbQ)
+
+---
+
+## **5. Testing & Go-Live**
+
+- **Testing**: We’ll validate SSO in our **UAT environment** before enabling in production.
+- **User Experience**: Users will log in via our hosted login page and be redirected for SSO authentication with your IdP.
+- **Custom Attributes**: If additional user attributes are needed, let us know during setup.
+
+---
+
+## **6. Support**
+
+Our team will guide you through each step and answer any questions. For troubleshooting or custom setup requirements, please reach out to your integration contact or support representative.
+
+---
+
+## **Summary Checklist**
+
+- Send SAML metadata file or URL to us
+- Receive ACS URL and Entity ID from us
+- Configure SAML app on your IdP
+- Map required user attributes
+- Test SSO authentication
+- Confirm go-live in production
