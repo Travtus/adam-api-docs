@@ -1,0 +1,46 @@
+---
+title: "Users"
+description: "Below is our standard data structure for a unit:"
+---
+
+<ParamField path="email_address" body="email_address" type="string" required>
+  The email address of the user. 
+</ParamField>
+
+<ParamField path="first_name" type="string" required>
+  The first name of the user
+</ParamField>
+
+<ParamField path="last_name" type="string" required>
+  Enter a description
+</ParamField>
+
+<ParamField path="phone_number" type="string">
+  Users phone number 
+</ParamField>
+
+<ParamField path="job_title" type="string">
+  Users job title 
+</ParamField>
+
+<ParamField path="external_ref">
+  Clients external reference UUID for the user 
+</ParamField>
+
+<ParamField path="community_ids" type="string">
+  List of the client external reference ids for the communities to be assigned to the user. 
+
+  Note the external reference ids must have been provided by the client and stored in the Travtus Platform. 
+</ParamField>
+
+<ParamField path="reports_to" type="string">
+  Name of line manager 
+</ParamField>
+
+<ParamField path="send_welcome_mail" type="bool">
+  Set to True for the user to receive welcome email on user creation
+</ParamField>
+
+<ParamField path="Status" default="Active" type="string">
+  User status, accepts values of "Active" or "Inactive". 
+</ParamField>

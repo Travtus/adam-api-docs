@@ -1,37 +1,64 @@
 ---
 title: "Communities"
+description: "The fields below are accepted via .csv file transfer. Upon receipt the file will be uploaded, creating or updating the communities held within the Travtus platform. "
 ---
 
-Below is our standard data structure for a community:    
 
-<ParamField body="Property" type="string" default="none">
+<ParamField body="community_name" default="none" type="string" required>
   The name of the community to create.
 </ParamField>
 
-<ParamField body="Address" type="string" default="none">
+<ParamField path="community_id" type="string" required>
+  Clients external reference id for the community. 
+</ParamField>
+
+<ParamField path="status" type="string" required>
+  Current status of the community. Accepted values include "Active" and "Inactive"
+</ParamField>
+
+<ParamField body="address_line_1" default="none" type="string">
   The first line of the address for the community you want to create.
-</ParamField>
 
-<ParamField body="city" type="string" default="none">
-  The city of the address for the community you want to create.
-</ParamField>
+  <ParamField path="address_line_2" type="string">
+    Second
 
-<ParamField body="state" type="string" default="none">
-  The state of the address for the community you want to create.
-</ParamField>
+    <ParamField path="city" type="string" required>
+      Enter a description
 
-<ParamField body="ZIP" type="string" default="none">
-  The postal code of the address for the community you want to create.
-</ParamField>
+      <ParamField path="state" type="string">
+        Enter a description
 
-<ParamField body="Adam Email Address" type="string" default="none">
-  The email address for the community you want to create. Emails will be automatically ingested for the past 3 months for this email address.
-</ParamField>
+        <ParamField path="postal_code" type="string">
+          Zip Code of the property
+        </ParamField>
+        <ParamField body="unit_count" default="none" type="string" required>
+          The number of units for the community to be created.
 
-<ParamField body="Additional Email Addresses" type="string" default="none">
-  Any additional O365 email inboxes to ingest emails from for the community to be created.
-</ParamField>
+          <ParamField path="website_address" type="string">
+            Community website address. Please include https://
 
-<ParamField body="Unit Count" type="string" default="none">
-  The number of units for the community to be created.
+            <ParamField path="phone_number" type="string">
+              Community phone number 
+
+              <ParamField path="msa" type="string">
+                Metropolitan Statistical Area that the community is located in 
+
+                <ParamField path="ownership" type="string">
+                  Enitty that owns the community 
+
+                  <ParamField path="property_class" type="string">
+                    Class of property A to C
+
+                    <ParamField path="year_built" type="string">
+                      Year that the property was built
+                    </ParamField>
+                  </ParamField>
+                </ParamField>
+              </ParamField>
+            </ParamField>
+          </ParamField>
+        </ParamField>
+      </ParamField>
+    </ParamField>
+  </ParamField>
 </ParamField>
