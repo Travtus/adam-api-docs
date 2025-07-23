@@ -16,49 +16,49 @@ description: "The fields below are accepted via .csv file transfer. Upon receipt
   Current status of the community. Accepted values include "Active" and "Inactive"
 </ParamField>
 
-<ParamField body="address_line_1" default="none" type="string">
+<ParamField body="address_line_1" default="none" type="string" required>
   The first line of the address for the community you want to create.
 
-  <ParamField path="address_line_2" type="string">
-    Second
+<ParamField path="address_line_2" type="string">
+  Second
+</ParamField>
 
-    <ParamField path="city" type="string" required>
-      Enter a description
+<ParamField path="city" type="string" required>
+  Enter a description
+</ParamField>
 
-      <ParamField path="state" type="string">
-        Enter a description
+<ParamField path="state" type="string">
+  Enter a description
+</ParamField>
 
-        <ParamField path="postal_code" type="string">
-          Zip Code of the property
-        </ParamField>
-        <ParamField body="unit_count" default="none" type="string" required>
-          The number of units for the community to be created.
+<ParamField path="postal_code" type="string">
+  Zip Code of the property
+</ParamField>
 
-          <ParamField path="website_address" type="string">
-            Community website address. Please include https://
+<ParamField body="unit_count" default="none" type="string" required>
+  The number of units for the community to be created.
+</ParamField>
 
-            <ParamField path="phone_number" type="string">
-              Community phone number 
+<ParamField path="website_address" type="string">
+  Community website address. Please include https://
+</ParamField>
 
-              <ParamField path="msa" type="string">
-                Metropolitan Statistical Area that the community is located in 
+<ParamField path="phone_number" type="string">
+  Community phone number 
+</ParamField>
 
-                <ParamField path="ownership" type="string">
-                  Enitty that owns the community 
+<ParamField path="msa" type="string">
+  Metropolitan Statistical Area that the community is located in 
+</ParamField>
 
-                  <ParamField path="property_class" type="string">
-                    Class of property A to C
+<ParamField path="ownership" type="string">
+  Enitty that owns the community 
+</ParamField>
 
-                    <ParamField path="year_built" type="string">
-                      Year that the property was built
-                    </ParamField>
-                  </ParamField>
-                </ParamField>
-              </ParamField>
-            </ParamField>
-          </ParamField>
-        </ParamField>
-      </ParamField>
-    </ParamField>
-  </ParamField>
+<ParamField path="property_class" type="string">
+  Class of property A to C
+</ParamField>
+
+<ParamField path="year_built" type="string">
+  Year that the property was built
 </ParamField>
