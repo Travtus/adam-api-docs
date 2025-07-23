@@ -38,6 +38,7 @@
                 "deployment-guide/file-uploads/data-types-and-data-structure/unit",
                 "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
                 "deployment-guide/file-uploads/data-types-and-data-structure/resident",
+                "deployment-guide/file-uploads/data-types-and-data-structure/users",
                 {
                   "group": "Messages",
                   "pages":[
