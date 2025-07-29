@@ -18,6 +18,7 @@ description: "The fields below are accepted via .csv file transfer. Upon receipt
 
 <ParamField body="address_line_1" default="none" type="string" required>
   The first line of the address for the community you want to create.
+  </ParamField>
 
 <ParamField path="address_line_2" type="string">
   Second
@@ -61,4 +62,96 @@ description: "The fields below are accepted via .csv file transfer. Upon receipt
 
 <ParamField path="year_built" type="string">
   Year that the property was built
+</ParamField>
+
+<ParamField path="property_manager" type="string">
+  The name of the property manager responsible for the community.
+</ParamField>
+
+<ParamField path="property_management_company" type="string">
+  The name of the property management company overseeing the community.
+</ParamField>
+
+<ParamField path="commercial_units" type="integer">
+  The number of commercial units within the community.
+</ParamField>
+
+<ParamField path="commercial_square_footage" type="float">
+  The total square footage of commercial space in the community.
+</ParamField>
+
+<ParamField path="capitalization_rate" type="float">
+  The capitalization rate for the property investment.
+</ParamField>
+
+<ParamField path="community_property_type" type="string">
+  The type of property for the community (e.g., Apartment, Townhome, Single Family).
+</ParamField>
+
+<ParamField path="property_floor_count" type="integer">
+  The number of floors in the property buildings.
+</ParamField>
+
+<ParamField path="property_building_count" type="integer">
+  The total number of buildings in the community.
+</ParamField>
+
+<ParamField path="elevator" type="boolean">
+  Indicates whether the property has elevator access.
+</ParamField>
+
+<ParamField path="parking_count" type="integer">
+  The number of parking spaces available in the community.
+</ParamField>
+
+<ParamField path="mortgage_amount" type="float">
+  The total mortgage amount for the property.
+</ParamField>
+
+<ParamField path="mortgage_term" type="integer">
+  The term of the mortgage in years.
+</ParamField>
+
+<ParamField path="mortgage_rate_type" type="string">
+  The type of mortgage rate (e.g., Fixed, Variable, ARM).
+</ParamField>
+
+<ParamField path="mortgage_index" type="string">
+  The index used for variable rate mortgages (e.g., LIBOR, Prime).
+</ParamField>
+
+<ParamField path="mortgage_interest_rate_spread" type="float">
+  The interest rate spread above the mortgage index.
+</ParamField>
+
+<ParamField path="mortgage_amortization" type="integer">
+  The amortization period for the mortgage in years.
+</ParamField>
+
+<ParamField path="mortgage_due_date" type="date">
+  The due date for the mortgage.
+</ParamField>
+
+<ParamField path="region" type="string">
+  The geographical region where the community is located.
+</ParamField>
+
+<ParamField path="assessor_parcel_number" type="string">
+  The assessor's parcel number for the property.
+</ParamField>
+
+<ParamField path="legal_description" type="string">
+  The legal description of the property.
+</ParamField>
+
+<ParamField path="property_total_square_footage" type="float">
+  The total square footage of all buildings in the property.
+</ParamField>
+
+<ParamField path="property_parcel_size" type="float">
+  The size of the property parcel in acres or square feet.
+</ParamField>
+
+<ParamField path="pms_name" type="string">
+  The name of the Property Management System (PMS) used for the community.
 </ParamField>
