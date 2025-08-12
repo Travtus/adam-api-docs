@@ -17,12 +17,7 @@ Some things worth noting upfront:
 
 The below table gives you an idea of the benefits of connecting each data source; for further information on each, use the table of contents at the side to navigate through each type.
 
-<img
-  src="/help-center-migration/images/connecting-data-sources-benefits.png"
-  alt="Benefits of connecting each data source across Gateway, scoring, Smart search, and Weekly reports"
-  noZoom
-  className="w-full rounded-lg"
-/>
+![Data Sources Table Pn](/images/DataSourcesTable.png)
 
 ## Email
 
@@ -35,12 +30,12 @@ Below is the high level process; you can find technical documentation here.
 2. Grant permissions to our app.
 3. Add the required inboxes to a security group or authorize permissions.
 4. Adjust access control.
-5. And that's it! The data will start flowing through our models.
+5. And that's it\! The data will start flowing through our models.
 
-### Notes
-
-- You can also connect **individual staff members'** inboxes. You'll need to let us know when staff leave/join though.
-- It's OK if there are **multiple inboxes per community** (e.g. a separate one for leasing vs maintenance, etc)
+<Note>
+  - You can also connect **individual staff members'** inboxes. You'll need to let us know when staff leave/join though.
+  - It's OK if there are **multiple inboxes per community** (e.g. a separate one for leasing vs maintenance, etc)
+</Note>
 
 ---
 
@@ -62,11 +57,13 @@ Note that it's also possible to send this data via csv extracts if you'd prefer 
 2. Send us a sample extract from your survey provider
 3. We'll send you the URL to an area (Amazon S3 bucket) for you to send files (ideally in csv format), and a key to access the area
 4. Agree any frequency, naming convention, etc details with us
-5. That's it! We'll start picking up the files and ingesting the data.
+5. That's it\! We'll start picking up the files and ingesting the data.
 
-#### Notes
+#### 
 
-- Anonymous surveys are still worth sending as long as there is a community identifier (e.g. community name).
+<Note>
+  - Anonymous surveys are still worth sending as long as there is a community identifier (e.g. community name).
+</Note>
 
 ### Reputation.com
 
@@ -102,9 +99,11 @@ If your company uses calls to speak with residents, we can consume these convers
 2. Send us a sample extract from your PMS
 3. We'll send you the URL to an area (Amazon S3 bucket) for you to send files (ideally in csv format), and a key to access the area
 4. Agree any frequency, naming convention, etc details with us
-5. That's it! We'll start picking up the files and ingesting the data.
+5. That's it\! We'll start picking up the files and ingesting the data.
 
-### General notes on sending csvs
+<Note>
+  ### General notes on sending csvs
 
-- No need to send the full list with every extract - a file with changes only (i.e. removals/additions) is fine.
-- If there is no information to send, we recommend sending an empty file with headers only.
+  - No need to send the full list with every extract - a file with changes only (i.e. removals/additions) is fine.
+  - If there is no information to send, we recommend sending an empty file with headers only.
+</Note>
