@@ -1,0 +1,172 @@
+---
+title: "Initial Setup"
+description: "Complete guide to getting started with Travtus - from connecting inboxes to setting up data feeds and response capabilities."
+category: "Getting Started"
+---
+
+# Initial Setup
+
+The below is designed to give you an idea of the overall process of getting set up, but in most circumstances, we'll run through the detail with your teams on a call.
+
+## Connecting your inboxes
+
+There are a number of things we need from you in order to start providing invaluable insights into your customer experience and community trends.
+
+<Steps>
+  <Step title="Set up security group or authorize access">
+    Set up a **security group** or **authorize access** in your mail provider
+  </Step>
+  <Step title="Add desired inboxes">
+    Add the desired **inboxes** to the system
+  </Step>
+  <Step title="Provide community information">
+    Provide us with a **list of communities**, associated email addresses and unit counts
+  </Step>
+  <Step title="Provide user list">
+    Provide us with a **list of users**
+  </Step>
+</Steps>
+
+And that's it! Your users will get emails with links to download the Gateway and then they'll be able to log in and get started.
+
+<Info>
+Technical documentation can be found in our [developer section](/travtus-api-and-webhook).
+</Info>
+
+## Setting up to receive Data Feeds
+
+If you have signed up to receive our data feeds then we'll be in touch with the following:
+
+<CardGroup cols={3}>
+  <Card title="Data Access" icon="database">
+    A link to the **area where you'll find the data** (specifically this is an S3 bucket on AWS)
+  </Card>
+  <Card title="Access Key" icon="key">
+    **A key** which you'll need in order to access the data
+  </Card>
+  <Card title="Data Dictionary" icon="book">
+    **A data dictionary** to explain the purpose of each of the files and fields
+  </Card>
+</CardGroup>
+
+## Setting up Respond (email)
+
+As well as listening to your data and deriving insights from it, we offer the **ability to respond** to communications on your behalf, via our digital teammate, Adam. By **understanding your organisation** through connecting to the inboxes (and ideally being provided with your documentation, e.g. companywide/community-specific policies), we can:
+
+<Card title="What Adam Can Do" icon="robot">
+  - Take the burden of **responding to basic questions** off your teams' hands
+  - **Create tasks** either in our own system (which you can access through the Gateway) or in Microsoft ToDo, Microsoft Dynamics, Salesforce or you can use our webhook to create tasks in your existing system
+</Card>
+
+In order to get set up, we would typically expect to run through this detail on a call with your teams in order to walk you through it, but the broad steps are:
+
+<Steps>
+  <Step title="Provide community information">
+    Send us some information about each community to help Adam respond correctly; ideally:
+    - A link to your resident portal (if applicable)
+    - Documents for each community as well as companywide ones (the latter would trump the community-specific ones); these might include:
+      - Resident welcome guides
+      - Move in/out guides
+      - Community handbook
+      - Any additional information on amenities or third party services (e.g. waste disposal)
+  </Step>
+  <Step title="Create Adam's email identity">
+    Create an internal email address (e.g. adam@yourcompany.com) and signature for Adam
+  </Step>
+  <Step title="Configure external task systems">
+    If the tasks are to be created outside of the Gateway then you'll need to follow the technical setup steps for that
+  </Step>
+  <Step title="Set up team access">
+    Ensure your teams have access to the right queues (if applicable)
+  </Step>
+</Steps>
+
+## Setting up Respond (chat widget)
+
+We can also respond to your customers and create tasks via a chat widget which can be embedded on your website or resident portal.
+
+<Note>
+We'd need the same information as above in order to get started.
+</Note>
+
+<Info>
+The technical documentation for how to set this up can be found in our [chat widget deployment guide](/deployment-guide/chat-widget-deployment).
+</Info>
+
+## Adding new data sources
+
+Adding as many data sources ("plugs") as possible is the best way to get a complete picture of your customers and communities. We support the following already:
+
+<CardGroup cols={2}>
+  <Card title="Communication Channels" icon="envelope">
+    - Email
+    - Voice
+    - Chat
+  </Card>
+  <Card title="Feedback & Data" icon="chart-line">
+    - Google reviews
+    - Surveys
+    - Resident feed
+  </Card>
+</CardGroup>
+
+<Tip>
+We are continually looking to add to this list so please get in touch if you have any other sources which aren't listed here.
+</Tip>
+
+In order to **add a new source**, you'll need to let us know you want to send it, and then after that, the process for sending extracts is:
+
+<Steps>
+  <Step title="Send sample file">
+    Send us a **sample file**
+  </Step>
+  <Step title="Receive upload location">
+    We'll send you a **link to an area** to send them (specifically, an S3 bucket on AWS)
+  </Step>
+  <Step title="Get access key">
+    If you already have access to our data feeds, you can use the same key to access the area, else we'll **send you a key**
+  </Step>
+  <Step title="Agree on frequency">
+    Agree a **frequency** with us (we recommend somewhere between 4-hourly and daily)
+  </Step>
+  <Step title="Start data flow">
+    **Start sending** the data!
+  </Step>
+  <Step title="Integration complete">
+    It'll then start **feeding into our models** and **completing the picture** we show you in the Gateway
+  </Step>
+</Steps>
+
+<Warning>
+There will also be some data sources where we can connect directly; information on this can be found in our [third-party integrations section](/deployment-guide/third-party-integrations).
+</Warning>
+
+<Info>
+Click [here for more information on the benefits of the different sources](/deployment-guide/data-feeds) and the impact they have on your experience with our products.
+</Info>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="How does it work?" href="#">
+    Learn about the overall Travtus process
+  </Card>
+  <Card title="Connecting data sources" href="/deployment-guide/data-feeds">
+    Detailed guide on data source integration
+  </Card>
+  <Card title="Community Action Plan" href="#">
+    Understanding community-specific setup
+  </Card>
+  <Card title="Setup FAQs" href="#">
+    Common questions and troubleshooting
+  </Card>
+</CardGroup>
+
+<Tip>
+**Did this answer your question?** Your feedback helps us improve!
+</Tip>
+
+---
+*Source: [Travtus Help Center - Initial Setup](https://help.travtus.com/en/articles/9172755-initial-setup)*
