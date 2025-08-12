@@ -1,0 +1,281 @@
+{
+  "name": "Travtus Documentation & Support",
+  "logo": {
+    "dark": "/logo/logo-dark.png",
+    "light": "/logo/logo-light.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#000000",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "accent": "#4F46E5"
+  },
+  "topAnchor": {
+    "name": "Documentation & Support"
+  },
+  "tabs": [
+    {
+      "name": "User Guide",
+      "url": "user-guide"
+    },
+    {
+      "name": "Developer Docs",
+      "url": "developer"
+    },
+    {
+      "name": "Support",
+      "url": "support"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "getting-started/quick-start",
+        "getting-started/platform-overview",
+        "getting-started/account-setup",
+        "getting-started/navigation-guide"
+      ]
+    },
+    {
+      "group": "User Guide",
+      "pages": [
+        {
+          "group": "Core Features",
+          "pages": [
+            "user-guide/features/dashboard-analytics",
+            "user-guide/features/property-management",
+            "user-guide/features/resident-communication",
+            "user-guide/features/maintenance-tasks",
+            "user-guide/features/reporting"
+          ]
+        },
+        {
+          "group": "Admin Guide",
+          "pages": [
+            "user-guide/admin/user-management",
+            "user-guide/admin/settings-configuration",
+            "user-guide/admin/data-management",
+            "user-guide/admin/security-permissions"
+          ]
+        },
+        {
+          "group": "End User Guide",
+          "pages": [
+            "user-guide/end-user/daily-workflows",
+            "user-guide/end-user/mobile-app",
+            "user-guide/end-user/communication-tools"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Developer Documentation",
+      "pages": [
+        "developer/overview",
+        "developer/authentication",
+        "developer/rate-limits",
+        {
+          "group": "API Reference",
+          "pages": [
+            {
+              "group": "Person",
+              "pages": [
+                "developer/api/person/find",
+                "developer/api/person/post-multiple"
+              ]
+            },
+            {
+              "group": "Lease",
+              "pages": [
+                "developer/api/lease/find-leases-for-tenant",
+                "developer/api/lease/find-tenants",
+                "developer/api/lease/find",
+                "developer/api/lease/post",
+                "developer/api/lease/webhooks"
+              ]
+            },
+            {
+              "group": "Properties",
+              "pages": [
+                "developer/api/properties/find",
+                "developer/api/properties/post-multiple"
+              ]
+            },
+            {
+              "group": "Listings",
+              "pages": [
+                "developer/api/listing/post",
+                "developer/api/listing/sync",
+                "developer/api/listing/find",
+                "developer/api/listing/delete"
+              ]
+            },
+            {
+              "group": "Tasks",
+              "pages": [
+                "developer/api/task/create-task",
+                "developer/api/task/update-task",
+                "developer/api/task/webhooks"
+              ]
+            },
+            {
+              "group": "Messaging",
+              "pages": [
+                "developer/api/messaging/create-message"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Webhooks",
+          "pages": [
+            "developer/webhooks/getting-started",
+            "developer/webhooks/authentication",
+            "developer/webhooks/portal-sandbox",
+            "developer/webhooks/event-types"
+          ]
+        },
+        {
+          "group": "Deployment Guide",
+          "pages": [
+            {
+              "group": "File Uploads",
+              "pages": [
+                "developer/deployment/file-uploads/process-auth",
+                {
+                  "group": "Data Types & Structure",
+                  "pages": [
+                    "developer/deployment/file-uploads/data-types/community",
+                    "developer/deployment/file-uploads/data-types/unit",
+                    "developer/deployment/file-uploads/data-types/vacancy",
+                    "developer/deployment/file-uploads/data-types/resident",
+                    {
+                      "group": "Messages",
+                      "pages": [
+                        "developer/deployment/file-uploads/data-types/messages/emails",
+                        "developer/deployment/file-uploads/data-types/messages/sms",
+                        "developer/deployment/file-uploads/data-types/messages/chat",
+                        "developer/deployment/file-uploads/data-types/messages/call-recordings",
+                        "developer/deployment/file-uploads/data-types/messages/reviews"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Data Feeds",
+              "pages": [
+                "developer/deployment/data-feeds/access-authentication"
+              ]
+            },
+            {
+              "group": "Chat Widget",
+              "pages": [
+                "developer/deployment/chat-widget/deployment"
+              ]
+            },
+            {
+              "group": "Third-Party Integrations",
+              "pages": [
+                "developer/deployment/integrations/o365-email",
+                "developer/deployment/integrations/o365-todo",
+                "developer/deployment/integrations/google-reviews",
+                "developer/deployment/integrations/twilio",
+                "developer/deployment/integrations/custom"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Support & Troubleshooting",
+      "pages": [
+        "support/overview",
+        {
+          "group": "Frequently Asked Questions",
+          "pages": [
+            "support/faq/account-billing",
+            "support/faq/features-functionality",
+            "support/faq/technical-issues",
+            "support/faq/integrations"
+          ]
+        },
+        {
+          "group": "Troubleshooting",
+          "pages": [
+            "support/troubleshooting/common-issues",
+            "support/troubleshooting/error-codes",
+            "support/troubleshooting/performance",
+            "support/troubleshooting/api-issues"
+          ]
+        },
+        {
+          "group": "Known Issues",
+          "pages": [
+            "support/known-issues/current",
+            "support/known-issues/limitations"
+          ]
+        },
+        {
+          "group": "Contact Support",
+          "pages": [
+            "support/contact/channels",
+            "support/contact/escalation",
+            "support/contact/sla"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Resources & Updates",
+      "pages": [
+        {
+          "group": "What's New",
+          "pages": [
+            "resources/whats-new/release-notes",
+            "resources/whats-new/feature-announcements",
+            "resources/whats-new/breaking-changes"
+          ]
+        },
+        {
+          "group": "Reference",
+          "pages": [
+            "resources/reference/glossary",
+            "resources/reference/system-status",
+            "resources/reference/performance-metrics"
+          ]
+        },
+        {
+          "group": "Community",
+          "pages": [
+            "resources/community/best-practices",
+            "resources/community/use-cases",
+            "resources/community/training"
+          ]
+        }
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/adambytravtus",
+    "linkedin": "https://www.linkedin.com/company/travtusofficialpage/mycompany/"
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "search": {
+    "prompt": "Search documentation and support articles..."
+  },
+  "analytics": {
+    "gtm": {
+      "tagId": "GTM-XXXXXX"
+    }
+  }
+}
