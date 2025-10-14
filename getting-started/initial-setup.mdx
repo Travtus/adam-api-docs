@@ -1,0 +1,76 @@
+---
+title: "Initial Setup"
+description: "The below is designed to give you an idea of the overall process of getting set up, but in most circumstances, we'll run through the detail with your teams on a call."
+---
+
+## **Connecting your inboxes**
+
+There are a number of things we need from you in order to start providing invaluable insights into your customer experience and community trends.
+
+1. Set up a **security group** or **authorize access **in your mail provider
+2. Add the desired **inboxes**
+3. Provide us with a **list of communities**, associated email addresses and unit counts
+4. Provide us with a **list of users**
+
+And that's it! Your users will get emails with links to download the Gateway and then they'll be able to log in and get started.
+
+## **Setting up to receive Data Feeds**
+
+If you have signed up to receive our data feeds then we'll be in touch with the following:
+
+1. A link to the **area where you'll find the data** (specifically this is an S3 bucket on AWS)
+2. **A key **which you'll need in order to access the data
+3. **A data dictionary** to explain the purpose of each of the files and fields
+
+## **Setting up Respond (email)**
+
+As well as listening to your data and deriving insights from it, we offer the **ability to respond** to communications on your behalf, via our digital teammate, Adam. By **understanding your organisation** through connecting to the inboxes (and ideally being provided with your documentation, e.g. companywide/community-specific policies), we can:
+
+- take the burden of **responding to basic questions** off your teams' hands
+- **create tasks** either in our own system (which you can access through the Gateway (see [<u>above</u>](https://help.travtus.com/en/articles/9172755-initial-setup#h_85d5b68eca)) or in [<u>Microsoft ToDo</u>](https://docs.travtus.com/get-started/v1/connecting_microsoft_todo), Microsoft Dynamics, Salesforce or you can use our webhook to [<u>create tasks in your existing system</u>](https://docs.travtus.com/api-reference/task/update-task)
+
+In order to get set up, we would typically expect to run through this detail on a call with your teams in order to walk you through it, but the broad steps are:
+
+1. Send us some information about each community to help Adam respond correctly; ideally:
+   - a link to your resident portal (if applicable)
+   - documents for each community as well as companywide ones (the latter would trump the community-specific ones); these might include:
+     - resident welcome guides
+     - move in/out guides
+     - community handbook
+     - any additional information on amenities or third party services (e.g. waste disposal)
+2. Create an internal email address (e.g. [<u>adam@yourdomain.com</u>](mailto:adam@yourdomain.com)) and signature for Adam
+3. If the tasks are to be created outside of the Gateway then you'll need to follow the technical setup steps for that
+4. Ensure your teams have access to the right queues (if applicable)
+
+## **Setting up Respond (chat widget)**
+
+We can also respond to your customers and create tasks via a chat widget which can be embedded on your website or resident portal.
+
+We'd need the same information as above in order to get started.
+
+The technical documentation for how to set this up can be found [<u>here</u>](https://docs.travtus.com/get-started/v1/chat_widget).
+
+## **Adding new data sources**
+
+Adding as many data sources ("plugs") as possible is the best way to get a complete picture of your customers and communities. We support the following already:
+
+- Email
+- Google reviews
+- Surveys
+- Resident feed
+- Voice
+
+We are continually looking to add to this list so please [<u>get in touch</u>](mailto:support@travtus.com) if you have any other sources which aren't listed here.
+
+In order to **add a new source**, you'll need to [<u>let us know</u>](mailto:support@travtus.com) you want to send it, and then after that, the process for sending extracts is:
+
+1. Send us a **sample file**
+2. We'll send you a **link to an area** to send them (specifically, an S3 bucket on AWS)
+3. If you already have access to our data feeds, you can use the same key to access the area, else we'll **send you a key**
+4. Agree a **frequency** with us (we recommend somewhere between 4-hourly and daily)
+5. **Start sending** the data!
+6. It'll then start **feeding into our models** and **completing the picture** we show you in the Gateway
+
+There will also be some data sources where we can connect directly; information on this can be found at the link below.
+
+Click [<u>here</u>](https://intercom.help/travtus-d83752c4176c/en/articles/9172902-connecting-data-sources) for more information on the benefits of the different sources and the impact they have on your experience with our products.
