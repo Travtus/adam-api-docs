@@ -110,18 +110,6 @@
                 ]
               }
             ]
-          },
-          {
-            "group": "Automation",
-            "pages": [
-              "platform-guide/automation/customer-service-agent"
-            ]
-          },
-          {
-            "group": "Glossary",
-            "pages": [
-              "glossary/glossary"
-            ]
           }
         ]
       },
