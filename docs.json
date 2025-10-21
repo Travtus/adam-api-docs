@@ -188,7 +188,6 @@
       },
       {
         "tab": "API Guide",
-        "default": "travtus-api-and-webhook/request-access",
         "groups": [
           {
             "group": "Inroduction",
