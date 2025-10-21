@@ -134,28 +134,28 @@
                   "deployment-guide/file-uploads/process-and-auth"
                 ]
               },
-              {
-                "group": "Data Types & Data Structure",
-                "pages": [
-                  "deployment-guide/file-uploads/data-types-and-data-structure/community",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/unit",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/resident",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/users"
+                {
+                  "group": "Data Types & Data Structure",
+                  "pages": [
+                    "deployment-guide/file-uploads/data-types-and-data-structure/community",
+                    "deployment-guide/file-uploads/data-types-and-data-structure/unit",
+                    "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
+                    "deployment-guide/file-uploads/data-types-and-data-structure/resident",
+                    "deployment-guide/file-uploads/data-types-and-data-structure/users"
+                  ]
+                },
+                  {
+                    "group": "Messages",
+                    "pages": [
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
+                    ]
+                  }
                 ]
               },
-              {
-                "group": "Messages",
-                "pages": [
-                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
-                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
-                ]
-              }
-            ]
-          },
           {
             "group": "Data Feeds",
             "pages": [
