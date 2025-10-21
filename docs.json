@@ -51,7 +51,7 @@
           },
           {
             "group": "Features",
-            "subgroups": [
+            "pages": [
               {
                 "group": "Home Page",
                 "pages": [
@@ -118,13 +118,11 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": [
-              "introduction"
-            ]
+            "pages": ["introduction"]
           },
           {
             "group": "Deployment Guide",
-            "subgroups": [
+            "pages": [
               {
                 "group": "File Uploads",
                 "pages": [
@@ -186,9 +184,7 @@
             "pages": [
               "travtus-api-and-webhook/request-access",
               "travtus-api-and-webhook/api-license-agreement",
-              "travtus-api-and-webhook/authentication"
-            ],
-            "subgroups": [
+              "travtus-api-and-webhook/authentication",
               {
                 "group": "Webhook",
                 "pages": [
