@@ -190,13 +190,13 @@
         "tab": "API Guide",
         "groups": [
           {
-            "group": "Inroduction",
+            "group": "Introduction",
             "pages": ["api-introduction.mdx"]
           },
           {
             "group": "Overview",
             "pages": [
-              "api-introduction.mdx",
+    
               "travtus-api-and-webhook/request-access",
               "travtus-api-and-webhook/api-license-agreement",
               "travtus-api-and-webhook/authentication"
