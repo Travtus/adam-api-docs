@@ -28,6 +28,10 @@
         "default": "platform-introduction",
         "groups": [
           {
+            "group": "Introduction",
+            "pages": ["platform-introduction"]
+          },
+          {
             "group": "Getting started with Travtus",
             "pages": [
               "getting-started/accessing-the-gateway",
@@ -186,6 +190,10 @@
         "tab": "Travtus API & Webhook",
         "default": "travtus-api-and-webhook/request-access",
         "groups": [
+          {
+            "group": "Inroduciton",
+            "pages": ["api-introduction.mdx"]
+          },
           {
             "group": "Overview",
             "pages": [
