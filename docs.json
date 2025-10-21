@@ -132,7 +132,7 @@
             "pages": ["introduction"]
           },
           {
-            "group": "Deployment Guide",
+            "group": "Connect - File Upload",
             "pages": [
               {
                 "group": "File Uploads",
