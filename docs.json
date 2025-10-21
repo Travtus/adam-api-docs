@@ -191,7 +191,7 @@
         "default": "travtus-api-and-webhook/request-access",
         "groups": [
           {
-            "group": "Inroduciton",
+            "group": "Inroduction",
             "pages": ["api-introduction.mdx"]
           },
           {
