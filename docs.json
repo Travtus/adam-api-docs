@@ -113,6 +113,12 @@
                 "pages": [
                   "features/smart-tasks/my-tasks"
                 ]
+              },
+              {
+                "group": "Studio",
+                "pages": [
+                  "features/studio/studio"
+                ]
               }
             ]
           }
