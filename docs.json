@@ -34,24 +34,24 @@
           {
             "group": "Getting started with Travtus",
             "pages": [
-              "getting-started/accessing-the-gateway",
-              "getting-started/initial-setup",
-              "getting-started/how-does-it-work",
-              "getting-started/connecting-data-sources",
-              "getting-started/logging-in-for-the-first-time",
-              "getting-started/re-enabling-chrome-extension"
+              "getting-started-with-travtus/accessing-the-gateway",
+              "getting-started-with-travtus/initial-setup",
+              "getting-started-with-travtus/how-does-it-work",
+              "getting-started-with-travtus/connecting-data-sources",
+              "getting-started-with-travtus/logging-in-for-the-first-time",
+              "getting-started-with-travtus/re-enabling-chrome-extension"
             ]
           },
           {
             "group": "Use Cases",
             "pages": [
-              "getting-started/use-cases/ReputationManagement",
-              "getting-started/use-cases/CustomerExperience",
-              "getting-started/use-cases/Staffing",
-              "getting-started/use-cases/RegionalManagers",
-              "getting-started/use-cases/Marketing",
-              "getting-started/use-cases/CentralTeams",
-              "getting-started/use-cases/OnsiteTeams"
+              "getting-started-with-travtus/use-cases/ReputationManagement",
+              "getting-started-with-travtus/use-cases/CustomerExperience",
+              "getting-started-with-travtus/use-cases/Staffing",
+              "getting-started-with-travtus/use-cases/RegionalManagers",
+              "getting-started-with-travtus/use-cases/Marketing",
+              "getting-started-with-travtus/use-cases/CentralTeams",
+              "getting-started-with-travtus/use-cases/OnsiteTeams"
             ]
           },
           {
