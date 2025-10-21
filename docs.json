@@ -25,6 +25,7 @@
     "tabs": [
       {
         "tab": "Platform Guide",
+        "default": "platform-introduction",
         "groups": [
           {
             "group": "Getting started with Travtus",
