@@ -191,7 +191,7 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": ["api-introduction.mdx"]
+            "pages": ["api-introduction"]
           },
           {
             "group": "Overview",
@@ -210,7 +210,7 @@
             ]
           },
           {
-            "group": "Data Types & Endpoints",
+            "group": "Endpoints",
             "pages": [
               {
                 "group": "Community",
