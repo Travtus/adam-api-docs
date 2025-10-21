@@ -138,10 +138,7 @@
             "group": "Connect - File Uploads",
             "pages": ["deployment-guide/file-uploads/process-and-auth",
               {
-                "group": "File Uploads",
-                "pages": [
-                  {
-                    "group": "Data Types & Data Structure",
+                    "group": "Data Types",
                     "pages": [
                       "deployment-guide/file-uploads/data-types-and-data-structure/community",
                       "deployment-guide/file-uploads/data-types-and-data-structure/unit",
@@ -156,8 +153,6 @@
                           "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
                           "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
                           "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
-                        ]
-                      }
                     ]
                   }
                 ]
