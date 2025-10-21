@@ -169,15 +169,11 @@
             ]
           },
           {
-            "group": "Chat Widget Deployment",
+            "group": "Widgets",
             "pages": [
-              "deployment-guide/chat-widget-deployment"
-            ]
-          },
-          {
-            "group": "Embedded Gateway",
-            "pages": [
+              "deployment-guide/chat-widget-deployment",
               "deployment-guide/embedded-gateway"
+              
             ]
           },
           {
