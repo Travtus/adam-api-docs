@@ -61,7 +61,7 @@
                 "group": "Home Page",
                 "pages": [
                   "features/home-page/newsfeed",
-                  "features/home-page/insights",
+                  "features/home-page/Insights",
                   "features/home-page/search-history",
                   "features/home-page/quality-assurance-beta",
                   "features/home-page/conversational-scores"
