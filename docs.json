@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "mint",
   "name": "Travtus",
   "logo": {
     "light": "/logo/logo-light.png",
@@ -25,33 +25,29 @@
     "tabs": [
       {
         "tab": "Platform Guide",
+        "default": "platform-introduction",
         "groups": [
           {
-            "group": "Introduction",
+            "group": "Getting started with Travtus",
             "pages": [
-              "platform-introduction"]
-          },
-          {
-            "group": "Getting Started",
-            "pages": [
-              "getting-started-with-travtus/accessing-the-gateway",
-              "getting-started-with-travtus/initial-setup",
-              "getting-started-with-travtus/how-does-it-work",
-              "getting-started-with-travtus/connecting-data-sources",
-              "getting-started-with-travtus/logging-in-for-the-first-time",
-              "getting-started-with-travtus/re-enabling-chrome-extension"
+              "getting-started/accessing-the-gateway",
+              "getting-started/initial-setup",
+              "getting-started/how-does-it-work",
+              "getting-started/connecting-data-sources",
+              "getting-started/logging-in-for-the-first-time",
+              "getting-started/re-enabling-chrome-extension"
             ]
           },
           {
             "group": "Use Cases",
             "pages": [
-              "getting-started-with-travtus/use-cases/ReputationManagement",
-              "getting-started-with-travtus/use-cases/CustomerExperience",
-              "getting-started-with-travtus/use-cases/Staffing",
-              "getting-started-with-travtus/use-cases/RegionalManagers",
-              "getting-started-with-travtus/use-cases/Marketing",
-              "getting-started-with-travtus/use-cases/CentralTeams",
-              "getting-started-with-travtus/use-cases/OnsiteTeams"
+              "getting-started/use-cases/ReputationManagement",
+              "getting-started/use-cases/CustomerExperience",
+              "getting-started/use-cases/Staffing",
+              "getting-started/use-cases/RegionalManagers",
+              "getting-started/use-cases/Marketing",
+              "getting-started/use-cases/CentralTeams",
+              "getting-started/use-cases/OnsiteTeams"
             ]
           },
           {
@@ -183,85 +179,92 @@
               "deployment-guide/third-party-integrations/google-gmail",
               "deployment-guide/third-party-integrations/twilio"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Travtus API & Webhook",
+        "default": "travtus-api-and-webhook/request-access",
+        "groups": [
           {
-            "group": "Travtus API & Webhook",
+            "group": "Overview",
             "pages": [
+              "api-introduction.mdx",
               "travtus-api-and-webhook/request-access",
               "travtus-api-and-webhook/api-license-agreement",
-              "travtus-api-and-webhook/authentication",
+              "travtus-api-and-webhook/authentication"
+            ]
+          },
+          {
+            "group": "Webhook",
+            "pages": [
+              "travtus-api-and-webhook/webhook/getting-started-with-webhook-events",
+              "travtus-api-and-webhook/webhook/authentication",
+              "travtus-api-and-webhook/webhook/webhook-portal-and-sandbox"
+            ]
+          },
+          {
+            "group": "Data Types & Endpoints",
+            "pages": [
               {
-                "group": "Webhook",
+                "group": "Community",
                 "pages": [
-                  "travtus-api-and-webhook/webhook/getting-started-with-webhook-events",
-                  "travtus-api-and-webhook/webhook/authentication",
-                  "travtus-api-and-webhook/webhook/webhook-portal-and-sandbox"
+                  "travtus-api-and-webhook/data-types-and-endpoints/community/find-community",
+                  "travtus-api-and-webhook/data-types-and-endpoints/community/patch-community",
+                  "travtus-api-and-webhook/data-types-and-endpoints/community/post-community"
                 ]
               },
               {
-                "group": "Data Types & Endpoints",
+                "group": "Person",
                 "pages": [
-                  {
-                    "group": "Community",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/community/find-community",
-                      "travtus-api-and-webhook/data-types-and-endpoints/community/patch-community",
-                      "travtus-api-and-webhook/data-types-and-endpoints/community/post-community"
-                    ]
-                  },
-                  {
-                    "group": "Person",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/person/find",
-                      "travtus-api-and-webhook/data-types-and-endpoints/person/post-multiple"
-                    ]
-                  },
-                  {
-                    "group": "Lease",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/lease/find-leases-for-tenant",
-                      "travtus-api-and-webhook/data-types-and-endpoints/lease/find-tenants",
-                      "travtus-api-and-webhook/data-types-and-endpoints/lease/find",
-                      "travtus-api-and-webhook/data-types-and-endpoints/lease/post",
-                      "travtus-api-and-webhook/data-types-and-endpoints/lease/webhooks"
-                    ]
-                  },
-                  {
-                    "group": "Properties",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/properties/find",
-                      "travtus-api-and-webhook/data-types-and-endpoints/properties/post-multiple"
-                    ]
-                  },
-                  {
-                    "group": "Listing",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/listing/post",
-                      "travtus-api-and-webhook/data-types-and-endpoints/listing/sync",
-                      "travtus-api-and-webhook/data-types-and-endpoints/listing/find",
-                      "travtus-api-and-webhook/data-types-and-endpoints/listing/delete"
-                    ]
-                  },
-                  {
-                    "group": "Task",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/task/create-task",
-                      "travtus-api-and-webhook/data-types-and-endpoints/task/update-task",
-                      "travtus-api-and-webhook/data-types-and-endpoints/task/webhooks"
-                    ]
-                  },
-                  {
-                    "group": "Review",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/review/create-review"
-                    ]
-                  },
-                  {
-                    "group": "Messaging",
-                    "pages": [
-                      "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api"
-                    ]
-                  }
+                  "travtus-api-and-webhook/data-types-and-endpoints/person/find",
+                  "travtus-api-and-webhook/data-types-and-endpoints/person/post-multiple"
+                ]
+              },
+              {
+                "group": "Lease",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/lease/find-leases-for-tenant",
+                  "travtus-api-and-webhook/data-types-and-endpoints/lease/find-tenants",
+                  "travtus-api-and-webhook/data-types-and-endpoints/lease/find",
+                  "travtus-api-and-webhook/data-types-and-endpoints/lease/post",
+                  "travtus-api-and-webhook/data-types-and-endpoints/lease/webhooks"
+                ]
+              },
+              {
+                "group": "Properties",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/properties/find",
+                  "travtus-api-and-webhook/data-types-and-endpoints/properties/post-multiple"
+                ]
+              },
+              {
+                "group": "Listing",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/listing/post",
+                  "travtus-api-and-webhook/data-types-and-endpoints/listing/sync",
+                  "travtus-api-and-webhook/data-types-and-endpoints/listing/find",
+                  "travtus-api-and-webhook/data-types-and-endpoints/listing/delete"
+                ]
+              },
+              {
+                "group": "Task",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/task/create-task",
+                  "travtus-api-and-webhook/data-types-and-endpoints/task/update-task",
+                  "travtus-api-and-webhook/data-types-and-endpoints/task/webhooks"
+                ]
+              },
+              {
+                "group": "Review",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/review/create-review"
+                ]
+              },
+              {
+                "group": "Messaging",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api"
                 ]
               }
             ]
