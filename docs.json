@@ -182,8 +182,8 @@
             "group": "Introduction",
             "pages": ["api-introduction",
                       "travtus-api-and-webhook/request-access",
-                      "travtus-api-and-webhook/api-license-agreement",
-                      "travtus-api-and-webhook/authentication"
+                      "travtus-api-and-webhook/authentication",
+                      "travtus-api-and-webhook/api-license-agreement"
             ]
           },
           {
