@@ -114,11 +114,7 @@
               },
               {
                 "group": "Studio",
-                "pages": [
-                  {
-                    "group": "Overview",
-                    "pages": ["features/studio/studio"]
-                  },
+                "pages": ["features/studio/studio",
                   {
                     "group": "Workflow",
                     "pages": ["teammates/adam/customer-service-agent"]
