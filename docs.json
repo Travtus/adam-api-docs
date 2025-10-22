@@ -56,7 +56,7 @@
           },
           {
             "group": "Features",
-            "pages": [
+            "groups": [
               {
                 "group": "Home Page",
                 "pages": [
@@ -115,6 +115,10 @@
               {
                 "group": "Studio",
                 "pages": ["features/studio/studio"]
+              },
+              {
+                "group": "Workflow",
+                "pages": ["teammates/adam/customer-service-agent"]
               }
             ]
           }
@@ -136,25 +140,29 @@
           },
           {
             "group": "Connect - File Uploads",
-            "pages": ["deployment-guide/file-uploads/process-and-auth",
+            "groups": [
               {
-                    "group": "Data Types",
-                    "pages": [
-                      "deployment-guide/file-uploads/data-types-and-data-structure/community",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/unit",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/resident",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/users",
-                      {
-                        "group": "Messages",
-                        "pages": [
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
-                    ]
-                  }
+                "group": "Overview",
+                "pages": ["deployment-guide/file-uploads/process-and-auth"]
+              },
+              {
+                "group": "Data Types",
+                "pages": [
+                  "deployment-guide/file-uploads/data-types-and-data-structure/community",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/unit",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/resident",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/users"
+                ]
+              },
+              {
+                "group": "Messages",
+                "pages": [
+                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
                 ]
               }
             ]
@@ -180,10 +188,11 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": ["api-introduction",
-                      "travtus-api-and-webhook/request-access",
-                      "travtus-api-and-webhook/authentication",
-                      "travtus-api-and-webhook/api-license-agreement"
+            "pages": [
+              "api-introduction",
+              "travtus-api-and-webhook/request-access",
+              "travtus-api-and-webhook/authentication",
+              "travtus-api-and-webhook/api-license-agreement"
             ]
           },
           {
@@ -196,7 +205,7 @@
           },
           {
             "group": "Endpoints",
-            "pages": [
+            "groups": [
               {
                 "group": "Community",
                 "pages": [
