@@ -267,7 +267,8 @@
               {
                 "group": "Messaging",
                 "pages": [
-                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-webhook.mdx"
+                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api-v2.0",
+                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-webhook"
                 ]
               }
             ]
