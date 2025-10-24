@@ -1,5 +1,89 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Travtus Messaging API — Webhooks"
+description: "Travtus delivers AI-generated responses through webhooks, powered by Svix for reliability and security."
 ---
 
+
+## Webhook Requirements
+
+Your endpoint must:
+
+1. Accept `POST` requests
+2. Respond within **15 seconds**
+3. Verify the signature using the provided **Signing Secret**
+
+See [Svix Verification Guide](https://docs.svix.com/receiving/verifying-payloads/how) for implementation details.
+
+---
+
+## Event Types
+
+| Event Type         | Description                    |
+| ------------------ | ------------------------------ |
+| `sms.respond`      | Response to an SMS message     |
+| `email.respond`    | Response to an email message   |
+| `web_chat.respond` | Response to a web chat message |
+
+---
+
+## Example Webhook Payload
+
+```json
+{
+  "event_type": "web_chat.respond",
+  "message_id": "550e8400-e29b-41d4-a716-446655440000",
+  "body": {
+    "message_id": "msg_response_123456",
+    "conversation_id": "conv_abc123",
+    "sender_name": "Travtus Assistant",
+    "message_text": "Thank you for your inquiry! The 2-bedroom unit is still available. Would you like to schedule a tour?",
+    "channel": "website",
+    "company_id": "company_789",
+    "sender_external_ref": "bot_travtus_ai",
+    "human_handover_ind": false,
+    "portfolio_external_ref": "property_oak_towers"
+  }
+}
+```
+
+---
+
+## Payload Fields
+
+| Field                         | Type    | Description                         |
+| ----------------------------- | ------- | ----------------------------------- |
+| `event_type`                  | string  | Webhook event name                  |
+| `message_id`                  | string  | Svix-assigned message ID            |
+| `body.message_id`             | string  | Original message identifier         |
+| `body.conversation_id`        | string  | Conversation thread ID              |
+| `body.sender_name`            | string  | Name of sender                      |
+| `body.message_text`           | string  | AI-generated response text          |
+| `body.channel`                | string  | `"sms"`, `"email"`, or `"website"`  |
+| `body.company_id`             | string  | Identifier for company              |
+| `body.sender_external_ref`    | string  | External reference for sender       |
+| `body.human_handover_ind`     | boolean | True if handover to human suggested |
+| `body.portfolio_external_ref` | string  | External property or portfolio ref  |
+
+---
+
+## Signature Verification
+
+Verify all webhook requests using your **Signing Secret**.\
+Refer to [Svix Docs](https://docs.svix.com/receiving/verifying-payloads/how) for language-specific SDK examples.
+
+---
+
+## Response Codes
+
+| Status | Meaning                                      |
+| ------ | -------------------------------------------- |
+| `2xx`  | Acknowledged successfully                    |
+| `4xx`  | Invalid request or signature                 |
+| `5xx`  | Temporary issue (Svix retries automatically) |
+
+---
+
+## Support
+
+For webhook delivery monitoring or signature troubleshooting:\
+**Email:** [support@travtus.com](mailto:support@travtus.com)
