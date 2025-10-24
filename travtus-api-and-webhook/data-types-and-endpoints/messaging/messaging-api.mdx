@@ -1,7 +1,6 @@
 ---
-title: "Messaging API"
+title: "Messaging API v1.0"
 ---
-
 
 # Interacting with the Travtus Messaging API
 
@@ -144,6 +143,7 @@ POST 'https://api.example.org/v1/messages'
 Webhook calls expect to receive an HTTP 200 status response.
 
 Participant types:
+
 - `bot`: Travtus Teammate
 - `agent`: Human agent
 
@@ -251,3 +251,4 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
         'phoneNumber' => '+1123456789',
         'emailAddress' => 'darren@example.org',
         'unitNumber'
+```

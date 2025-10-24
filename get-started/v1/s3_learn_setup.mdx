@@ -3,18 +3,19 @@ title: "S3 Setup for Adam Learn"
 ---
 
 # Introduction
-Adam Learn supports learning from emails persisted in files. For example, an extract from a BI tool. 
-In order to provide this functionality Adam Learn requires access to an S3 bucket where the files are uploaded.
-This allows Adam Learn to periodically check for updates and process the new messages.
+
+Adam Learn supports learning from emails persisted in files. For example, an extract from a BI tool. In order to provide this functionality Adam Learn requires access to an S3 bucket where the files are uploaded. This allows Adam Learn to periodically check for updates and process the new messages.
 
 # Setup
 
 Pre-requisites:
+
 - An AWS S3 bucket where the supported files will be uploaded
 
 Steps:
+
 - Create an AWS IAM User under the account where the files will be uploaded
-  - Within the AWS console navigate to IAM > Users > Create User
+  - Within the AWS console navigate to IAM \> Users \> Create User
   - Either:
     - Add user to a group (best practice), or
     - Attach policies directly
@@ -22,16 +23,16 @@ Steps:
     - s3:GetObject
     - s3:ListBucket
 - Create long-lived credentials
-  - Navigate to IAM > Users > \<User name\>
-  - Under security credentials > access keys click Create access key
+  - Navigate to IAM \> Users \> \<User name\>
+  - Under security credentials \> access keys click Create access key
   - Make a note of the access key and secret access key
 
 # Sharing credentials
-We will need the set of created credentials. For security, we recommend uploading the credentials to an
-internal S3 bucket that you have access to. You should then create a temporary and pre-signed link for Travtus to
-access the bucket and credentials. For complete instructions navigate [HERE](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
+
+We will need the set of created credentials. For security, we recommend uploading the credentials to an internal S3 bucket that you have access to. You should then create a temporary and pre-signed link for Travtus to access the bucket and credentials. For complete instructions navigate [HERE](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
 
 A file containing the credentials should include:
+
 - The long-lived access key id (begins with AKIA)
 - The secret access key
 - The name of the bucket
