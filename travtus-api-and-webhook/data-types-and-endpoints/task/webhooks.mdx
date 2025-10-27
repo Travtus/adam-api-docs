@@ -4,55 +4,147 @@ api: "POST https://your-domain.com/webhooks/tasks"
 description: "Events triggered when create or update a task"
 ---
 
+The task webhook allows you to subscribe to task events, the creation, update and deletion of tasks.
+
+## Overview
+
+A webhook event payload includes two top-level fields:
+
+- `event_type`: identifies the type of event (e.g., `task.create`, `task.update`, `task.delete`).
+- `message_id`: a unique identifier for the webhook delivery.
+- `body`: an object containing the task data.
+
+```
+
+---
+
+## Event Metadata
+
+| Field | Type | Description | Example |
+|-------|------|-------------|----------|
+| **event_type** | `string` | Type of webhook event. Possible values: `task.create`, `task.update`, `task.delete`. | `"task.update"` |
+| **message_id** | `string (UUID)` | Unique identifier for this webhook message. Used for idempotency and deduplication. | `"51d155b3-496f-434e-b664-406836be35a0"` |
+
+---
+
+## Task Body Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|----------|
+| **identifier** | `string (UUID)` | Travtus internal identifier of the task. Used for update or retrieval. | `"26d2f5f9-b128-48cd-add8-303e067df958"` |
+| **external_ref** | `string` | Client’s external reference for the task. | `"1234567890"` |
+| **action_type** | `string` | Free text field describing the type of action requested (e.g., “Assistance”). | `"Assistance"` |
+| **title** | `string` | Title or short name of the task. | `"a title"` |
+| **summary** | `string` | Summary of the task’s scope. | `"a summary"` |
+| **description** | `string` | Detailed explanation of the task. | `"a description"` |
+| **category** | `string` | The category of the task. Independent from `topic`. | `"Customer Support"` |
+| **topic** | `string` | The topic of the conversation or request that created the task. | `"maintenance"` |
+| **user_goal** | `string` | The specific intent or objective expressed by the user. | `"fix_shower"` |
+| **importance** | `enum` | Importance level of the task. One of: `low`, `normal`, `high`, `very_high`. | `"very_high"` |
+| **priority_score** | `integer (0–1000)` | Numeric priority value for sorting or SLA weighting. | `500` |
+| **status** | `enum` | Current task state. One of: `created`, `in_progress`, `completed`, `deleted`. | `"created"` |
+| **queue_name** | `enum or null` | Department or work queue responsible for the task. One of: `Accounts`, `Collections`, `Facilities`, `Leasing`, `Legal`, `Off-Boarding`, `Onboarding`, `Public Safety`, `Renewals`, `Retention`, `Services`, `Technology`. | `null` |
+| **onsite_indicator** | `enum` | Indicates whether onsite expertise is required. One of: `onsite`, `offsite`. | `"onsite"` |
+| **attachments** | `object` | URLs of attachments related to the task, keyed by file label. | `{"file_A": "https://u.dev.hiadam.co/pi5fwe3"}` |
+| **notes** | `string or null` | Additional free-text notes. | `null` |
+| **escalation_flag** | `boolean` | True if the task is an escalation due to severity or delay. | `false` |
+| **due_datetime** | `datetime` | When the task is due. | `"2023-12-19T12:00:00+00:00"` |
+| **reminder_datetime** | `datetime or null` | When a reminder should be triggered. | `null` |
+| **completed_datetime** | `datetime or null` | When the task was completed. | `null` |
+| **datetime_created** | `datetime` | When the task record was created. System-generated. | `"2023-12-20T17:32:49.143000+00:00"` |
+| **datetime_updated** | `datetime` | When the task record was last modified. System-generated. | `"2024-01-15T15:07:27.440000+00:00"` |
+| **relevant_conversation** | `string or null` | Transcript of the conversation that led to task creation. | `null` |
+| **portfolio_id** | `string (UUID)` | Travtus internal ID for the community/portfolio. | `"b0234194-e61b-4a57-967f-6eaaee4d5219"` |
+| **portfolio_external_ref** | `string` | Client’s external reference for the community/portfolio. | `"P1234"` |
+| **unit_identifier** | `string (UUID)` | Travtus internal identifier for the housing unit. | `"4efdccb7-10ca-47b0-811c-de2fae9f6682"` |
+| **unit_number** | `string` | Client-visible unit number. | `"2016"` |
+| **lease_external_ref** | `string` | Client’s external reference for the lease. | `"A1234"` |
+| **resident_address** | `string` | Address of the resident’s housing unit. | `"10 Executive Park West NE"` |
+| **resident_id** | `string (UUID) or null` | Travtus internal identifier for the resident. | `null` |
+| **assignee_id** | `string (UUID) or null` | Travtus internal identifier of the person assigned to the task. | `null` |
+
+---
+
+## Creator Object
+
+The `creator` field contains information about the individual or system that created the task.
+
+| Field | Type | Description | Example |
+|-------|------|-------------|----------|
+| **email** | `string` | Creator’s email address. | `"support@travtus.com"` |
+| **first_name** | `string` | Creator’s first name. | `"Bob"` |
+| **last_name** | `string` | Creator’s last name. | `"James"` |
+| **phone_number** | `string` | Creator’s phone number in E.164 format. | `"+447549111111"` |
+| **unit_external_ref** | `string` | Client’s external reference for the unit. | `"P~4770692~467~2016"` |
+| **lease_external_ref** | `string` | Client’s external reference for the lease. | `"A1234"` |
+| **resident_address** | `string` | Address of the resident’s housing unit. | `"10 Executive Park West NE"` |
+| **unit_identifier** | `string (UUID)` | Travtus internal identifier of the unit. | `"4efdccb7-10ca-47b0-811c-de2fae9f6682"` |
+| **unit_number** | `string` | The visible or client-facing unit number. | `"2016"` |
+
+---
+
+## Relationships and Behavior
+
+- `identifier` or `external_ref` can be used to reference or update a task.
+- `topic` and `user_goal` are related conceptually, where `user_goal` expresses the intent arising from a `topic`.
+- `category`, `topic`, and `queue_name` are independent classification fields.
+- `importance`, `priority_score`, and `onsite_indicator` influence task routing and SLA handling.
+- `portfolio_id` / `portfolio_external_ref` and `unit_identifier` provide context about where the task applies.
+- `creator` fields document the originator of the task.
+
+
+---
+
+
 <RequestExample>
 
-    ```bash Example Request
-    {
-      "body": {
-        "action_type": "Assistance",
-        "assignee_id": null,
-        "attachments": {
-          "file_A": "https://u.dev.hiadam.co/pi5fwe3"
-        },
-        "completed_datetime": null,
-        "creator": {
-          "email": "support@travtus.com",
-          "unit_external_ref": "P~4770692~467~2016",
-          "lease_external_ref": "A1234",
-          "first_name": "Bob",
-          "last_name": "James",
-          "phone_number": "+447549111111",
-          "resident_address": "10 Executive Park West NE",
-          "unit_identifier": "4efdccb7-10ca-47b0-811c-de2fae9f6682",
-          "unit_number": "2016"
-        },
-        "datetime_created": "2023-12-20T17:32:49.143000+00:00",
-        "datetime_updated": "2024-01-15T15:07:27.440000+00:00",
-        "description": "a description",
-        "due_datetime": "2023-12-19T12:00:00+00:00",
-        "external_ref": "1234567890",
-        "identifier": "26d2f5f9-b128-48cd-add8-303e067df958",
-        "importance": "very_high",
-        "notes": null,
-        "portfolio_external_ref": "P1234",
-        "portfolio_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
-        "priority_score": 500,
-        "queue_name": null,
-        "relevant_conversation": null,
-        "reminder_datetime": null,
-        "resident_id": null,
-        "status": "created",
-        "category": "Customer Support",
-        "summary": "a summary",
-        "title": "a title",
-        "onsite_indicator": "onsite",
-        "topic": "maintenance",
-        "user_goal": "fix_shower",
-        "escalation_flag": false
-      },
-      "event_type": "task.update",
-      "message_id": "51d155b3-496f-434e-b664-406836be35a0"
-    }
-    ```
+```bash Example Request
+{
+  "body": {
+    "action_type": "Assistance",
+    "assignee_id": null,
+    "attachments": {
+      "file_A": "https://u.dev.hiadam.co/pi5fwe3"
+    },
+    "completed_datetime": null,
+    "creator": {
+      "email": "support@travtus.com",
+      "unit_external_ref": "P~4770692~467~2016",
+      "lease_external_ref": "A1234",
+      "first_name": "Bob",
+      "last_name": "James",
+      "phone_number": "+447549111111",
+      "resident_address": "10 Executive Park West NE",
+      "unit_identifier": "4efdccb7-10ca-47b0-811c-de2fae9f6682",
+      "unit_number": "2016"
+    },
+    "datetime_created": "2023-12-20T17:32:49.143000+00:00",
+    "datetime_updated": "2024-01-15T15:07:27.440000+00:00",
+    "description": "a description",
+    "due_datetime": "2023-12-19T12:00:00+00:00",
+    "external_ref": "1234567890",
+    "identifier": "26d2f5f9-b128-48cd-add8-303e067df958",
+    "importance": "very_high",
+    "notes": null,
+    "portfolio_external_ref": "P1234",
+    "portfolio_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
+    "priority_score": 500,
+    "queue_name": null,
+    "relevant_conversation": null,
+    "reminder_datetime": null,
+    "resident_id": null,
+    "status": "created",
+    "category": "Customer Support",
+    "summary": "a summary",
+    "title": "a title",
+    "onsite_indicator": "onsite",
+    "topic": "maintenance",
+    "user_goal": "fix_shower",
+    "escalation_flag": false
+  },
+  "event_type": "task.update",
+  "message_id": "51d155b3-496f-434e-b664-406836be35a0"
+}
+```
 
 </RequestExample>
