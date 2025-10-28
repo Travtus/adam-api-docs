@@ -29,7 +29,9 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": ["platform-introduction"]
+            "pages": [
+              "platform-introduction"
+            ]
           },
           {
             "group": "Getting started with Travtus",
@@ -110,11 +112,21 @@
               },
               {
                 "group": "Smart Tasks",
-                "pages": ["features/smart-tasks/my-tasks"]
+                "pages": [
+                  "features/smart-tasks/my-tasks"
+                ]
               },
               {
                 "group": "Studio",
-                "pages": ["features/studio/studio"]
+                "pages": [
+                  "features/studio/studio"
+                ]
+              },
+              {
+                "group": "Workflows",
+                "pages": [
+                  "features/teammates/adam/customer-service-agent"
+                ]
               }
             ]
           }
@@ -125,7 +137,9 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": ["introduction"]
+            "pages": [
+              "introduction"
+            ]
           },
           {
             "group": "Widgets",
@@ -136,23 +150,24 @@
           },
           {
             "group": "Connect - File Uploads",
-            "pages": ["deployment-guide/file-uploads/process-and-auth",
+            "pages": [
+              "deployment-guide/file-uploads/process-and-auth",
               {
-                    "group": "Data Types",
+                "group": "Data Types",
+                "pages": [
+                  "deployment-guide/file-uploads/data-types-and-data-structure/community",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/unit",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/resident",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/users",
+                  {
+                    "group": "Messages",
                     "pages": [
-                      "deployment-guide/file-uploads/data-types-and-data-structure/community",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/unit",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/resident",
-                      "deployment-guide/file-uploads/data-types-and-data-structure/users",
-                      {
-                        "group": "Messages",
-                        "pages": [
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
-                          "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/emails",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/sms",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/chat",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/call-recordings",
+                      "deployment-guide/file-uploads/data-types-and-data-structure/messages/reviews"
                     ]
                   }
                 ]
@@ -161,7 +176,9 @@
           },
           {
             "group": "Connect - Data Feeds",
-            "pages": ["deployment-guide/data-feeds/access-and-authentication"]
+            "pages": [
+              "deployment-guide/data-feeds/access-and-authentication"
+            ]
           },
           {
             "group": "Connect - Integrations",
@@ -180,10 +197,11 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": ["api-introduction",
-                      "travtus-api-and-webhook/request-access",
-                      "travtus-api-and-webhook/authentication",
-                      "travtus-api-and-webhook/api-license-agreement"
+            "pages": [
+              "api-introduction",
+              "travtus-api-and-webhook/request-access",
+              "travtus-api-and-webhook/authentication",
+              "travtus-api-and-webhook/api-license-agreement"
             ]
           },
           {
@@ -255,7 +273,8 @@
               {
                 "group": "Messaging",
                 "pages": [
-                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api"
+                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-api-v2.0",
+                  "travtus-api-and-webhook/data-types-and-endpoints/messaging/messaging-webhook"
                 ]
               }
             ]

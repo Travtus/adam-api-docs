@@ -1,0 +1,162 @@
+---
+title: "Travtus Messaging API"
+description: "The Travtus Messaging API allows integration of messaging systems (SMS, Email, and Web Chat) with Travtus AI-powered conversation management. You can send inbound customer messages to Travtus, which processes them and returns AI-generated responses via webhooks."
+---
+
+
+---
+
+## Base URL
+
+| Environment | Base URL                  |
+| ----------- | ------------------------- |
+| Production  | `https://api.travtus.com` |
+
+---
+
+## Endpoint
+
+### **POST** `/messages/`
+
+Accepts inbound messages from supported channels.
+
+#### Headers
+
+| Header         | Required | Description                |
+| -------------- | -------- | -------------------------- |
+| `Content-Type` | Yes      | Must be `application/json` |
+
+---
+
+## Conversation Context
+
+To maintain conversation continuity, include a `conversation_id` in your message.\
+If omitted for Web Chat, Travtus generates one automatically and returns it in the webhook.
+
+---
+
+## Common Fields
+
+| Field                | Type   | Required    | Description                         |
+| -------------------- | ------ | ----------- | ----------------------------------- |
+| `channel`            | string | Yes         | `"sms"`, `"email"`, or `"web_chat"` |
+| `group_id`           | UUID   | Conditional | Internal group/portfolio ID         |
+| `group_external_ref` | string | Conditional | External group/portfolio reference  |
+
+---
+
+## SMS Messages
+
+### Example
+
+```json
+{
+  "channel": "sms",
+  "group_external_ref": "portfolio_123",
+  "sms": {
+    "source": "twilio",
+    "message_id": "SM123456789",
+    "text": "Hello, I'm interested in the apartment.",
+    "created_datetime": "2024-03-15T11:30:00Z",
+    "phone_number": "+1234567890",
+    "conversation_id": "conv_abc123"
+  }
+}
+```
+
+| Field                  | Type   | Required | Description                             |
+| ---------------------- | ------ | -------- | --------------------------------------- |
+| `sms.source`           | string | No       | SMS provider name (default `"unknown"`) |
+| `sms.message_id`       | string | Yes      | Unique message identifier               |
+| `sms.text`             | string | Yes      | Message content                         |
+| `sms.created_datetime` | string | Yes      | ISO 8601 timestamp                      |
+| `sms.phone_number`     | string | Yes      | Sender’s phone number (E.164 format)    |
+| `sms.conversation_id`  | string | Yes      | Conversation thread ID                  |
+
+---
+
+## Email Messages
+
+### Example
+
+```json
+{
+  "channel": "email",
+  "group_external_ref": "portfolio_123",
+  "email": {
+    "source": "sendgrid",
+    "message_id": "email-msg-001",
+    "text": "Hello, I would love to learn more about unit 2A.",
+    "created_datetime": "2024-03-15T11:31:02Z",
+    "from_email_address": "resident@example.com",
+    "to_email_addresses": "leasing@example.com",
+    "subject": "Interested in unit 2A",
+    "conversation_id": "conv_abc123"
+  }
+}
+```
+
+| Field                      | Type   | Required | Description                               |
+| -------------------------- | ------ | -------- | ----------------------------------------- |
+| `email.source`             | string | No       | Email provider name (default `"unknown"`) |
+| `email.message_id`         | string | Yes      | Unique message ID                         |
+| `email.text`               | string | Yes      | Message body (plain text)                 |
+| `email.created_datetime`   | string | Yes      | ISO 8601 timestamp                        |
+| `email.from_email_address` | string | Yes      | Sender email                              |
+| `email.to_email_addresses` | string | Yes      | Recipient email(s)                        |
+| `email.subject`            | string | Yes      | Subject line                              |
+| `email.conversation_id`    | string | Yes      | Conversation thread ID                    |
+
+---
+
+## Web Chat Messages
+
+### Example
+
+```json
+{
+  "channel": "web_chat",
+  "group_id": "portfolio_123",
+  "web_chat": {
+    "source": "chat_service",
+    "message_id": "msg_123456789",
+    "text": "Hello, I have a question about my lease.",
+    "created_datetime": "2024-03-15T11:30:00Z",
+    "conversation_id": "conv_abc123",
+    "sender_ext_ref": "user_456",
+    "name": "John Doe",
+    "agent_id": "agent_123"
+  }
+}
+```
+
+| Field                       | Type   | Required | Description                                      |
+| --------------------------- | ------ | -------- | ------------------------------------------------ |
+| `web_chat.source`           | string | No       | Chat platform name                               |
+| `web_chat.message_id`       | string | Yes      | Unique message identifier                        |
+| `web_chat.text`             | string | Yes      | Message content                                  |
+| `web_chat.created_datetime` | string | Yes      | ISO 8601 timestamp                               |
+| `web_chat.conversation_id`  | string | No       | Automatically generated if missing               |
+| `web_chat.sender_ext_ref`   | string | No       | External sender identifier                       |
+| `web_chat.name`             | string | No       | Sender name                                      |
+| `web_chat.agent_id`         | string | No       | Agent identifier (for agent-originated messages) |
+
+---
+
+## Response
+
+Example:
+
+```json
+{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+| Field        | Type   | Description                                |
+| ------------ | ------ | ------------------------------------------ |
+| `request_id` | string | Unique identifier for tracking the request |
+
+---
+
+## 
