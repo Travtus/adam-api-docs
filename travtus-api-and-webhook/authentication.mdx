@@ -1,5 +1,5 @@
 ---
-title: "Authentication"
+title: "Authentication & Rate Limiting"
 api: "POST https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token"
 ---
 
@@ -20,7 +20,7 @@ Travtus API uses token authentication. All API calls must include the following 
 </ParamField>
 
 <ParamField query="grant_type" type="string">
-    Must be `client_credentials`.
+  Must be `client_credentials`.
 </ParamField>
 
 ### Response
@@ -48,3 +48,30 @@ curl --location --request POST 'https://travtus-api.auth.us-east-2.amazoncognito
 ```
 
 </ResponseExample>
+
+---
+
+### Rate Limiting
+
+The Travtus API enforces rate limits to ensure platform stability and fair usage across all clients.
+
+### **Limits**
+
+The current rate limits are:
+
+- **Burst limit:** 5,000 requests
+- **Sustained rate:** 10,000 requests per second
+
+The burst limit allows short spikes in traffic, while the sustained rate applies to ongoing request volume.
+
+### **How rate limiting is applied**
+
+- Rate limits are enforced at the API gateway level.
+- Requests exceeding either the burst or sustained rate may be rejected.
+- Limits apply per client and per API key.
+
+### **Exceeding limits**
+
+If a request exceeds the configured rate limits, the API will respond with an HTTP **429 Too Many Requests** status code.
+
+Clients should implement appropriate retry logic with backoff when receiving a 429 response.
