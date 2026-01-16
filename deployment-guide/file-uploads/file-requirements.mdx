@@ -1,0 +1,26 @@
+---
+title: "File Requirements & Validation"
+description: "Rules and pre-flight checks for File Uploads"
+---
+
+## File Requirements & Validation
+
+  - **Supported formats:** csv (UTF-8), json(UTF-8), json.gz. Gzipped CSV (`.csv.gz`) is not supported.
+  - **S3 key shape:** `companyName_companyId/TYPE-SUBTYPE/filename.ext`.
+  - **CSV specifics:** Header row required. Delimiter must match the mapping config (`delimiter`); no auto-detect. Fields should not span multiple lines.
+  - **Encoding:** UTF-8 only; no BOM(Byte Order Mark). (Header BOM is stripped if present, but avoid it.)
+  - **Nulls & placeholders:** Use empty cells for nulls. Reject/clean `NULL`, `N/A`, `-`, or whitespace-only placeholders.
+  - **Schema expectations:** A mapping config must exist for `company_id + file_type-subtype` (defaults for community/user/resident/agent). Columns
+  must match configured headers [Data structure](./data-types-and-data-structure); extra/missing columns fail mapping. Portfolio ID must be present or derivable for non-default types.
+  - **Validation consistency:** Column count must stay constant per row; use consistent line endings (`\n` or `\r\n`). No control characters or embedded
+  binaries/base64 blobs.
+
+
+## Pre-flight Checklist for Uploaders
+
+  - [ ] File extension is `.csv`, `.json`, or `.json.gz`
+  - [ ] UTF-8 encoding, no BOM
+  - [ ] Delimiter matches mapping config or default to ','
+  - [ ] Nulls are empty cells (no `NULL`/`N/A`/`-`)
+  - [ ] Headers match the expected mapping; column count is consistent
+  - [ ] S3 key follows `companyName_companyId/TYPE-SUBTYPE/filename.ext`

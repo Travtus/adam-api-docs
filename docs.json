@@ -152,6 +152,7 @@
             "group": "Connect - File Uploads",
             "pages": [
               "deployment-guide/file-uploads/process-and-auth",
+              "deployment-guide/file-uploads/file-requirements",
               {
                 "group": "Data Types",
                 "pages": [
