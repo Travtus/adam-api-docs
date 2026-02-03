@@ -37,11 +37,15 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 
 ## Common Fields
 
-| Field                | Type   | Required    | Description                         |
-| -------------------- | ------ | ----------- | ----------------------------------- |
-| `channel`            | string | Yes         | `"sms"`, `"email"`, or `"web_chat"` |
-| `group_id`           | UUID   | Conditional | Internal group/portfolio ID         |
-| `group_external_ref` | string | Conditional | External group/portfolio reference  |
+| Field                | Type            | Required    | Description                         |
+| -------------------- | --------------- | ----------- | ----------------------------------- |
+| `channel`            | string          | Yes         | `"sms"`, `"email"`, or `"web_chat"` |
+| `group_id`           | UUID            | Conditional | Internal group/portfolio ID         |
+| `group_external_ref` | string          | Conditional | External group/portfolio reference  |
+| `first_name`         | string          | No          | Sender first name                   |
+| `last_name`          | string          | No          | Sender last name                    |
+| `attachment_urls`    | array of string | No          | Attachment URLs                     |
+| `message_uri`        | string          | No          | Provider message URI                |
 
 ---
 
@@ -53,25 +57,33 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 {
   "channel": "sms",
   "group_external_ref": "portfolio_123",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "sms:SM123456789",
   "sms": {
     "source": "twilio",
     "message_id": "SM123456789",
     "text": "Hello, I'm interested in the apartment.",
     "created_datetime": "2024-03-15T11:30:00Z",
     "phone_number": "+1234567890",
+    "sent_to_phone_number": "+10987654321",
+    "forwarding_number": "+15555555555",
     "conversation_id": "conv_abc123"
   }
 }
 ```
 
-| Field                  | Type   | Required | Description                             |
-| ---------------------- | ------ | -------- | --------------------------------------- |
-| `sms.source`           | string | No       | SMS provider name (default `"unknown"`) |
-| `sms.message_id`       | string | Yes      | Unique message identifier               |
-| `sms.text`             | string | Yes      | Message content                         |
-| `sms.created_datetime` | string | Yes      | ISO 8601 timestamp                      |
-| `sms.phone_number`     | string | Yes      | Sender’s phone number (E.164 format)    |
-| `sms.conversation_id`  | string | Yes      | Conversation thread ID                  |
+| Field                     | Type   | Required | Description                             |
+| ------------------------- | ------ | -------- | --------------------------------------- |
+| `sms.source`              | string | No       | SMS provider name (default `"unknown"`) |
+| `sms.message_id`          | string | Yes      | Unique message identifier               |
+| `sms.text`                | string | Yes      | Message content                         |
+| `sms.created_datetime`    | string | Yes      | ISO 8601 timestamp                      |
+| `sms.phone_number`        | string | Yes      | Sender’s phone number (E.164 format)    |
+| `sms.sent_to_phone_number`| string | No       | Recipient phone number (E.164 format)   |
+| `sms.forwarding_number`   | string | No       | Forwarding phone number (E.164 format)  |
+| `sms.conversation_id`     | string | Yes      | Conversation thread ID                  |
 
 ---
 
@@ -83,6 +95,10 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 {
   "channel": "email",
   "group_external_ref": "portfolio_123",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "mailto:thread-123",
   "email": {
     "source": "sendgrid",
     "message_id": "email-msg-001",
@@ -91,21 +107,37 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
     "from_email_address": "resident@example.com",
     "to_email_addresses": "leasing@example.com",
     "subject": "Interested in unit 2A",
-    "conversation_id": "conv_abc123"
+    "conversation_id": "conv_abc123",
+    "references": ["msg-0001", "msg-0002"],
+    "in_reply_to": "msg-0001",
+    "agent_id": "agent_123",
+    "agent_full_name": "Alex Smith",
+    "agent_first_name": "Alex",
+    "agent_last_name": "Smith",
+    "agent_phone_number": "+1987654321",
+    "agent_email_address": "alex@leasing.com"
   }
 }
 ```
 
-| Field                      | Type   | Required | Description                               |
-| -------------------------- | ------ | -------- | ----------------------------------------- |
-| `email.source`             | string | No       | Email provider name (default `"unknown"`) |
-| `email.message_id`         | string | Yes      | Unique message ID                         |
-| `email.text`               | string | Yes      | Message body (plain text)                 |
-| `email.created_datetime`   | string | Yes      | ISO 8601 timestamp                        |
-| `email.from_email_address` | string | Yes      | Sender email                              |
-| `email.to_email_addresses` | string | Yes      | Recipient email(s)                        |
-| `email.subject`            | string | Yes      | Subject line                              |
-| `email.conversation_id`    | string | Yes      | Conversation thread ID                    |
+| Field                       | Type            | Required | Description                               |
+| --------------------------- | --------------- | -------- | ----------------------------------------- |
+| `email.source`              | string          | No       | Email provider name (default `"unknown"`) |
+| `email.message_id`          | string          | Yes      | Unique message ID                         |
+| `email.text`                | string          | Yes      | Message body (plain text)                 |
+| `email.created_datetime`    | string          | Yes      | ISO 8601 timestamp                        |
+| `email.from_email_address`  | string          | Yes      | Sender email                              |
+| `email.to_email_addresses`  | string          | Yes      | Recipient email(s)                        |
+| `email.subject`             | string          | Yes      | Subject line                              |
+| `email.conversation_id`     | string          | Yes      | Conversation thread ID                    |
+| `email.references`          | array of string | Yes      | RFC822 References header values           |
+| `email.in_reply_to`         | string          | No       | RFC822 In-Reply-To header value           |
+| `email.agent_id`            | string          | No       | Agent identifier                          |
+| `email.agent_full_name`     | string          | No       | Agent full name                           |
+| `email.agent_first_name`    | string          | No       | Agent first name                          |
+| `email.agent_last_name`     | string          | No       | Agent last name                           |
+| `email.agent_phone_number`  | string          | No       | Agent phone number                        |
+| `email.agent_email_address` | string          | No       | Agent email address                       |
 
 ---
 
@@ -117,6 +149,10 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 {
   "channel": "web_chat",
   "group_id": "portfolio_123",
+  "first_name": "John",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "web_chat:msg_123456789",
   "web_chat": {
     "source": "chat_service",
     "message_id": "msg_123456789",
