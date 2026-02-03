@@ -39,7 +39,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 
 | Field                | Type            | Required    | Description                         |
 | -------------------- | --------------- | ----------- | ----------------------------------- |
-| `channel`            | string          | Yes         | `"sms"`, `"email"`, or `"web_chat"` |
+| `channel`            | string          | Yes         | `"sms"`, `"email"`, `"web_chat"`, or `"call_transcript"` |
 | `group_id`           | UUID            | Conditional | Internal group/portfolio ID         |
 | `group_external_ref` | string          | Conditional | External group/portfolio reference  |
 | `first_name`         | string          | No          | Sender first name                   |
@@ -174,6 +174,54 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 | `web_chat.sender_ext_ref`   | string | No       | External sender identifier                       |
 | `web_chat.name`             | string | No       | Sender name                                      |
 | `web_chat.agent_id`         | string | No       | Agent identifier (for agent-originated messages) |
+
+---
+
+## Call Transcript Messages (Voice Recording)
+
+### Example
+
+```json
+{
+  "channel": "call_transcript",
+  "group_id": "portfolio_123",
+  "first_name": "John",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/recording.mp3"],
+  "message_uri": "voice:call-123",
+  "call_transcript": {
+    "source": "twilio",
+    "message_id": "call-msg-001",
+    "text": "Transcript text",
+    "created_datetime": "2024-03-15T11:30:00Z",
+    "conversation_id": "conv_call_123",
+    "phone_number": "+1234567890",
+    "number_dialed_by_user": "+10987654321",
+    "call_duration_in_sec": 50,
+    "recording_url": "https://example.com/recording.mp3",
+    "call_status": "completed",
+    "call_handle_time": 65,
+    "call_queue_wait_time": 10,
+    "forwarding_number": "+15555555555"
+  }
+}
+```
+
+| Field                              | Type   | Required | Description                                  |
+| ---------------------------------- | ------ | -------- | -------------------------------------------- |
+| `call_transcript.source`           | string | No       | Call source (default `"unknown"`)           |
+| `call_transcript.message_id`       | string | Yes      | Unique message identifier                    |
+| `call_transcript.text`             | string | No       | Transcript text                              |
+| `call_transcript.created_datetime` | string | Yes      | ISO 8601 timestamp                           |
+| `call_transcript.conversation_id`  | string | Yes      | Conversation thread ID                       |
+| `call_transcript.phone_number`     | string | No       | Caller phone number (E.164 format)           |
+| `call_transcript.number_dialed_by_user` | string | No | Number dialed by user (E.164 format)         |
+| `call_transcript.call_duration_in_sec`  | int    | No | Duration of call (seconds)                   |
+| `call_transcript.recording_url`    | string | Yes      | Recording URL                                |
+| `call_transcript.call_status`      | string | No       | Call status (`completed`, `no-answer`, etc.) |
+| `call_transcript.call_handle_time` | int    | No       | Total call handle time (seconds)             |
+| `call_transcript.call_queue_wait_time` | int | No      | Queue wait time (seconds)                    |
+| `call_transcript.forwarding_number`| string | No       | Forwarded-from number (E.164 format)         |
 
 ---
 
