@@ -112,7 +112,6 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
     "agent_full_name": "Alex Smith",
     "agent_first_name": "Alex",
     "agent_last_name": "Smith",
-    "agent_phone_number": "+1987654321",
     "agent_email_address": "alex@leasing.com"
   }
 }
@@ -134,7 +133,6 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 | `email.agent_full_name`     | string          | No       | Agent full name                           |
 | `email.agent_first_name`    | string          | No       | Agent first name                          |
 | `email.agent_last_name`     | string          | No       | Agent last name                           |
-| `email.agent_phone_number`  | string          | No       | Agent phone number                        |
 | `email.agent_email_address` | string          | No       | Agent email address                       |
 
 ---
@@ -202,7 +200,12 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
     "call_status": "completed",
     "call_handle_time": 65,
     "call_queue_wait_time": 10,
-    "forwarding_number": "+15555555555"
+    "forwarding_number": "+15555555555",
+    "agent_id": "agent_123",
+    "agent_full_name": "Alex Smith",
+    "agent_first_name": "Alex",
+    "agent_last_name": "Smith",
+    "agent_phone_number": "+1987654321",
   }
 }
 ```
@@ -222,6 +225,11 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 | `call_transcript.call_handle_time` | int    | No       | Total call handle time (seconds)             |
 | `call_transcript.call_queue_wait_time` | int | No      | Queue wait time (seconds)                    |
 | `call_transcript.forwarding_number`| string | No       | Forwarded-from number (E.164 format)         |
+| `call_transcript.agent_id`         | string | No       | Agent identifier                             |
+| `call_transcript.agent_full_name`  | string | No       | Agent full name                              |
+| `call_transcript.agent_first_name` | string | No       | Agent first name                             |
+| `call_transcript.agent_last_name`  | string | No       | Agent last name                              |
+| `call_transcript.agent_phone_number` | string | No     | Agent phone number                           |
 
 ---
 
