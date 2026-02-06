@@ -37,15 +37,15 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 
 ## Common Fields
 
-| Field                | Type            | Required    | Description                         |
-| -------------------- | --------------- | ----------- | ----------------------------------- |
-| `channel`            | string          | Yes         | `"sms"`, `"email"`, `"web_chat"`, or `"call_transcript"` |
-| `group_id`           | UUID            | Conditional | Internal group/portfolio ID         |
-| `group_external_ref` | string          | Conditional | External group/portfolio reference  |
-| `first_name`         | string          | No          | Sender first name                   |
-| `last_name`          | string          | No          | Sender last name                    |
-| `attachment_urls`    | array of string | No          | Attachment URLs                     |
-| `message_uri`        | string          | No          | Provider message URI                |
+| Field                | Type             | Required    | Description                         |
+| -------------------- | ---------------- | ----------- | ----------------------------------- |
+| `channel`            | string           | Yes         | `"sms"`, `"email"`, `"web_chat"`, or `"call_transcript"` |
+| `group_id`           | UUID             | Conditional | Internal group/portfolio ID         |
+| `group_external_ref` | string           | Conditional | External group/portfolio reference  |
+| `first_name`         | string           | No          | Sender first name                   |
+| `last_name`          | string           | No          | Sender last name                    |
+| `attachment_urls`    | array of strings | No          | Attachment URLs                     |
+| `message_uri`        | string           | No          | Provider message URI                |
 
 ---
 
@@ -117,23 +117,23 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 }
 ```
 
-| Field                       | Type            | Required | Description                               |
-| --------------------------- | --------------- | -------- | ----------------------------------------- |
-| `email.source`              | string          | No       | Email provider name (default `"unknown"`) |
-| `email.message_id`          | string          | Yes      | Unique message ID                         |
-| `email.text`                | string          | Yes      | Message body (plain text)                 |
-| `email.created_datetime`    | string          | Yes      | ISO 8601 timestamp                        |
-| `email.from_email_address`  | string          | Yes      | Sender email                              |
-| `email.to_email_addresses`  | string          | Yes      | Recipient email(s)                        |
-| `email.subject`             | string          | Yes      | Subject line                              |
-| `email.conversation_id`     | string          | Yes      | Conversation thread ID                    |
-| `email.references`          | array of string | Yes      | RFC822 References header values           |
-| `email.in_reply_to`         | string          | No       | RFC822 In-Reply-To header value           |
-| `email.agent_id`            | string          | No       | Agent identifier                          |
-| `email.agent_full_name`     | string          | No       | Agent full name                           |
-| `email.agent_first_name`    | string          | No       | Agent first name                          |
-| `email.agent_last_name`     | string          | No       | Agent last name                           |
-| `email.agent_email_address` | string          | No       | Agent email address                       |
+| Field                       | Type             | Required | Description                               |
+| --------------------------- | ---------------- | -------- | ----------------------------------------- |
+| `email.source`              | string           | No       | Email provider name (default `"unknown"`) |
+| `email.message_id`          | string           | Yes      | Unique message ID                         |
+| `email.text`                | string           | Yes      | Message body (plain text)                 |
+| `email.created_datetime`    | string           | Yes      | ISO 8601 timestamp                        |
+| `email.from_email_address`  | string           | Yes      | Sender email                              |
+| `email.to_email_addresses`  | string           | Yes      | Recipient email(s)                        |
+| `email.subject`             | string           | Yes      | Subject line                              |
+| `email.conversation_id`     | string           | Yes      | Conversation thread ID                    |
+| `email.references`          | array of strings | Yes      | RFC822 References header values           |
+| `email.in_reply_to`         | string           | No       | RFC822 In-Reply-To header value           |
+| `email.agent_id`            | string           | No       | Agent identifier                          |
+| `email.agent_full_name`     | string           | No       | Agent full name                           |
+| `email.agent_first_name`    | string           | No       | Agent first name                          |
+| `email.agent_last_name`     | string           | No       | Agent last name                           |
+| `email.agent_email_address` | string           | No       | Agent email address                       |
 
 ---
 
@@ -205,7 +205,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
     "agent_full_name": "Alex Smith",
     "agent_first_name": "Alex",
     "agent_last_name": "Smith",
-    "agent_phone_number": "+1987654321",
+    "agent_phone_number": "+1987654321"
   }
 }
 ```
