@@ -37,11 +37,15 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 
 ## Common Fields
 
-| Field                | Type   | Required    | Description                         |
-| -------------------- | ------ | ----------- | ----------------------------------- |
-| `channel`            | string | Yes         | `"sms"`, `"email"`, or `"web_chat"` |
-| `group_id`           | UUID   | Conditional | Internal group/portfolio ID         |
-| `group_external_ref` | string | Conditional | External group/portfolio reference  |
+| Field                | Type             | Required    | Description                         |
+| -------------------- | ---------------- | ----------- | ----------------------------------- |
+| `channel`            | string           | Yes         | `"sms"`, `"email"`, `"web_chat"`, or `"call_transcript"` |
+| `group_id`           | UUID             | Conditional | Internal group/portfolio ID         |
+| `group_external_ref` | string           | Conditional | External group/portfolio reference  |
+| `first_name`         | string           | No          | Sender first name                   |
+| `last_name`          | string           | No          | Sender last name                    |
+| `attachment_urls`    | array of strings | No          | Attachment URLs                     |
+| `message_uri`        | string           | No          | Provider message URI                |
 
 ---
 
@@ -53,25 +57,31 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 {
   "channel": "sms",
   "group_external_ref": "portfolio_123",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "sms:SM123456789",
   "sms": {
     "source": "twilio",
     "message_id": "SM123456789",
     "text": "Hello, I'm interested in the apartment.",
     "created_datetime": "2024-03-15T11:30:00Z",
     "phone_number": "+1234567890",
+    "sent_to_phone_number": "+10987654321",
     "conversation_id": "conv_abc123"
   }
 }
 ```
 
-| Field                  | Type   | Required | Description                             |
-| ---------------------- | ------ | -------- | --------------------------------------- |
-| `sms.source`           | string | No       | SMS provider name (default `"unknown"`) |
-| `sms.message_id`       | string | Yes      | Unique message identifier               |
-| `sms.text`             | string | Yes      | Message content                         |
-| `sms.created_datetime` | string | Yes      | ISO 8601 timestamp                      |
-| `sms.phone_number`     | string | Yes      | Sender’s phone number (E.164 format)    |
-| `sms.conversation_id`  | string | Yes      | Conversation thread ID                  |
+| Field                     | Type   | Required | Description                             |
+| ------------------------- | ------ | -------- | --------------------------------------- |
+| `sms.source`              | string | No       | SMS provider name (default `"unknown"`) |
+| `sms.message_id`          | string | Yes      | Unique message identifier               |
+| `sms.text`                | string | Yes      | Message content                         |
+| `sms.created_datetime`    | string | Yes      | ISO 8601 timestamp                      |
+| `sms.phone_number`        | string | Yes      | Sender’s phone number (E.164 format)    |
+| `sms.sent_to_phone_number` | string | No       | Recipient phone number (E.164 format)   |
+| `sms.conversation_id`     | string | Yes      | Conversation thread ID                  |
 
 ---
 
@@ -83,6 +93,10 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 {
   "channel": "email",
   "group_external_ref": "portfolio_123",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "mailto:thread-123",
   "email": {
     "source": "sendgrid",
     "message_id": "email-msg-001",
@@ -91,21 +105,35 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
     "from_email_address": "resident@example.com",
     "to_email_addresses": "leasing@example.com",
     "subject": "Interested in unit 2A",
-    "conversation_id": "conv_abc123"
+    "conversation_id": "conv_abc123",
+    "references": ["msg-0001", "msg-0002"],
+    "in_reply_to": "msg-0001",
+    "agent_id": "agent_123",
+    "agent_full_name": "Alex Smith",
+    "agent_first_name": "Alex",
+    "agent_last_name": "Smith",
+    "agent_email_address": "alex@leasing.com"
   }
 }
 ```
 
-| Field                      | Type   | Required | Description                               |
-| -------------------------- | ------ | -------- | ----------------------------------------- |
-| `email.source`             | string | No       | Email provider name (default `"unknown"`) |
-| `email.message_id`         | string | Yes      | Unique message ID                         |
-| `email.text`               | string | Yes      | Message body (plain text)                 |
-| `email.created_datetime`   | string | Yes      | ISO 8601 timestamp                        |
-| `email.from_email_address` | string | Yes      | Sender email                              |
-| `email.to_email_addresses` | string | Yes      | Recipient email(s)                        |
-| `email.subject`            | string | Yes      | Subject line                              |
-| `email.conversation_id`    | string | Yes      | Conversation thread ID                    |
+| Field                       | Type             | Required | Description                               |
+| --------------------------- | ---------------- | -------- | ----------------------------------------- |
+| `email.source`              | string           | No       | Email provider name (default `"unknown"`) |
+| `email.message_id`          | string           | Yes      | Unique message ID                         |
+| `email.text`                | string           | Yes      | Message body (plain text)                 |
+| `email.created_datetime`    | string           | Yes      | ISO 8601 timestamp                        |
+| `email.from_email_address`  | string           | Yes      | Sender email                              |
+| `email.to_email_addresses`  | string           | Yes      | Recipient email(s)                        |
+| `email.subject`             | string           | Yes      | Subject line                              |
+| `email.conversation_id`     | string           | Yes      | Conversation thread ID                    |
+| `email.references`          | array of strings | Yes      | RFC822 References header values           |
+| `email.in_reply_to`         | string           | No       | RFC822 In-Reply-To header value           |
+| `email.agent_id`            | string           | No       | Agent identifier                          |
+| `email.agent_full_name`     | string           | No       | Agent full name                           |
+| `email.agent_first_name`    | string           | No       | Agent first name                          |
+| `email.agent_last_name`     | string           | No       | Agent last name                           |
+| `email.agent_email_address` | string           | No       | Agent email address                       |
 
 ---
 
@@ -116,7 +144,11 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 ```json
 {
   "channel": "web_chat",
-  "group_id": "portfolio_123",
+  "group_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
+  "first_name": "John",
+  "last_name": "Doe",
+  "attachment_urls": ["https://example.com/lease.pdf"],
+  "message_uri": "web_chat:msg_123456789",
   "web_chat": {
     "source": "chat_service",
     "message_id": "msg_123456789",
@@ -140,6 +172,65 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 | `web_chat.sender_ext_ref`   | string | No       | External sender identifier                       |
 | `web_chat.name`             | string | No       | Sender name                                      |
 | `web_chat.agent_id`         | string | No       | Agent identifier (for agent-originated messages) |
+
+---
+
+## Call Transcript Messages (Voice Recording)
+
+### Example
+
+```json
+{
+  "channel": "call_transcript",
+  "group_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
+  "first_name": "John",
+  "last_name": "Doe",
+  "message_uri": "voice:call-123",
+  "call_transcript": {
+    "source": "twilio",
+    "message_id": "call-msg-001",
+    "text": "Transcript text",
+    "created_datetime": "2024-03-15T11:30:00Z",
+    "conversation_id": "conv_call_123",
+    "phone_number": "+1234567890",
+    "number_dialed_by_user": "+10987654321",
+    "call_duration_in_sec": 50,
+    "recording_url": "https://example.com/recording.mp3",
+    "call_status": "completed",
+    "call_handle_time": 65,
+    "call_queue_wait_time": 10,
+    "forwarding_number": "+15555555555",
+    "agent_id": "agent_123",
+    "agent_full_name": "Alex Smith",
+    "agent_first_name": "Alex",
+    "agent_last_name": "Smith",
+    "agent_phone_number": "+1987654321"
+  }
+}
+```
+
+Note: The primary recording should be provided in `call_transcript.recording_url`. Use `attachment_urls` only for additional, non‑recording files (do not duplicate the recording URL there).
+
+| Field                              | Type   | Required | Description                                  |
+| ---------------------------------- | ------ | -------- | -------------------------------------------- |
+| `call_transcript.source`           | string | No       | Call source (default `"unknown"`)           |
+| `call_transcript.message_id`       | string | Yes      | Unique message identifier                    |
+| `call_transcript.text`             | string | No       | Transcript text                              |
+| `call_transcript.created_datetime` | string | Yes      | ISO 8601 timestamp                           |
+| `call_transcript.conversation_id`  | string | Yes      | Conversation thread ID                       |
+| `call_transcript.phone_number`     | string | No       | Caller phone number (E.164 format)           |
+| `call_transcript.number_dialed_by_user` | string | No | Number dialed by user (E.164 format)         |
+| `call_transcript.call_duration_in_sec`  | int    | No | Duration of call (seconds)                   |
+| `call_transcript.recording_url`    | string | Yes      | Recording URL                                |
+| `call_transcript.call_status`      | string | No       | Call status (`completed`, `no-answer`, etc.) |
+| `call_transcript.call_handle_time` | int    | No       | Total call handle time (seconds)             |
+| `call_transcript.call_queue_wait_time` | int | No      | Queue wait time (seconds)                    |
+| `call_transcript.forwarding_number`| string | No       | Forwarded-from number (E.164 format)         |
+| `call_transcript.agent_id`         | string | No       | Agent identifier                             |
+| `call_transcript.agent_full_name`  | string | No       | Agent full name                              |
+| `call_transcript.agent_first_name` | string | No       | Agent first name                             |
+| `call_transcript.agent_last_name`  | string | No       | Agent last name                              |
+| `call_transcript.agent_phone_number` | string | No     | Agent phone number                           |
 
 ---
 
