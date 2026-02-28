@@ -4,51 +4,73 @@ title: "Google Gmail"
 
 # Connecting Your Google Gmail inbox to the Travtus Platform
 
-Integrating your Gmail inbox with the Travtus platform is a straightforward process. We provide two approaches to
-get started, these steps should guide you through successfully delegated authority access for specific Gmail accounts
-within your organization.
+Integrating your Gmail inbox with the Travtus platform is a straightforward process. We provide two approaches to get started, these steps should guide you through successfully delegated authority access for specific Gmail accounts within your organization.
 
 1. [Domain-wide delegation of authority](#domain-wide-delegation-of-authority)
+
+   _Providing authorization on a domain or Organisational Unit basis._ 
 2. [OAuth 2.0 Authorization](#oauth-2-0-authorization)
+
+   _Providing authorization on a mailbox by mailbox basis._ 
 
 ## Domain-wide delegation of authority
 
-We recommend using this approach if you use group email addresses as your service inboxes.
+Domain-wide delegation allows you to grant access to the application once for an organisational unit, and then configure any email addresses within that domain within the Travtus platform. 
 
 To delegate domain-wide authority to our service account:
 
-1. From your domain’s [Admin console](http://admin.google.com/), go to **Main menu ☰ > Security > Access and data control > API controls.**
+1. From your domain’s [Admin console](http://admin.google.com/), go to **Main menu ☰ \> Security \> Access and data control \> API controls.**
 2. In the **Domain wide delegation** pane, select **Manage Domain Wide Delegation**.
 3. Click **Add new**.
 4. In the **Client ID** field, enter the client ID that we shared during the onboarding process.
 5. In the **OAuth Scopes** field, enter a comma-delimited list of the scopes that we provided during the onboarding process.
 6. Click **Authorize**.
 
-That's it! Our service account now has domain-wide access to your Gmail inboxes within your organization.
+That's it! 
+
+<Info>
+  **Security Best Practice**\
+  Domain-wide delegation authorizes Travtus to impersonate users in your Google Workspace domain for the approved OAuth scopes.
+
+  Scopes limit **what data** can be accessed by the applicaiton, and you manage the inboxes that have access via the Travtus Studio. 
+
+  You may also want to restrict access to only specific mailboxes by isolating those mailboxes using separate Organisational Unit.
+
+  **Steps:**
+
+  1. Create a new OU (e.g., Travtus Mailboxes)
+
+     Google guide: https://support.google.com/a/answer/182537
+  2. Move only approved shared mailbox accounts into that OU
+
+     Google guide: https://support.google.com/a/answer/182537
+  3. Configure App Access Control to allow the Travtus application for that OU and restrict it elsewhere
+
+     Google guide: https://support.google.com/a/answer/7281227
+</Info>
 
 ## OAuth 2.0 Authorization
 
-We recommend using this approach if your service inboxes are individual Gmail accounts.
+This approach allows you to provide access on a mailbox by mailbox basis, inviting specific users to provide authorization. 
 
-### Step 1: Navigate to Authorization Page
+### Step 1: Invite users to the Travtus Platform. 
 
-To begin, you need to access the Travtus Gmail authorization page:
-    - Ensure you are logged into the Gmail account you wish to integrate, or have access to log in.
-    - Navigate to the following URL: [https://google-workspace.travtus.com/gmail/authorize](https://google-workspace.travtus.com/gmail/authorize)
+We reccomend using a branded email, inviting users to the platform providing them with the below URL: https://google-workspace.travtus.com/gmail/authorize
 
 ### Step 2: Review and Provide Authorization
 
-Once on the authorization page, you'll need to review and agree to the permissions requested:
-    - Carefully read through the Gmail consent screen presented to you.
-    - Review the permissions that Travtus is requesting access to.
-    - If you agree, click on the button to provide authorization.
+Once on the authorization page, the user should review and agree to the permissions requested:
+
+- Carefully read through the Gmail consent screen presented to you.
+- Review the permissions that Travtus is requesting access to.
+- If you agree, click on the button to provide authorization.
 
 ### Step 3: Integration complete
 
 After you have approved the access:
-    - You will be redirected to the Travtus homepage [https://www.travtus.com/](https://www.travtus.com/).
-    - The Travtus platform will automatically handle the integration process.
-    - Your Gmail account is now connected to the Travtus platform.
 
-That's it! Your Gmail account will now be accessible through the Travtus platform, providing you with enhanced data management capabilities. For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
-Thank you for choosing Travtus!
+- You will be redirected to the Travtus homepage https://www.travtus.com/.
+- The Travtus platform will automatically handle the integration process.
+- Your Gmail account is now connected to the Travtus platform.
+
+That's it! Your Gmail account will now be accessible through the Travtus platform, providing you with enhanced data management capabilities. For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com). Thank you for choosing Travtus!
