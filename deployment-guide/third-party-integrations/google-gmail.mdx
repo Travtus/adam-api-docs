@@ -8,14 +8,14 @@ Integrating your Gmail inbox with the Travtus platform is a straightforward proc
 
 1. [Domain-wide delegation of authority](#domain-wide-delegation-of-authority)
 
-   _Providing authorization on a domain or Organisational Unit basis._ 
+   _Providing authorization on a domain or Organisational Unit basis._
 2. [OAuth 2.0 Authorization](#oauth-2-0-authorization)
 
-   _Providing authorization on a mailbox by mailbox basis._ 
+   _Providing authorization on a mailbox by mailbox basis._
 
 ## Domain-wide delegation of authority
 
-Domain-wide delegation allows you to grant access to the application once for an organisational unit, and then configure any email addresses within that domain within the Travtus platform. 
+Domain-wide delegation allows you to grant access to the application once for an organisational unit, and then configure any email addresses within that domain within the Travtus platform.
 
 To delegate domain-wide authority to our service account:
 
@@ -25,16 +25,17 @@ To delegate domain-wide authority to our service account:
 4. In the **Client ID** field, enter the client ID that we shared during the onboarding process.
 5. In the **OAuth Scopes** field, enter a comma-delimited list of the scopes that we provided during the onboarding process.
 6. Click **Authorize**.
+7. After authorization, mailbox subscriptions are configured and managed within Travtus Studio. Administrators should periodically review active subscriptions to ensure alignment with operational intent, particularly following changes to distribution group membership.
 
-That's it! 
+That's it!
 
 <Info>
   **Security Best Practice**\
-  Domain-wide delegation authorizes Travtus to impersonate users in your Google Workspace domain for the approved OAuth scopes.
+  Domain-wide delegation allows the Travtus application to access approved mailboxes within your Google Workspace domain in accordance with the authorized OAuth scopes.
 
-  Scopes limit **what data** can be accessed by the applicaiton, and you manage the inboxes that have access via the Travtus Studio. 
+  Scopes limit **what data** can be accessed by the application. and you manage the inbox subscriptions via the Travtus Studio. Travtus processes emails only from mailboxes that are authorized and subscribed.
 
-  You may also want to restrict access to only specific mailboxes by isolating those mailboxes using separate Organisational Unit.
+  For tighter control, we recommend creating a dedicated Organisational Unit (e.g., “Travtus Mailboxes”) and placing only approved shared or operational mailboxes within that OU. This ensures clear separation.
 
   **Steps:**
 
@@ -51,9 +52,9 @@ That's it!
 
 ## OAuth 2.0 Authorization
 
-This approach allows you to provide access on a mailbox by mailbox basis, inviting specific users to provide authorization. 
+This approach allows you to provide access on a mailbox by mailbox basis, inviting specific users to provide authorization.
 
-### Step 1: Invite users to the Travtus Platform. 
+### Step 1: Invite users to the Travtus Platform.
 
 We reccomend using a branded email, inviting users to the platform providing them with the below URL: https://google-workspace.travtus.com/gmail/authorize
 
