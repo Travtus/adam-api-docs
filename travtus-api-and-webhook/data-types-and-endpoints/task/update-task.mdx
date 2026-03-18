@@ -35,7 +35,7 @@ Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
 <ParamField body="status" default="none" type="enum">
   The status of a task.
 
-  Possible values: `created`, `in_progress`, `completed`, or `deleted`
+  Possible values: `created`, `in_progress`, `completed`, `error`  or `deleted`
 </ParamField>
 
 <ParamField body="due_datetime" default="none" type="datetime">
@@ -82,7 +82,7 @@ Datetime fields should follow a "YYYY-MM-DDThh:mm:ss" format.
 
 <RequestExample>
 
-```bash Example Request
+```bash Example
 curl --location --request PATCH 'https://api.travtus.com/task/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer <token>' \
@@ -98,14 +98,13 @@ curl --location --request PATCH 'https://api.travtus.com/task/' \
 
 <ResponseExample>
 
-```json 200 - Response
+```json 200
 {
     "request_id": "5dc8327b-ebcb-4185-a0d0-5a5d40c56ed2"
 }
 ```
 
-
-```json 401 - Missing Authorization header
+```json 401
 {
     "error": {
     "type": "missing_authorization",
@@ -114,8 +113,7 @@ curl --location --request PATCH 'https://api.travtus.com/task/' \
 }
 ```
 
-
-```json 401 - Expired Authorization header bearer token value
+```json 401
 {
     "error": {
     "type": "expired_token",
@@ -124,8 +122,7 @@ curl --location --request PATCH 'https://api.travtus.com/task/' \
 }
 ```
 
-
-```json 401 - Invalid Authorization header bearer token value
+```json 401
 {
     "error": {
     "type": "invalid_authorization",
