@@ -1,0 +1,44 @@
+---
+title: "Bring Your Own Data (BYOD)"
+---
+
+**BYOD (Bring Your Own Data) **gives you a secure way to upload your own structured datasets into Travtus, so they can be used alongside your existing platform data for analysis, exploration, and workflow automation. Your data is stored in a client-specific secure S3 location, encrypted at rest and in transit, and processed through managed ingestion services designed for reliability and control.
+
+## **Why BYOD matters**
+
+Your teams often need to work with data that is unique to your organisation, such as operational datasets, scored outputs, reference tables, or other internal business data. BYOD makes it possible to bring that information into Travtus in a simple, scalable, and secure way.
+
+This means you can:
+
+- use your own business data alongside Travtus data
+- reduce dependence on custom engineering work
+- make new datasets available more quickly
+- support more tailored reporting, exploration, and automation
+
+## **How it works**
+
+BYOD is designed to make data onboarding straightforward.
+
+You upload a supported structured data file to your secure ingestion location. From there, Travtus processes the file, analyses its structure, and prepares it for use in the platform and manages the data lifecycle. 
+
+## **Built with security in mind**
+
+Security is a core part of the BYOD design.
+
+Your uploaded data is stored in a client-specific secure S3 location and is protected with encryption both at rest and in transit. Access is controlled through IAM-based permissions, and the ingestion process runs through managed, monitored services designed to support secure and reliable handling of customer data.
+
+## **What you can use it for**
+
+Once ingested, your data can be used across the platform to support a range of use cases.
+
+These include:
+
+- real time analysis and question answering through Explore
+- building reports and alerts 
+- supporting workflow triggers and automation
+
+BYOD is designed to help you turn your own data into something actionable inside Travtus.
+
+## **File Formats**
+
+The current version of BYOD supports structured CSV-based ingestion. It is focused on giving you a secure and reliable foundation for uploading and using your own data in the platform.

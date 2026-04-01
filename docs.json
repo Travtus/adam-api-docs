@@ -25,7 +25,6 @@
     "tabs": [
       {
         "tab": "Platform Guide",
-        "default": "platform-introduction",
         "groups": [
           {
             "group": "Introduction",
@@ -153,6 +152,7 @@
             "pages": [
               "deployment-guide/file-uploads/process-and-auth",
               "deployment-guide/file-uploads/file-requirements",
+              "deployment-guide/file-uploads/untitled-page",
               {
                 "group": "Data Types",
                 "pages": [
