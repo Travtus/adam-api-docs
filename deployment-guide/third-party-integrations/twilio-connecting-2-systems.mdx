@@ -1,0 +1,158 @@
+---
+title: "Twilio Connecting 2 Systems"
+---
+
+When your Twilio numbers need to be connected to multiple downstream systems, this can be configured inside your Twilio environment. Twilio gives you the core building blocks to receive inbound messaging events, invoke multiple downstream webhooks, and support outbound messaging from more than one business system. 
+
+Your data should never be stuck with a single vendor. By using this guide you can allow two systems to send and receive from the same phone number. 
+
+---
+
+## Setting Up the Inbound Webhook 
+
+**_The user Messages the Number What Happens Next_**
+
+### Use Twilio Studio for the simplest setup
+
+Because a Twilio number points to one inbound handler, the cleanest Twilio-native setup is to use **Twilio Studio** or a **Twilio Function** to fan the event out to two downstream systems.
+
+### Step 1: Buy or select the number
+
+1. Sign in to Twilio Console.
+2. Buy a phone number or select an existing SMS-enabled number.
+3. Open the number settings.
+4. Confirm SMS is enabled.
+
+### Step 2: Create a Studio Flow
+
+1. Open **Studio** in Twilio Console.
+2. Create a new Flow.
+3. Start with a blank Flow.
+4. Name it something like `Inbound SMS Dual System Routing`.
+5. Add the **Incoming Message** trigger.
+
+### Step 3: Add the first webhook call
+
+1. Add a **Make HTTP Request** widget after **Incoming Message**.
+2. Point it to System A.
+
+Example:
+
+```text
+POST https://system-a.example.com/webhooks/inbound-sms
+```
+
+Pass fields such as:
+
+- `MessageSid`
+- `From`
+- `To`
+- `Body`
+
+### Step 4: Add the second webhook call
+
+1. Add another **Make HTTP Request** widget.
+2. Point it to System B.
+
+Example:
+
+```text
+POST https://system-b.example.com/webhooks/inbound-sms
+```
+
+### Step 5: Connect the Flow
+
+Use a simple sequence:
+
+```text
+Incoming Message
+-> HTTP Request to System A
+-> HTTP Request to System B
+-> Send Message or End
+```
+
+### Step 6: Attach the Flow to the number
+
+1. Go back to the phone number settings.
+2. Under **A message comes in**, choose **Studio Flow**.
+3. Select the Flow you created.
+4. Save the number.
+
+### Step 7: Decide reply behavior
+
+- Use **Send Message** for an automatic reply
+- End the Flow with no reply if one of the downstream systems will reply later
+
+### Alternative: use a Twilio Function
+
+Use a **Twilio Function** instead of Studio if you need:
+
+- custom payload mapping
+- auth headers
+- conditional routing
+- more control over webhook handling
+
+In that setup, the number points to a Function, and the Function calls System A and System B from inside Twilio.
+
+---
+
+## Setting Up the Outbound API 
+
+**_How can 2 systems send messages from the same number_**
+
+### Option 1: direct outbound API calls to Twilio
+
+Both downstream systems can call the **Twilio Messaging API** directly to send SMS from the same Twilio number or Messaging Service.
+
+This is the simplest setup, but each system must manage auth, message formatting, and callback handling correctly.
+
+### Option 2: use a Twilio Function as the outbound API
+
+This is the cleaner Twilio-native setup.
+
+In this model:
+
+- System A calls a Twilio Function endpoint
+- System B calls the same Twilio Function endpoint
+- the Function sends the SMS through Twilio
+
+### Step 1: Create the outbound Function
+
+Create a Twilio Function that accepts requests from both systems.
+
+Example request body:
+
+```text
+{
+  "source_system": "system_a",
+  "to": "+15551234567",
+  "from": "+15557654321",
+  "body": "Your appointment is confirmed"
+}
+```
+
+### Step 2: Send the SMS from the Function
+
+The Function should call the Twilio Messaging API using:
+
+- `From`
+- `To`
+- `Body`
+- `StatusCallback`
+
+### Step 3: Configure status callbacks
+
+Use a **Status Callback** URL for outbound messages.
+
+You can:
+
+- send callbacks directly to the originating system, or
+- send callbacks to another **Twilio Function** and forward them from there
+
+If both systems need delivery visibility, using a Twilio Function for callbacks is the cleaner option.
+
+### Step 4: Let both systems call the outbound Function
+
+Give both systems the same Twilio Function endpoint for outbound requests.
+
+That keeps the send logic inside Twilio and avoids duplicating outbound setup across both systems.
