@@ -2,17 +2,17 @@
 title: "Twilio Connecting 2 Systems"
 ---
 
-When your Twilio numbers need to be connected to multiple downstream systems, this can be configured inside your Twilio environment. Twilio gives you the core building blocks to receive inbound messaging events, invoke multiple downstream webhooks, and support outbound messaging from more than one business system. 
+When your Twilio numbers need to be connected to multiple downstream systems, this can be configured inside your Twilio environment. Twilio gives you the core building blocks to receive inbound messaging events, invoke multiple downstream webhooks, and support outbound messaging from more than one business system.
 
-Your data should never be stuck with a single vendor. By using this guide you can allow two systems to send and receive from the same phone number. 
+Your data should never be stuck with a single vendor. By using this guide you can allow two systems to send and receive from the same phone number.
 
 ---
 
-## Setting Up the Inbound Webhook 
+## Setting Up the Inbound Webhook
 
 **_The user Messages the Number What Happens Next_**
 
-### Use Twilio Studio for the simplest setup
+### Option 1: Use Twilio Studio for the simplest setup
 
 Because a Twilio number points to one inbound handler, the cleanest Twilio-native setup is to use **Twilio Studio** or a **Twilio Function** to fan the event out to two downstream systems.
 
@@ -83,7 +83,9 @@ Incoming Message
 - Use **Send Message** for an automatic reply
 - End the Flow with no reply if one of the downstream systems will reply later
 
-### Alternative: use a Twilio Function
+---
+
+### Option 2: Use a Twilio Function
 
 Use a **Twilio Function** instead of Studio if you need:
 
@@ -94,9 +96,63 @@ Use a **Twilio Function** instead of Studio if you need:
 
 In that setup, the number points to a Function, and the Function calls System A and System B from inside Twilio.
 
+### Example inbound Twilio Function
+
+This example receives an inbound SMS in Twilio, forwards it to both downstream systems, and returns a simple TwiML response.
+
+```text
+exports.handler = async function(context, event, callback) {
+  const axios = require('axios');
+  const twiml = new Twilio.twiml.MessagingResponse();
+
+  const payload = {
+    provider: 'twilio',
+    event_type: 'inbound_message',
+    message_sid: event.MessageSid,
+    from: event.From,
+    to: event.To,
+    body: event.Body,
+    account_sid: event.AccountSid
+  };
+
+  try {
+    await Promise.allSettled([
+      axios.post('https://system-a.example.com/webhooks/inbound-sms', payload, {
+        headers: {
+          Authorization: `Bearer ${context.SYSTEM_A_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      axios.post('https://system-b.example.com/webhooks/inbound-sms', payload, {
+        headers: {
+          Authorization: `Bearer ${context.SYSTEM_B_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    ]);
+
+    twiml.message('Thanks, we received your message.');
+    return callback(null, twiml);
+  } catch (error) {
+    console.error(error);
+    return callback(error);
+  }
+};
+```
+
+### How to use it in Twilio
+
+1. Go to **Functions & Assets** in Twilio Console.
+2. Create a new Function.
+3. Paste in the code.
+4. Add environment variables for `SYSTEM_A_API_KEY` and `SYSTEM_B_API_KEY`.
+5. Deploy the Function.
+6. Attach the Function URL to the number under **A message comes in**.
+7. Send a test SMS to confirm both systems receive the payload.
+
 ---
 
-## Setting Up the Outbound API 
+## Setting Up the Outbound API
 
 **_How can 2 systems send messages from the same number_**
 
@@ -131,6 +187,38 @@ Example request body:
 }
 ```
 
+### Example outbound Twilio Function
+
+This example accepts a request from either downstream system and sends an SMS through Twilio.
+
+```text
+exports.handler = async function(context, event, callback) {
+  const client = context.getTwilioClient();
+
+  try {
+    const message = await client.messages.create({
+      to: event.to,
+      from: event.from,
+      body: event.body,
+      statusCallback: 'https://your-function-domain.twil.io/status-callback'
+    });
+
+    return callback(null, {
+      success: true,
+      source_system: event.source_system,
+      message_sid: message.sid,
+      status: message.status
+    });
+  } catch (error) {
+    console.error(error);
+    return callback(null, {
+      success: false,
+      error: error.message
+    });
+  }
+};
+```
+
 ### Step 2: Send the SMS from the Function
 
 The Function should call the Twilio Messaging API using:
@@ -150,6 +238,45 @@ You can:
 - send callbacks to another **Twilio Function** and forward them from there
 
 If both systems need delivery visibility, using a Twilio Function for callbacks is the cleaner option.
+
+### Example status callback Function
+
+```text
+exports.handler = async function(context, event, callback) {
+  const axios = require('axios');
+
+  const payload = {
+    message_sid: event.MessageSid,
+    message_status: event.MessageStatus,
+    to: event.To,
+    from: event.From,
+    error_code: event.ErrorCode || null,
+    error_message: event.ErrorMessage || null
+  };
+
+  try {
+    await Promise.allSettled([
+      axios.post('https://system-a.example.com/webhooks/message-status', payload, {
+        headers: {
+          Authorization: `Bearer ${context.SYSTEM_A_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      axios.post('https://system-b.example.com/webhooks/message-status', payload, {
+        headers: {
+          Authorization: `Bearer ${context.SYSTEM_B_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    ]);
+
+    return callback(null, { success: true });
+  } catch (error) {
+    console.error(error);
+    return callback(null, { success: false, error: error.message });
+  }
+};
+```
 
 ### Step 4: Let both systems call the outbound Function
 
