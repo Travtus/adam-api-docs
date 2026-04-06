@@ -30,7 +30,7 @@ Travtus API uses token authentication. All API calls must include the following 
 </ResponseField>
 
 <ResponseField name="expires_in" type="integer">
-  Token expiry time in seconds. The access token is valid for **3600 seconds (60 minutes)**. You must re-authenticate once it expires.
+  Token expiry time in seconds. The access token is valid for **3600 seconds (60 minutes)**. Once it expires, request a new access token using the same client credentials.
 </ResponseField>
 
 <RequestExample>
@@ -61,24 +61,28 @@ access_token = token_data['access_token']
 ```
 
 ```typescript Get Token
-const params = new URLSearchParams({
-  grant_type: 'client_credentials',
-  client_id: '<client-id>',
-  client_secret: '<client-secret>',
-});
+async function getToken() {
+  const params = new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: '<client-id>',
+    client_secret: '<client-secret>',
+  });
 
-const response = await fetch(
-  'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params,
-  }
-);
+  const response = await fetch(
+    'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params,
+    }
+  );
 
-const tokenData = await response.json();
-const accessToken = tokenData.access_token;
-// Note: token expires in 3600 seconds (60 minutes)
+  const tokenData = await response.json();
+  const accessToken = tokenData.access_token;
+  // Note: token expires in 3600 seconds (60 minutes)
+}
+
+getToken();
 ```
 
 </RequestExample>

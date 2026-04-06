@@ -3,7 +3,7 @@ title: "Agents"
 description: "The fields below are accepted via .csv file transfer to the AGENT folder. Upon receipt the file will be uploaded, creating or updating agent records held within the Travtus platform. This data is used to enhance the agent and talent score matching process when agent information is incomplete."
 ---
 
-Upload your file to the `AGENT` folder using the S3 key format: `companyName_companyId/AGENT/filename.csv`. See [File Requirements & Validation](../file-requirements) for encoding, delimiter, and validation rules.
+Upload your file using the S3 key format `companyName_companyId/AGENT/filename.csv`, where `AGENT` is the `TYPE-SUBTYPE` value for this upload. See [File Requirements & Validation](../file-requirements) for encoding, delimiter, and validation rules.
 
 <ParamField path="agent_id" type="string" required>
   The client's external reference ID for the agent. Used to uniquely identify the agent in the Travtus platform. Records without this field will be skipped.
