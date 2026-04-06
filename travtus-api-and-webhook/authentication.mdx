@@ -80,9 +80,11 @@ async function getToken() {
   const tokenData = await response.json();
   const accessToken = tokenData.access_token;
   // Note: token expires in 3600 seconds (60 minutes)
+  return accessToken;
 }
 
-getToken();
+const accessToken = await getToken();
+console.log(accessToken);
 ```
 
 </RequestExample>
@@ -149,7 +151,7 @@ const payload = {
     source: "<source>",
     message_id: "<message-id>",
     text: "<message-text>",
-    created_datetime: "2025-06-27T16:45:13.000000",
+    created_datetime: "2025-06-27T16:45:13.000000Z",
     from_email_address: "<from-email>",
     to_email_addresses: "<to-email>",
     subject: "<subject>",
@@ -158,17 +160,21 @@ const payload = {
   },
 };
 
-const response = await fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "Bearer <access_token>",
-  },
-  body: JSON.stringify(payload),
-});
+async function sendMessage() {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer <access_token>",
+    },
+    body: JSON.stringify(payload),
+  });
 
-const data = await response.json();
-console.log(data);
+  const data = await response.json();
+  console.log(data);
+}
+
+sendMessage();
 ```
 
 </CodeGroup>
