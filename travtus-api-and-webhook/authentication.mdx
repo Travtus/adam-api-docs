@@ -83,8 +83,12 @@ async function getToken() {
   return accessToken;
 }
 
-const accessToken = await getToken();
-console.log(accessToken);
+async function main() {
+  const accessToken = await getToken();
+  console.log(accessToken);
+}
+
+main();
 ```
 
 </RequestExample>
