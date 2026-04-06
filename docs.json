@@ -161,6 +161,7 @@
                   "deployment-guide/file-uploads/data-types-and-data-structure/vacancy",
                   "deployment-guide/file-uploads/data-types-and-data-structure/resident",
                   "deployment-guide/file-uploads/data-types-and-data-structure/users",
+                  "deployment-guide/file-uploads/data-types-and-data-structure/agents",
                   {
                     "group": "Messages",
                     "pages": [

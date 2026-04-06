@@ -1,7 +1,9 @@
 ---
 title: "Users"
-description: "Below is our standard data structure for Users"
+description: "The fields below are accepted via .csv file transfer to the USER folder. Upon receipt the file will be uploaded, creating or updating user records held within the Travtus platform."
 ---
+
+Upload your file to the `USER` folder using the S3 key format: `companyName_companyId/USER/filename.csv`. See [File Requirements & Validation](../file-requirements) for encoding, delimiter, and validation rules.
 
 <ParamField path="email_address" body="email_address" type="string" required>
   The email address of the user. 
