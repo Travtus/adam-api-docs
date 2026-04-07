@@ -29,6 +29,10 @@ Travtus API uses token authentication. All API calls must include the following 
   The token you will need to use in order to access any other API endpoints.
 </ResponseField>
 
+<ResponseField name="expires_in" type="integer">
+  Token expiry time in seconds. The access token is valid for **3600 seconds (60 minutes)**. Once it expires, request a new access token using the same client credentials.
+</ResponseField>
+
 <RequestExample>
 
 ```bash Example Request
@@ -37,6 +41,54 @@ curl --location --request POST 'https://travtus-api.auth.us-east-2.amazoncognito
 --data-urlencode 'grant_type=client_credentials' \
 --data-urlencode 'client_id=<client-id>' \
 --data-urlencode 'client_secret=<client-secret>'
+```
+
+```python Get Token
+import requests
+
+response = requests.post(
+    'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
+    headers={'Content-Type': 'application/x-www-form-urlencoded'},
+    data={
+        'grant_type': 'client_credentials',
+        'client_id': '<client-id>',
+        'client_secret': '<client-secret>',
+    }
+)
+token_data = response.json()
+access_token = token_data['access_token']
+# Note: token expires in 3600 seconds (60 minutes)
+```
+
+```typescript Get Token
+async function getToken() {
+  const params = new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: '<client-id>',
+    client_secret: '<client-secret>',
+  });
+
+  const response = await fetch(
+    'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params,
+    }
+  );
+
+  const tokenData = await response.json();
+  const accessToken = tokenData.access_token;
+  // Note: token expires in 3600 seconds (60 minutes)
+  return accessToken;
+}
+
+async function main() {
+  const accessToken = await getToken();
+  console.log(accessToken);
+}
+
+main();
 ```
 
 </RequestExample>
@@ -48,6 +100,88 @@ curl --location --request POST 'https://travtus-api.auth.us-east-2.amazoncognito
 ```
 
 </ResponseExample>
+
+### Using the Token
+
+<Note>
+  The bearer token is valid for **60 minutes** (3600 seconds). Once it expires, you must re-authenticate to obtain a new token before making further API calls.
+</Note>
+
+Use the `access_token` from the authentication response as a Bearer token in the `Authorization` header of all subsequent API requests.
+
+<CodeGroup>
+
+```python Python
+import requests
+import json
+
+url = "https://api.travtus.com/messages/"
+
+payload = json.dumps({
+  "channel": "email",
+  "group_external_ref": "<community-external-ref>",
+  "first_name": "First",
+  "last_name": "Last",
+  "email": {
+    "source": "<source>",
+    "message_id": "<message-id>",
+    "text": "<message-text>",
+    "created_datetime": "2025-06-27T16:45:13.000000",
+    "from_email_address": "<from-email>",
+    "to_email_addresses": "<to-email>",
+    "subject": "<subject>",
+    "conversation_id": "<conversation-id>",
+    "references": []
+  }
+})
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer <access_token>'
+}
+
+response = requests.post(url, headers=headers, data=payload)
+print(response.text)
+```
+
+```typescript TypeScript
+const url = "https://api.travtus.com/messages/";
+
+const payload = {
+  channel: "email",
+  group_external_ref: "<community-external-ref>",
+  first_name: "First",
+  last_name: "Last",
+  email: {
+    source: "<source>",
+    message_id: "<message-id>",
+    text: "<message-text>",
+    created_datetime: "2025-06-27T16:45:13.000000Z",
+    from_email_address: "<from-email>",
+    to_email_addresses: "<to-email>",
+    subject: "<subject>",
+    conversation_id: "<conversation-id>",
+    references: [],
+  },
+};
+
+async function sendMessage() {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer <access_token>",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  console.log(data);
+}
+
+sendMessage();
+```
+
+</CodeGroup>
 
 ---
 

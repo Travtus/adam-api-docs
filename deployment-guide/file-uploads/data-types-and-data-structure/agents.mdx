@@ -1,0 +1,35 @@
+---
+title: "Agents"
+description: "The fields below are accepted via .csv file transfer to the AGENT folder. Upon receipt the file will be uploaded, creating or updating agent records held within the Travtus platform. Agents are human employees responsible for responding to renters, tenants, prospects, and similar contacts. This data is used to enhance the agent and talent score matching process when agent information is incomplete."
+---
+
+Upload your file using the S3 key format `companyName_companyId/AGENT/filename.csv`, where `AGENT` is the `TYPE-SUBTYPE` value for this upload. See [File Requirements & Validation](../file-requirements) for encoding, delimiter, and validation rules.
+
+<ParamField path="agent_id" type="string" required>
+  The client's external reference ID for the agent. Used to uniquely identify and match the agent in the Travtus platform. Records without this field will be skipped.
+</ParamField>
+
+<ParamField path="first_name" type="string">
+  The first name of the agent.
+</ParamField>
+
+<ParamField path="last_name" type="string">
+  The last name of the agent.
+</ParamField>
+
+<ParamField path="full_name" type="string">
+  The full name of the agent. Can be provided directly or derived from first and last name.
+</ParamField>
+
+<ParamField path="email_address" type="string">
+  The email address of the agent.
+</ParamField>
+
+<ParamField path="phone_number" type="string">
+  The phone number of the agent. Must be a valid phone number in E.164 format (e.g. +12025551234).
+  If a phone number is linked to multiple agents, it can cause issues when matching the correct agent. Avoid providing `phone_number` in those cases.
+</ParamField>
+
+<ParamField path="source" type="string">
+  The source system or origin of the agent data.
+</ParamField>
