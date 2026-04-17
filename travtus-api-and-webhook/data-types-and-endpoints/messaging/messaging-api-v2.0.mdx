@@ -40,6 +40,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 | Field                | Type             | Required    | Description                         |
 | -------------------- | ---------------- | ----------- | ----------------------------------- |
 | `channel`            | string           | Yes         | `"sms"`, `"email"`, `"web_chat"`, or `"call_transcript"` |
+| `message_direction`  | string           | Yes         | `"Inbound"` or `"Outbound"`         |
 | `group_id`           | UUID             | Conditional | Internal group/portfolio ID         |
 | `group_external_ref` | string           | Conditional | External group/portfolio reference  |
 | `first_name`         | string           | No          | Sender first name                   |
@@ -56,6 +57,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 ```json
 {
   "channel": "sms",
+  "message_direction": "Inbound",
   "group_external_ref": "portfolio_123",
   "first_name": "Jane",
   "last_name": "Doe",
@@ -92,6 +94,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 ```json
 {
   "channel": "email",
+  "message_direction": "Inbound",
   "group_external_ref": "portfolio_123",
   "first_name": "Jane",
   "last_name": "Doe",
@@ -144,6 +147,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 ```json
 {
   "channel": "web_chat",
+  "message_direction": "Inbound",
   "group_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
   "first_name": "John",
   "last_name": "Doe",
@@ -182,6 +186,7 @@ If omitted for Web Chat, Travtus generates one automatically and returns it in t
 ```json
 {
   "channel": "call_transcript",
+  "message_direction": "Inbound",
   "group_id": "b0234194-e61b-4a57-967f-6eaaee4d5219",
   "first_name": "John",
   "last_name": "Doe",
