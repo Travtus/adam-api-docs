@@ -151,6 +151,7 @@
             "group": "Connect - File Uploads",
             "pages": [
               "deployment-guide/file-uploads/process-and-auth",
+              "deployment-guide/file-uploads/sftp-upload",
               "deployment-guide/file-uploads/file-requirements",
               "deployment-guide/file-uploads/BYOD",
               {

@@ -1,0 +1,139 @@
+---
+title: "SFTP Upload"
+---
+
+As an alternative to uploading files directly with S3 credentials (see [Authentication & Access](./process-and-auth)), you can upload your files over SFTP using a client such as WinSCP, FileZilla, the `sftp` command line, or a scheduled job. Files uploaded over SFTP go through the same Travtus ingestion pipeline, so all [file format rules and validations](./file-requirements) still apply.
+
+## Request Credentials
+
+First, request your SFTP credentials by contacting our support team at [support@travtus.com](mailto:support@travtus.com). You will receive the following information:
+
+- **Hostname**
+- **Port**
+- **Username**
+- **Password**
+- **Home Directory**
+
+## Types of Files That Can Be Uploaded
+
+- **Community Data**
+- **Unit Data**
+- **Vacancy Data**
+- **Resident Data**
+- **User Data**
+- **Message Data**
+  - SMS
+  - Email
+  - Web Chat
+  - Call Recordings
+  - Call Transcripts
+  - Reviews
+
+**Note:** Data can only be uploaded in .csv or .json format.
+
+## Directory Layout
+
+Once connected, your home directory is `/`. Place each file under a folder named after its data type and subtype, following the `TYPE-SUBTYPE/filename.ext` shape described in [File Requirements & Validation](./file-requirements).
+
+```text
+/
+|-- community/
+|   `-- communities.csv
+|-- unit/
+|   `-- units.csv
+|-- resident/
+|   `-- residents.csv
+`-- messages-email/
+    |-- emails_2026_03.json.gz
+    `-- emails_2026_04.json.gz
+```
+
+## Command Line (sftp)
+
+### Step 1: Connect
+
+Use the `sftp` command to connect to the server:
+
+```bash
+sftp -P 22 your-username@your-hostname
+```
+
+### Step 2: Upload Files
+
+Once connected, upload files into the matching folder:
+
+```bash
+sftp> put communities.csv community/communities.csv
+sftp> put emails_2026_04.json.gz messages-email/emails_2026_04.json.gz
+sftp> bye
+```
+
+## WinSCP / FileZilla
+
+### Step 1: Configure the Connection
+
+Create a new site with the following settings:
+
+- **Protocol:** SFTP
+- **Host:** the hostname provided by support
+- **Port:** 22
+- **User:** your username
+- **Password:** your password
+
+### Step 2: Upload Files
+
+After connecting, drag and drop files into the matching `TYPE-SUBTYPE/` folder under your home directory.
+
+## Python (asyncssh)
+
+### Step 1: Install asyncssh
+
+If you haven't already, install the asyncssh library using pip:
+
+```bash
+pip install asyncssh
+```
+
+### Step 2: Upload Files
+
+Use the following script to upload files:
+
+```python
+import asyncio
+import asyncssh
+
+hostname = 'your-hostname'
+port = 22
+username = 'your-username'
+password = 'your-password'
+
+async def upload_file(local_path, remote_path):
+    async with asyncssh.connect(
+        hostname,
+        port=port,
+        username=username,
+        password=password,
+        known_hosts=None,
+    ) as conn:
+        async with conn.start_sftp_client() as sftp:
+            await sftp.put(local_path, remote_path)
+            print(f"File {local_path} uploaded successfully to {remote_path}")
+
+asyncio.run(upload_file('path/to/communities.csv', 'community/communities.csv'))
+```
+
+By following these steps, you can upload your data files over SFTP to the Travtus platform for processing.
+
+## Security
+
+- All traffic is encrypted in transit over SSH and data is encrypted at rest.
+- Each user is scoped to their own home directory.
+- Passwords can be rotated at any time by contacting support.
+
+For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
+
+To see more about the standard data structures for these entities, click [here](/deployment-guide/file-uploads/data-types-and-data-structure/community).
+
+Thank you for choosing Travtus!
+
+---
