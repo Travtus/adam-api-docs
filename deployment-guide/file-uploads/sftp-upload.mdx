@@ -4,6 +4,8 @@ title: "SFTP Upload"
 
 As an alternative to uploading files directly with S3 credentials (see [Authentication & Access](./process-and-auth)), you can upload your files over SFTP using a client such as WinSCP, FileZilla, the `sftp` command line, or a scheduled job. Files uploaded over SFTP go through the same Travtus ingestion pipeline, so all [file format rules and validations](./file-requirements) still apply.
 
+SFTP can also be used to upload [Bring Your Own Data (BYOD)](./BYOD) datasets — the connection steps and directory conventions below apply to both standard file uploads and BYOD.
+
 ## Request Credentials
 
 First, request your SFTP credentials by contacting our support team at [support@travtus.com](mailto:support@travtus.com). You will receive the following information:
@@ -133,7 +135,5 @@ By following these steps, you can upload your data files over SFTP to the Travtu
 For any questions or assistance, please contact our support team at [support@travtus.com](mailto:support@travtus.com).
 
 To see more about the standard data structures for these entities, click [here](/deployment-guide/file-uploads/data-types-and-data-structure/community).
-
-Thank you for choosing Travtus!
 
 ---
