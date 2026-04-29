@@ -1,0 +1,154 @@
+---
+title: "Find Agents"
+api: "GET https://api.travtus.com/agents/"
+description: "This endpoint returns agent records that match the given search parameters."
+---
+
+You must provide at least one of the following query parameters: `agent_id`, `email_address`, or `phone_number`.
+
+Results are scoped to the authenticated user's company.
+
+<Note>
+If multiple agent records share the same `email_address` or `phone_number`, searching by those fields may return more than one result. Use `agent_id` for precise single-record lookups.
+</Note>
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="agent_id" type="string" default="none">
+  The external reference ID for the agent in your system.
+</ParamField>
+
+<ParamField query="email_address" type="string" default="none">
+  The email address of the agent to search for.
+</ParamField>
+
+<ParamField query="phone_number" type="string" default="none">
+  The phone number of the agent to search for. Must be in E.164 format (e.g. +12025551234).
+</ParamField>
+
+### Response
+
+<ResponseField name="agents" type="array">
+  A list of agent records matching the search criteria.
+  <Expandable title="agent object">
+    <ResponseField name="agent_id" type="string">
+      The external reference ID for the agent.
+    </ResponseField>
+
+    <ResponseField name="first_name" type="string">
+      The first name of the agent.
+    </ResponseField>
+
+    <ResponseField name="last_name" type="string">
+      The last name of the agent.
+    </ResponseField>
+
+    <ResponseField name="full_name" type="string">
+      The full name of the agent.
+    </ResponseField>
+
+    <ResponseField name="email_address" type="string">
+      The email address of the agent.
+    </ResponseField>
+
+    <ResponseField name="phone_number" type="string">
+      The phone number of the agent in E.164 format.
+    </ResponseField>
+
+    <ResponseField name="source" type="string">
+      The source system the agent record originated from.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+  "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+  "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if no search parameters are provided.
+```json No search parameters provided
+{
+  "non_field_errors": [
+    "At least one of agent_id, email_address, or phone_number must be provided"
+  ]
+}
+```
+
+Status Code - 404
+
+Returned if no agent records can be found matching the provided criteria.
+```json No agent records found
+{
+  "error": {
+    "type": "agent_not_found",
+    "message": "No agent records match the provided criteria."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request GET 'https://api.travtus.com/agents/?agent_id=agent-001' \
+--header 'Authorization: bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "agents": [
+    {
+      "agent_id": "agent-001",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "full_name": "Jane Doe",
+      "email_address": "jane.doe@example.com",
+      "phone_number": "+12025551234",
+      "source": "api_user"
+    }
+  ]
+}
+```
+
+</ResponseExample>

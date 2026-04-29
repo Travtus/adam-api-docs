@@ -228,6 +228,13 @@
                 ]
               },
               {
+                "group": "Agent",
+                "pages": [
+                  "travtus-api-and-webhook/data-types-and-endpoints/agent/find",
+                  "travtus-api-and-webhook/data-types-and-endpoints/agent/post-multiple"
+                ]
+              },
+              {
                 "group": "Person",
                 "pages": [
                   "travtus-api-and-webhook/data-types-and-endpoints/person/find",

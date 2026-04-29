@@ -1,0 +1,160 @@
+---
+title: "Create/Update Agents"
+api: "POST https://api.travtus.com/agents/"
+description: "This endpoint creates or updates one or more agent records passed as a list in the request body."
+---
+
+This API endpoint allows you to create or update multiple agent records in a single request.
+
+If an agent with the provided `agent_id` already exists, it will be updated with the supplied values. If no matching record exists, a new agent will be created.
+
+All agent records are automatically scoped to the authenticated user's company.
+
+The `source` field defaults to `api_user` if not provided.
+
+<Warning>
+Each `agent_id` identifies a unique agent record. If multiple agents are submitted with different `agent_id` values but the same `email_address` or `phone_number`, each will be stored as a separate record. This can cause ambiguous matches when looking up agents by email or phone number and may lead to unexpected behaviour in downstream systems. Ensure that `email_address` and `phone_number` values are unique across agent records.
+</Warning>
+
+### Header
+
+<ParamField header="Authorization" type="string" default="none" required>
+  The authentication token for your request.
+</ParamField>
+
+### Body
+
+<ParamField body="agents" type="[object]" required>
+  A list of agent records to create or update.
+  <Expandable title="properties">
+    <ParamField body="agent_id" type="string" required>
+      The external reference ID for the agent in your system. Used to identify and deduplicate agent records.
+    </ParamField>
+
+    <ParamField body="first_name" type="string" default="none">
+      The first name of the agent.
+    </ParamField>
+
+    <ParamField body="last_name" type="string" default="none">
+      The last name of the agent.
+    </ParamField>
+
+    <ParamField body="full_name" type="string" default="none">
+      The full name of the agent. Can be provided instead of or in addition to `first_name` and `last_name`.
+    </ParamField>
+
+    <ParamField body="email_address" type="string" default="none">
+      The email address of the agent.
+    </ParamField>
+
+    <ParamField body="phone_number" type="string" default="none">
+      The phone number of the agent. Must be in E.164 format (e.g. +12025551234).
+    </ParamField>
+
+    <ParamField body="source" type="string" default="api_user">
+      The source system the agent record originates from.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="request_id" type="string">
+  The unique identifier for this API request. Can be used to trace the request in logs or webhooks.
+</ResponseField>
+
+### Errors
+
+Listed below are common errors that may be returned by the endpoint, along with their corresponding status code.
+
+Status Code - 400
+```json Missing Authorization header
+{
+  "error": {
+    "type": "missing_authorization",
+    "message": "Your request does not include an 'Authorization' header with a bearer token for your account."
+  }
+}
+```
+
+Status Code - 401
+```json Expired Authorization header bearer token value
+{
+  "error": {
+    "type": "expired_token",
+    "message": "The bearer token you have provided in the 'Authorization' header has expired. Please obtain a new one."
+  }
+}
+```
+
+Status Code - 401
+```json Invalid Authorization header bearer token value
+{
+  "error": {
+    "type": "invalid_authorization",
+    "message": "The bearer token you have provided in the 'Authorization' header is invalid."
+  }
+}
+```
+
+Status Code - 400
+
+Returned if `agent_id` is missing for any agent in the list.
+```json Missing required field
+{
+  "agents": [
+    {
+      "agent_id": ["This field is required."]
+    }
+  ]
+}
+```
+
+Status Code - 500
+
+Returned if an error occurs while upserting the agent records.
+```json Upsert error
+{
+  "error": {
+    "type": "agent_upsert_error",
+    "message": "An error occurred while upserting the agent."
+  }
+}
+```
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.travtus.com/agents/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: bearer <token>' \
+--data-raw '{
+  "agents": [
+    {
+      "agent_id": "agent-001",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "email_address": "jane.doe@example.com",
+      "phone_number": "+12025551234"
+    },
+    {
+      "agent_id": "agent-002",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email_address": "john.smith@example.com"
+    }
+  ]
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "request_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+}
+```
+
+</ResponseExample>
