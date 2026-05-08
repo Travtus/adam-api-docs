@@ -52,6 +52,12 @@ The configuration object allows you to customize the behavior and appearance of 
 - **redirectUri**: `string` (optional)
   If you are integrating a SAML solution please state the redirect URL given by Travtus here.
 
+- **mountPoint**: `string` (optional)
+  A CSS selector for the host-page element the Gateway launcher should anchor to. Leave empty to pin the launcher to the viewport's top-right. Any valid CSS selector is accepted.
+
+- **trigger**: `string` (optional)
+  A CSS selector for an additional host-page element that opens the Gateway using the same launcher behavior. Use this if you want an existing button or link on your page to also open the Gateway. Any valid CSS selector is accepted.
+
 ## Methods
 
 ### remove()
@@ -84,7 +90,9 @@ const config = {
     link: "#245F73",
     linkHover: "#000000"
   },
-  logo: "http://localhost:5174/images/brain-white.svg"
+  logo: "http://localhost:5174/images/brain-white.svg",
+  mountPoint: "#gateway-anchor",
+  trigger: "#open-gateway-button"
 };
 
 const gatewayInstance = new GatewayEmbedded(config);
