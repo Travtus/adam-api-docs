@@ -1,53 +1,73 @@
 ---
 title: "Authentication & Rate Limiting"
-api: "POST https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token"
+api: "POST /oauth2/token"
 ---
 
-Travtus API uses token authentication. All API calls must include the following header:
+The Travtus API requires every request to be authenticated using a Bearer token. 
+Tokens are obtained via the OAuth 2.0 `client_credentials` grant using the credentials provided to you by Travtus.
 
-```bash
-'Authorization': 'Bearer <team_token>'
-```
+<Steps>
+  <Step title="Request an access token">
+    POST your credentials to the token endpoint to receive an access token valid for **60 minutes**.
+  </Step>
+  <Step title="Call the API">
+    Include the access token in the `Authorization` header of every API request.
+    ```bash
+    'Authorization': 'Bearer <team_token>'
+    ```
+  </Step>
+  <Step title="Re-authenticate when the token expires">
+    The token is valid for **60 minutes** (3600 seconds). Request a new token before it expires to maintain uninterrupted access.
+  </Step>
+</Steps>
 
-### Query Parameters
+---
 
-<ParamField query="client_id" type="string">
-  Your API client_id.
+## Request an Access Token
+
+### Request body (`application/x-www-form-urlencoded`)
+
+<ParamField body="client_id" type="string" required>
+  Your API client ID.
 </ParamField>
 
-<ParamField query="client_secret" type="string">
-  Your API client_secret.
+<ParamField body="client_secret" type="string" required>
+  Your API client secret.
 </ParamField>
 
-<ParamField query="grant_type" type="string">
+<ParamField body="grant_type" type="string" required>
   Must be `client_credentials`.
 </ParamField>
 
 ### Response
 
 <ResponseField name="access_token" type="string">
-  The token you will need to use in order to access any other API endpoints.
+  Bearer token to include in the `Authorization` header of all subsequent API requests.
+</ResponseField>
+
+<ResponseField name="token_type" type="string">
+  Always `Bearer`.
 </ResponseField>
 
 <ResponseField name="expires_in" type="integer">
-  Token expiry time in seconds. The access token is valid for **3600 seconds (60 minutes)**. Once it expires, request a new access token using the same client credentials.
+  Seconds remaining until the token expires. Up to 3600 on a fresh token (60 minutes).
 </ResponseField>
 
 <RequestExample>
 
-```bash Example Request
-curl --location --request POST 'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token' \
---header 'Content-Type:application/x-www-form-urlencoded' \
---data-urlencode 'grant_type=client_credentials' \
---data-urlencode 'client_id=<client-id>' \
---data-urlencode 'client_secret=<client-secret>'
+```bash cURL
+curl -X POST 'https://api.travtus.com/oauth2/token' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'grant_type=client_credentials' \
+  -d 'client_id=<client-id>' \
+  -d 'client_secret=<client-secret>'
 ```
 
-```python Get Token
+```python Python
 import requests
 
 response = requests.post(
-    'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
+    'https://api.travtus.com/oauth2/token',
     headers={'Content-Type': 'application/x-www-form-urlencoded'},
     data={
         'grant_type': 'client_credentials',
@@ -57,38 +77,23 @@ response = requests.post(
 )
 token_data = response.json()
 access_token = token_data['access_token']
-# Note: token expires in 3600 seconds (60 minutes)
 ```
 
-```typescript Get Token
-async function getToken() {
-  const params = new URLSearchParams({
-    grant_type: 'client_credentials',
-    client_id: '<client-id>',
-    client_secret: '<client-secret>',
-  });
+```typescript TypeScript
+const params = new URLSearchParams({
+  grant_type: 'client_credentials',
+  client_id: '<client-id>',
+  client_secret: '<client-secret>',
+});
 
-  const response = await fetch(
-    'https://travtus-api.auth.us-east-2.amazoncognito.com/oauth2/token',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params,
-    }
-  );
+const response = await fetch('https://api.travtus.com/oauth2/token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: params,
+});
 
-  const tokenData = await response.json();
-  const accessToken = tokenData.access_token;
-  // Note: token expires in 3600 seconds (60 minutes)
-  return accessToken;
-}
-
-async function main() {
-  const accessToken = await getToken();
-  console.log(accessToken);
-}
-
-main();
+const tokenData = await response.json();
+const accessToken = tokenData.access_token;
 ```
 
 </RequestExample>
@@ -96,18 +101,28 @@ main();
 <ResponseExample>
 
 ```json Response
-{"access_token":"eyJraWQiOiJzXC9jaDliOVJcL1FwM1lzamQ4cFA1aXRodjJENkxoY1lqSFp4YVE4cFVXNmM9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzaDc5aGs0c29mdXNiM2Z0Z25rMTMzZzBqNCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoidHJhdnR1cy1hcGlcL2tub3dsZWRnZS1ncmFwaCIsImF1dGhfdGltZSI6MTcwNTQ4ODc5OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfa21KUXNXQVJKIiwiZXhwIjoxNzA1NDkyMzk4LCJpYXQiOjE3MDU0ODg3OTgsInZlcnNpb24iOjIsImp0aSI6Ijc4OGU5MGIxLTBjYjMtNGRhYi04ZTcxLTY1MTBmZWJjOWMzNiIsImNsaWVudF9pZCI6IjNoNzloazRzb2Z1c2IzZnRnbmsxMzNnMGo0In0.ig8jULH9Y01bvFtUAR_XJO5ljR60mo3XdFXiA58qbNpKSNwvJx1tqpLLOSYTG19O_ZrPBpOAT-kPPlYyL9mqacQvybr_CeWkFp_9WuQP8zSEvrDbg7_jwXN4JYSItEVc_NSs2PArUhYEB_gkOOSs814-DO726L6hUr3R6rn1Wk3bz-KU--U9gI9xh0cvQ0RGD1bCryTAG9qSmrz0LR8Dw96jrCPU0Sgv57gXvJ8M1Z-7oa8ajnwfRJaRGQired8coOt9mFiYPjR5GJWW5QCPELpOTKFJRWfi5nc9vvyKLJgdPeGqQyqruj_bBgA7b9hkwePbpNPRt6f9WVl11ip12w","expires_in":3600,"token_type":"Bearer"}
+{
+  "access_token": "eyJraWQiOiJzXC9jaDliOVJcL1FwM1lzamQ4cHA1aXRodjJENkxoY1lqSFp4YVE4cFVXNmM9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzaDc5aGs0c29mdXNiM2Z0Z25rMTMzZzBqNCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoidHJhdnR1cy1hcGlcL2tub3dsZWRnZS1ncmFwaCIsImF1dGhfdGltZSI6MTcwNTQ4ODc5OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfa21KUXNXQVJKIiwiZXhwIjoxNzA1NDkyMzk4LCJpYXQiOjE3MDU0ODg3OTgsInZlcnNpb24iOjIsImp0aSI6Ijc4OGU5MGIxLTBjYjMtNGRhYi04ZTcxLTY1MTBmZWJjOWMzNiIsImNsaWVudF9pZCI6IjNoNzloazRzb2Z1c2IzZnRnbmsxMzNnMGo0In0.ig8jULH9Y01bvFtUAR_XJO5ljR60mo3XdFXiA58qbNpKSNwvJx1tqpLLOSYTG19O_ZrPBpOAT-kPPlYyL9mqacQvybr_CeWkFp_9WuQP8zSEvrDbg7_jwXN4JYSItEVc_NSs2PArUhYEB_gkOOSs814-DO726L6hUr3R6rn1Wk3bz-KU--U9gI9xh0cvQ0RGD1bCryTAG9qSmrz0LR8Dw96jrCPU0Sgv57gXvJ8M1Z-7oa8ajnwfRJaRGQired8coOt9mFiYPjR5GJWW5QCPELpOTKFJRWfi5nc9vvyKLJgdPeGqQyqruj_bBgA7b9hkwePbpNPRt6f9WVl11ip12w",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
 ```
 
 </ResponseExample>
 
-### Using the Token
+---
+
+## Call the API
+
+Include the `access_token` in the `Authorization` header of every request.
+
+```                                                                                                                                       
+Authorization: Bearer <access_token>                                                                                                      
+```
 
 <Note>
-  The bearer token is valid for **60 minutes** (3600 seconds). Once it expires, you must re-authenticate to obtain a new token before making further API calls.
+  The bearer token is valid for **60 minutes** (3600 seconds). Once it expires, you must re-authenticate to obtain a new token. Requesting a new token on every API call is unnecessary and may result in throttling.
 </Note>
-
-Use the `access_token` from the authentication response as a Bearer token in the `Authorization` header of all subsequent API requests.
 
 <CodeGroup>
 
@@ -134,12 +149,12 @@ payload = json.dumps({
     "references": []
   }
 })
-headers = {
+
+response = requests.post(url, headers={
   'Content-Type': 'application/json',
   'Authorization': 'Bearer <access_token>'
-}
+}, data=payload)
 
-response = requests.post(url, headers=headers, data=payload)
 print(response.text)
 ```
 
@@ -164,48 +179,43 @@ const payload = {
   },
 };
 
-async function sendMessage() {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer <access_token>",
-    },
-    body: JSON.stringify(payload),
-  });
+const response = await fetch(url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer <access_token>",
+  },
+  body: JSON.stringify(payload),
+});
 
-  const data = await response.json();
-  console.log(data);
-}
-
-sendMessage();
+const data = await response.json();
+console.log(data);
 ```
 
 </CodeGroup>
 
 ---
 
-### Rate Limiting
+## Rate Limiting
 
-The Travtus API enforces rate limits to ensure platform stability and fair usage across all clients.
+Rate limits are enforced at the API Gateway level. Exceeding a limit returns HTTP **429 Too Many Requests**. Implement exponential backoff when retrying after a 429 response.
 
-### **Limits**
+### Token endpoint (`/oauth2/token`)
 
-The current rate limits are:
+| Limit | Value |
+|-------|-------|
+| Sustained rate | 100 requests/second |
+| Burst | 200 requests |
 
-- **Burst limit:** 5,000 requests
-- **Sustained rate:** 10,000 requests per second
+### All other API endpoints
 
-The burst limit allows short spikes in traffic, while the sustained rate applies to ongoing request volume.
+| Limit | Value |
+|-------|-------|
+| Sustained rate | 10,000 requests/second |
+| Burst | 5,000 requests |
 
-### **How rate limiting is applied**
+### How limits are applied
 
-- Rate limits are enforced at the API gateway level.
-- Requests exceeding either the burst or sustained rate may be rejected.
-- Limits apply per client and per API key.
-
-### **Exceeding limits**
-
-If a request exceeds the configured rate limits, the API will respond with an HTTP **429 Too Many Requests** status code.
-
-Clients should implement appropriate retry logic with backoff when receiving a 429 response.
+- Limits are applied per API key at the API Gateway level.
+- The burst limit allows short spikes above the sustained rate.
+- Clients should implement retry logic with exponential backoff on 429 responses.

@@ -15,6 +15,14 @@
   "appearance": {
     "default": "light"
   },
+  "api": {
+    "mdx": {
+      "server": [
+        "https://api.travtus.com",
+        "https://apiuat.travtus.com"
+      ]
+    }
+  },
   "footer": {
     "socials": {
       "twitter": "https://twitter.com/adambytravtus",
