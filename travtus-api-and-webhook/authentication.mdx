@@ -198,7 +198,7 @@ console.log(data);
 
 ## Rate Limiting
 
-Rate limits are enforced at the API Gateway level. Exceeding a limit returns HTTP **429 Too Many Requests**. Implement exponential backoff when retrying after a 429 response.
+The Travtus API enforces rate limits to ensure platform stability and fair usage across all clients. Exceeding a limit returns HTTP **429 Too Many Requests**. Implement exponential backoff when retrying after a 429 response.
 
 ### Token endpoint (`/oauth2/token`)
 
