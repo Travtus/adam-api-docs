@@ -131,10 +131,23 @@ When passing a `colors` object, the icon on the launcher button will change from
 
 </Accordion>
 
+<Accordion title="position">
+`string`
+
+Sets which corner of the viewport the launcher and chat window appear in on desktop. Defaults to `"BR"` (bottom right).
+
+Pass one of the following values:
+
+- **TL** - top left
+- **TR** - top right
+- **BL** - bottom left
+- **BR** - bottom right
+</Accordion>
+
 <Accordion title="breakpoint">
 `number`
 
-This is the resolution at which the chat window should switch from full screen (mobile view) to an overlay in the bottom right (desktop view). Defaults to `769` (tablet portrait).
+This is the resolution at which the chat window should switch from full screen (mobile view) to a corner overlay (desktop view). The corner is determined by the `position` option. Defaults to `769` (tablet portrait).
 
 Mobile view:
 
@@ -173,6 +186,7 @@ AdamChat.init('adam-bot', {
     foreground: "#000000",
     text: "#000000",
   },
+  position: "BR",
   breakpoint: 641,
   hideLauncherOnMobile: false,
   hideFooter: false,
