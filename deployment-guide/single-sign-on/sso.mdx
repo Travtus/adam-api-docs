@@ -1,0 +1,153 @@
+---
+title: "SSO (SAML)"
+sidebarTitle: "SSO"
+---
+
+A step-by-step guide to connect your organization's identity provider (IdP) to Travtus with SAML 2.0 Single Sign-On (SSO). Share it with your IT or identity team.
+
+## Overview
+
+Travtus supports SAML 2.0 SSO through Amazon Cognito. With SSO, your users start from the Travtus login flow and are redirected to your identity provider, where your organization controls authentication, MFA, password policy, and access.
+
+Travtus supports standards-compliant SAML 2.0 identity providers, including:
+
+- Okta
+- Microsoft Entra ID (formerly Azure AD)
+- OneLogin, Ping Identity, Google Workspace, and other SAML 2.0 providers
+
+Travtus currently supports **SP-initiated login only**. IdP-initiated login from an IdP dashboard or app tile is not currently supported.
+
+## How it works
+
+1. The user starts sign-in from Travtus.
+2. **Your IdP authenticates the user** using your organization's own password, MFA, conditional access, and security policies.
+3. Your IdP sends a signed SAML assertion back to Travtus.
+4. Travtus validates the assertion and reads the user's email and name.
+5. If this is the user's first successful SSO login, Travtus can provision their account automatically. If the user already has a Travtus account, the email from your IdP must match the email in Travtus.
+
+## What your IT team needs to do
+
+1. Create a SAML 2.0 app for Travtus in your IdP.
+2. Add the Travtus Entity ID and ACS URL.
+3. Configure the required SAML attributes.
+4. Assign the right users or groups to the app.
+5. Send Travtus your SAML metadata URL or XML file.
+6. Test in UAT before repeating the setup for Production.
+
+## Step 1: Add Travtus connection values
+
+Configure these values in your IdP's SAML app. They identify Travtus as the Service Provider (SP). They are not secrets.
+
+| Field | UAT (testing) | Production |
+| :-- | :-- | :-- |
+| **Entity ID** / Audience URI / SP Entity ID | `urn:amazon:cognito:sp:us-east-2_0Gm71krNR` | `urn:amazon:cognito:sp:us-east-2_Vh3Zg0nmI` |
+| **ACS URL** / Single sign-on URL / Reply URL / Recipient | `https://travtus-uat.auth.us-east-2.amazoncognito.com/saml2/idpresponse` | `https://travtus-prod.auth.us-east-2.amazoncognito.com/saml2/idpresponse` |
+
+Set up and validate SSO in **UAT first**, then repeat the same setup with the **Production** values.
+
+## Step 2: Configure SAML attributes
+
+Your IdP must send these SAML attributes using the exact claim names below.
+
+| SAML claim name | Maps to | Required |
+| :-- | :-- | :-- |
+| `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` | User email | **Yes** |
+| `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` | Full display name | **Yes** |
+| `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname` | First name | Recommended |
+| `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname` | Last name | Recommended |
+
+The `emailaddress` and `name` claims are mandatory. SSO will not complete if either claim is missing or named differently.
+
+Also set:
+
+- **Name ID format:** `EmailAddress`
+- **Application username:** Email
+
+## Step 3: Send Travtus your SAML metadata
+
+After your SAML app is configured, send your Travtus contact one of the following:
+
+- A metadata URL that Travtus can fetch (preferred)
+- A SAML metadata XML file
+
+Also send the email domain or domains your users will sign in with, such as `yourcompany.com`.
+
+Travtus will link your provider and confirm when SSO is ready for UAT testing.
+
+## Okta setup
+
+These steps are for an Okta administrator creating a SAML 2.0 app for Travtus.
+
+1. In the **Okta Admin Console**, go to **Applications > Applications > Create App Integration**.
+2. Select **SAML 2.0**, then select **Next**.
+3. In **General Settings**, name the app `Travtus`, then select **Next**.
+4. In **Configure SAML**, enter the Travtus values from Step 1:
+   - **Single sign-on URL:** Travtus ACS URL for UAT or Production
+   - **Audience URI (SP Entity ID):** Travtus Entity ID for UAT or Production
+   - **Default RelayState:** leave blank
+   - **Name ID format:** `EmailAddress`
+   - **Application username:** `Email`
+5. Select **Next**, choose **I'm an Okta customer adding an internal app**, then select **Finish**.
+6. Open the app's **Sign On** tab.
+7. In **Attribute Statements**, expand **Show legacy configuration** if needed, then select **Edit**.
+8. Add the mappings below. Set **Name format** to `URI Reference`.
+
+```text
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress  ->  user.email
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname     ->  user.firstName
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname       ->  user.lastName
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name          ->  String.join(" ", user.firstName, user.lastName)
+```
+
+9. Open the app's **Assignments** tab and assign the users or groups who should have Travtus access.
+10. On the app's **Sign On** tab, copy the **Identity Provider metadata URL** or download the metadata XML.
+11. Send the metadata URL or XML file to your Travtus contact, along with your users' email domain or domains.
+
+Okta's attribute statement configuration lets admins enter a claim **Name**, choose a **Name format**, and enter a **Value** from the Okta user profile or an Okta Expression Language expression. For these Travtus claims, use `URI Reference` as the name format.
+
+## Microsoft Entra ID setup
+
+These steps are for a Microsoft Entra ID administrator creating a non-gallery SAML app for Travtus.
+
+1. In Microsoft Entra ID, create or open the Enterprise Application for Travtus.
+2. Go to **Single sign-on** and choose **SAML**.
+3. Set **Identifier (Entity ID)** to the Travtus Entity ID for UAT or Production.
+4. Set **Reply URL (Assertion Consumer Service URL)** to the Travtus ACS URL for UAT or Production.
+5. Configure the claims below.
+
+```text
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress  ->  user.mail
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname     ->  user.givenname
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname       ->  user.surname
+http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name          ->  user.userprincipalname
+```
+
+6. If `user.mail` is not populated for all users, use the Entra attribute that contains each user's sign-in email, such as `user.userprincipalname`.
+7. Assign the users or groups who should have Travtus access.
+8. Copy the metadata URL from **Single sign-on > SAML Signing Certificate > App Federation Metadata Url**.
+9. Send the metadata URL or XML file to your Travtus contact, along with your users' email domain or domains.
+
+## Testing and go-live
+
+- Test in **UAT first**.
+- Start login from Travtus, then complete authentication with your IdP.
+- Confirm the user lands in Travtus successfully.
+- After UAT is confirmed, repeat the setup with the **Production** Entity ID and ACS URL.
+- Send Travtus the Production metadata so we can enable Production SSO.
+
+## Troubleshooting
+
+| Symptom | What to check |
+| :-- | :-- |
+| Login fails or no account is created | Confirm the `emailaddress` claim is present, uses the exact claim name, and contains the user's correct email. |
+| Required attribute or assertion error | Confirm both mandatory claims, `emailaddress` and `name`, are being sent with the exact claim names above. |
+| User authenticates but is not recognized | Confirm the email from your IdP matches the user's Travtus account email. |
+| Login starts from the IdP tile but fails | Travtus supports SP-initiated login only. Start login from Travtus. |
+| UAT works but Production does not | Confirm Production uses the Production Entity ID, Production ACS URL, and Production metadata. |
+
+## Checklist: what to send Travtus
+
+- [ ] SAML metadata URL (preferred) or XML file
+- [ ] User email domain or domains
+- [ ] Confirmation that `emailaddress` and `name` claims are configured
+- [ ] Environment configured: UAT first, then Production
