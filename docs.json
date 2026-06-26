@@ -205,7 +205,7 @@
           {
             "group": "SSO (SAML)",
             "pages": [
-              "SSO"
+              "deployment-guide/single-sign-on/sso"
             ]
           }
         ]
