@@ -201,6 +201,12 @@
               "deployment-guide/third-party-integrations/twilio",
               "deployment-guide/third-party-integrations/twilio-connecting-2-systems"
             ]
+          },
+          {
+            "group": "SSO (SAML)",
+            "pages": [
+              "SSO"
+            ]
           }
         ]
       },
