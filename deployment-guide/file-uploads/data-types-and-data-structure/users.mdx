@@ -6,7 +6,7 @@ description: "The fields below are accepted via .csv file transfer to the USER f
 Upload your file using the S3 key format `companyName_companyId/USER/filename.csv`, where `USER` is the `TYPE-SUBTYPE` folder value for user uploads. See [File Requirements & Validation](../file-requirements) for encoding, delimiter, and validation rules.
 
 <ParamField path="email_address" body="email_address" type="string" required>
-  The email address of the user. 
+  The email address of the user.
 </ParamField>
 
 <ParamField path="first_name" type="string" required>
@@ -18,38 +18,41 @@ Upload your file using the S3 key format `companyName_companyId/USER/filename.cs
 </ParamField>
 
 <ParamField path="phone_number" type="string">
-  Users phone number 
+  Users phone number
 </ParamField>
 
 <ParamField path="job_title" type="string">
-  Users job title 
+  Users job title
 </ParamField>
 
 <ParamField path="external_ref">
-  Clients external reference UUID for the user 
+  Clients external reference UUID for the user
 </ParamField>
 
 <ParamField path="community_ids" type="string">
-  List of the client external reference ids for the communities to be assigned to the user. 
+  List of the client external reference ids for the communities to be assigned to the user.
 
-  Note the external reference ids must have been provided by the client and stored in the Travtus Platform. 
+  Note the external reference ids must have been provided by the client and stored in the Travtus Platform.
 </ParamField>
 
 <ParamField path="reports_to" type="string">
-  Name of line manager 
+  Name of line manager
 </ParamField>
 
-<ParamField path="send_welcome_email" type="bool" default="False">
+<ParamField path="send_welcome_email" default="False" type="bool">
   Set to True to send a welcome email when a user is created. By default, no email is sent
 </ParamField>
 
 <ParamField path="status" default="Active" type="string">
-  User status, accepts values of "Active" or "Inactive". 
+  User status, accepts values of "Active" or "Inactive".
 </ParamField>
 
-<ParamField path="roles" type="string" default="none">
-  Defines the user’s role.
-  Must exactly match a role created by the Admin in the Studio.
-  Multiple roles can be assigned by providing a comma-separated list (e.g., "compass,gateway").
-  Each role determines the permissions and restrictions for accessing features.
+<ParamField path="roles" default="none" type="string">
+  Defines the user’s role. Must exactly match a role created by the Admin in the Studio. Multiple roles can be assigned by providing a comma-separated list (e.g., "compass,gateway"). Each role determines the permissions and restrictions for accessing features.
+</ParamField>
+
+<ParamField path="create_email_subscription" type="bool">
+  Controls whether an email subscription (personal-inbox connection) exists for this user. Blank/absent = no action (default; existing files behave exactly as before). `True` = ensure a subscription exists. `False` = ensure any existing subscription is removed.
+
+  The provider is chosen automatically — Gmail if `is_google_workspace_user` is `true`, otherwise Office 365. Subscriptions are also removed automatically when the user is set to `Inactive` or removed from the upload.
 </ParamField>
